@@ -1,0 +1,300 @@
+.sm-searech {
+  position: relative;
+  .search-icon-btn {
+    position: absolute;
+    top: 10px;
+    left: 14px;
+  }
+  .form-control {
+    padding-left: 43px;
+  }
+}
+.form-control {
+  min-height: 44px;
+  border: 1px solid #d3d5da;
+  border-radius: 8px;
+  font-size: 14px;
+  &:focus {
+    border: 1px solid #743393;
+    box-shadow: none;
+  }
+}
+.form-check-input:focus {
+  border-color: #9ca2ae;
+  &:focus {
+    box-shadow: none;
+  }
+}
+.form-check-input[type="checkbox"] {
+  border-radius: 4px;
+}
+.form-check-input {
+  background-position: center 0.5px;
+  background-color: transparent;
+  border: 2px solid #9ca2ae;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.form-check-input:checked[type="checkbox"] {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+}
+.form-check-input:checked {
+  background-color: #743393;
+  border-color: #743393;
+}
+.form-check-input.less {
+  background-color: #743393;
+  border-color: #743393;
+}
+.form-check-label {
+  font-size: 14px;
+  line-height: 19.6px;
+  color: #111828;
+  cursor: pointer;
+}
+.form-check {
+  margin-bottom: 0;
+}
+.check-box-lists {
+  li {
+    position: relative;
+    .plus-toggle {
+      position: absolute;
+      right: -2px;
+      top: 3px;
+      @media #{$lg_device} {
+        right: -2px;
+      }
+    }
+    .check-box-lists {
+      display: none;
+    }
+  }
+}
+.needs-validation {
+  .error-message {
+    font-size: 12px;
+    color: red;
+  }
+}
+.input_group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  .sep {
+    color: var(--color-dark);
+    font-size: 31px;
+    display: block;
+    margin: 0 7px;
+  }
+}
+.input-style2 {
+  position: relative;
+  .placeholder_text {
+    position: absolute;
+    left: 8px;
+    top: 13px;
+    z-index: 10;
+    font-size: 14px;
+    pointer-events: none;
+    color: #6b7380;
+    padding: 0 5px;
+    display: block;
+    line-height: 19px;
+    background-color: transparent;
+    transition: transform 150ms ease-out, font-size 150ms ease-out, -webkit-transform 150ms ease-out;
+  }
+}
+.input-style2.focused {
+  .placeholder_text {
+    transform: translateY(-23px);
+    background-color: #f9fafc;
+    color: #743393;
+    font-size: 10px;
+    @media #{$xl_device} {
+      background-color: #fff;
+    }
+  }
+}
+.input-style2.error {
+  .placeholder_text {
+    color: red;
+  }
+  input {
+    border-color: red;
+  }
+}
+.input-style2.light_input {
+  .form-control {
+    border-color: #d1d4db !important;
+    &:focus {
+      border-color: #743393 !important;
+    }
+  }
+  .placeholder_text {
+    color: #111828;
+    opacity: 0.7;
+  }
+  .error-message {
+    font-size: 12px;
+    color: red;
+  }
+}
+.input-style2.light_input.focused {
+  .placeholder_text {
+    color: #743393;
+    opacity: 1;
+    background-color: #fff;
+  }
+  .form-control {
+    border-color: red;
+    &:focus {
+      border-color: #b77bc7;
+    }
+  }
+}
+
+.input-style2.light_input.error.focused {
+  .form-control {
+    border-color: red !important;
+  }
+  .placeholder_text {
+    color: red;
+  }
+}
+
+.select-with-radio {
+  width: 191px;
+  .nice-select {
+    width: 100%;
+    padding: 0 12px;
+    border-color: #d1d4db;
+    height: 36px;
+    border-radius: 4px;
+    &:hover {
+      border-color: #743393;
+      background-color: #fff;
+    }
+    .current {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 100%;
+      display: block;
+      overflow: hidden;
+      padding-right: 16px;
+      line-height: 35px;
+      font-size: 14px;
+      color: #111828;
+      &::before {
+        content: attr(prefix);
+        display: inline-block;
+        margin-right: 3.4px;
+      }
+      @media #{$lg_device} {
+        font-size: 16px;
+      }
+    }
+    &::after {
+      border-bottom: 2px solid #6b7380;
+      border-right: 2px solid #6b7380;
+      width: 7px;
+      height: 7px;
+      right: 18px;
+      @media #{$sm_device} {
+        top: calc(50% + -0px);
+      }
+    }
+    .option {
+      color: #111828;
+      font-size: 14px;
+      padding-left: 12px;
+      position: relative;
+      padding-right: 36px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      &::before {
+        content: "";
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        height: 15px;
+        width: 15px;
+        border: 1.5px solid #9ca2ae;
+        border-radius: 50%;
+        transform: translateY(-50%);
+        font-size: 8px;
+        line-height: 14px;
+        color: #fff;
+        text-align: center;
+        color: transparent;
+      }
+    }
+  }
+  .nice-select.open,
+  .nice-select:active,
+  .nice-select:focus {
+    border-color: #743393;
+  }
+  .nice-select .option.selected {
+    font-weight: 600;
+    &::before {
+      background-color: #743393;
+      border-color: #743393;
+      color: #fff;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+      background-size: contain;
+      background-position: 0px 0.01px;
+      background-repeat: no-repeat;
+    }
+  }
+  .nice-select .option.focus,
+  .nice-select .option.selected.focus,
+  .nice-select .option:hover {
+    background-color: #f9fafc;
+  }
+  .list {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #e6e7eb;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.07);
+    border-radius: 4px;
+  }
+}
+
+.form-check2 {
+  .form-check-input {
+    border-color: #e6e7eb;
+  }
+  .form-check-input:checked {
+    border-color: #743393;
+  }
+}
+
+.input-style2 {
+  input:valid {
+    border-color: #743393 !important;
+  }
+  input:invalid {
+    border-color: #743393;
+  }
+  input.error {
+    border-color: #743393;
+  }
+  &.error {
+    input {
+      border-color: red;
+    }
+  }
+}
+
+.input-style2.-min,
+.input-style2.-max {
+  input {
+    border-color: #e6e7eb !important;
+    &:focus {
+      border-color: #743393 !important;
+    }
+  }
+}

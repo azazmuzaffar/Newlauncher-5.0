@@ -1,0 +1,67 @@
+.badge{
+	padding:4px 8px; 
+	border-radius:4px; 
+	font-size: 12px; 
+	line-height: 14.4px;
+	font-weight: 600;
+	text-decoration: none;
+
+		@media #{$sm_device}{   
+			padding: 4px 6px; 
+		}
+	svg{
+		width: 15px; 
+	}
+}  
+.badge-primary{
+	background-color:#743393;
+	color: #fff; 
+	font-weight: 600; 
+	&:hover{
+		color: #fff;  
+	}
+}
+.badge-light{
+	background-color:#F3F4F6;
+	color: #6B7380; 
+	font-weight: normal; 
+}
+.badge-group-2{
+	padding:0;
+	margin: 0;
+	list-style: none; 
+	li{ 
+		margin-right: 4px;
+		margin-bottom: 4px;
+		&:last-child{ 
+			margin-right: 0;
+		}
+	}
+}
+.badge-dark-4{ 
+	background-color:rgba(0, 0, 0, 0.4);  
+	color: #fff;
+	font-weight: 600; 
+	svg{
+		width: 11px;  
+		margin-right:4px;
+	}
+}
+.text-nowrap{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+p{
+	.custom-badge-group{
+		margin-left: 3px;
+		margin-right: 3px; 
+	}
+} 
+.badge-gray{
+    background: #FFFFFF;
+    border: 1px solid #E6E7EB;
+    color: #9CA2AE;
+    padding: 2px 7.3px;
+    font-size: 10px
+}

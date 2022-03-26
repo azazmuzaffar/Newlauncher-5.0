@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
+:root{
+	--theme-color:#743393;
+	--color-dark:#111828; 
+}
+body {
+	font-family: 'Source Sans Pro', sans-serif; 
+	font-size: 16px;
+	line-height:22.4px; 
+    color: #6B7380;
+    background: #FFFFFF;
+    overflow-x: hidden;  
+}
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+	border: 0;
+	margin: 0;
+	outline: 0;
+	padding: 0;
+	vertical-align: baseline;
+}
+*{
+    outline: none !important;  
+}
+img{
+    vertical-align: middle;
+    max-width: 100%;
+}
+a,
+i {
+	border: none;
+}
+
+button {
+	padding: 0;
+}
+
+a {
+	color: var(--theme-color); 
+}
+
+button,a{
+	@include transition(all 0.25s);
+}
+.reset-ul{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.body-backdrop{
+	position: fixed;
+	z-index: 1000;
+	top: 0;left: 0;height: 100%;width: 100%;
+	background: #111828;
+	opacity: 0; 
+	visibility: hidden;
+	transition:all 0.25s; 
+}
+.open.body-backdrop{
+	opacity: 0.3;
+	visibility: visible; 
+}  
+// .page-root{ 
+// 	overflow: hidden;
+// 	min-height: 100%; 
+// } 
+
+// Trying to justify the space by adding class to mid section
+.spacing_{
+	padding-right: 30px;
+	@media #{$xxl_device}{
+		padding-right: 12px;
+	}
+}
+
+// Highlighiting active elements ... 
+
+.custom-tab-wrapper{
+	ul{
+		li{
+			a{
+				border-radius: 0px !important;
+				&.active{
+					background: white !important; 
+				}
+			}
+		}
+	}
+}
+
+
+.custom-tab-content{
+	overflow-x: scroll;
+}
+
+@media only screen and (min-width: 576px){
+	.custom-tab-content{
+		overflow: auto;
+		-ms-overflow-style: none; /* IE 11 */
+		scrollbar-width: none; /* Firefox 64 */
+	}
+}

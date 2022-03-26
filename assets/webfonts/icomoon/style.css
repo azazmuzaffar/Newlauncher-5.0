@@ -1,0 +1,51 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?omncko');
+  src:  url('fonts/icomoon.eot?omncko#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?omncko') format('truetype'),
+    url('fonts/icomoon.woff?omncko') format('woff'),
+    url('fonts/icomoon.svg?omncko#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-book:before {
+  content: "\e900";
+  color: #fff;
+}
+.icon-home:before {
+  content: "\e901";
+  color: #fff;
+}
+.icon-idea:before {
+  content: "\e902";
+  color: #fff;
+}
+.icon-menu:before {
+  content: "\e903";
+  color: #fff;
+}
+.icon-phone-call:before {
+  content: "\e904";
+  color: #fff;
+}
+.icon-user:before {
+  content: "\e905";
+  color: #fff;
+}

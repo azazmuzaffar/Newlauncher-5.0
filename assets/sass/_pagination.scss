@@ -1,0 +1,107 @@
+.pagination {
+  .active.page-link {
+    background-color: #743393;
+    color: #fff;
+    border-color: #743393;
+  }
+  .page-link {
+    border: 1px solid #d1d4db;
+    border-radius: 4px;
+    height: 28px;
+    min-width: 28px;
+    text-align: center;
+    border: 1px solid #d1d4db;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #111828;
+    padding: 3px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:focus {
+      box-shadow: none;
+      background: #e3d6e9;
+      color: #743393;
+      border-color: #743393;
+      svg {
+        path {
+          stroke: #743393;
+        }
+      }
+    }
+    &:hover {
+      background-color: #fff;
+      border-color: #743393;
+      color: #743393;
+      svg {
+        path {
+          stroke: #743393;
+        }
+      }
+    }
+  }
+  /* .page-item {
+    &:last-of-type {
+      .page-link {
+        &:focus {
+          background: #e3d6e9;
+        }
+      }
+    }
+  }
+ */
+  .page-item {
+    margin: 0 4px;
+  }
+  .angle-icon {
+    path {
+      stroke: #111828;
+    }
+  }
+  .disabled {
+    .page-link {
+      background-color: #e6e7eb;
+    }
+    .angle-icon {
+      path {
+        stroke: #fff;
+      }
+    }
+  }
+}
+.breadcrumb {
+  li {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 19px;
+    color: #6b7380;
+    position: relative;
+    padding-right: 13px;
+    margin-right: 5px;
+    &::before {
+      content: "";
+      background-image: url("data:image/svg+xml,%3Csvg width='5' height='8' viewBox='0 0 5 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 7L4 4L1 1' stroke='%23111828' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      right: 0;
+      height: 10px;
+      width: 8px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    &:last-child {
+      padding-right: 0;
+      margin-right: 0;
+      &::before {
+        display: none;
+      }
+    }
+    a {
+      color: #6b7380;
+      text-decoration: none;
+    }
+  }
+}

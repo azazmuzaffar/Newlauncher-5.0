@@ -1,0 +1,141 @@
+
+.count-wrapper{
+	font-weight: normal;
+	font-size: 20px;
+	line-height: 28px; 
+	color: var(--color-dark);
+    @media #{$md_device}{
+        font-size:14px;
+        line-height:22px; 
+    }
+	.num{
+		font-weight: bold;
+		font-size: 48px;
+		line-height: 57.6px; 
+		color: #743393;
+	    @media #{$md_device}{
+	        font-size: 24px;
+	        line-height:31px;   
+	    }
+	}
+	li{
+		padding:0 35px; 
+	    @media #{$md_device}{ 
+	       padding:0 17px;   
+	    }
+		&:first-child{
+			padding-left: 0;
+		}
+		&:last-child{
+			padding-right: 0;
+		}
+	} 
+}
+.social-proof-wrap {  
+	padding: 22px 0;
+	.brand{ 
+		padding: 10px;
+		margin-right: 105px;
+		display: block;
+	    @media #{$md_device}{
+	        margin-right:58px;
+	    }
+	    @media #{$sm_device}{
+	        margin-right:20px;  
+	        padding:5px; 
+	    }
+		&:last-child{
+			margin-right: 0; 
+		}
+	} 
+	.brand.mb-7{ 
+		margin-bottom: 7px;
+	}
+}  
+.hero-area{
+	padding-top: 80px;
+	padding-bottom: 80px;
+	position: relative;
+	z-index: 2; 
+	overflow: hidden;
+	@media #{$md_device}{
+		padding-top:40px;
+		padding-bottom:40px; 
+		p{
+			font-size: 12px;
+			line-height: 16px; 
+		}
+    }
+	.title-xl{
+		margin-bottom: 43px;   
+	    @media #{$md_device}{
+	        margin-bottom: 16px;   
+	    }
+		@media #{$xl_device}{ 
+	        text-align: center;
+	    }
+		@media screen and (max-width: 1400px) and (min-width: 1200px) {
+			font-size: 50px;
+			line-height: 70px;
+			margin-bottom: 28px;  
+		}
+	}
+	.count-wrapper{ 
+		margin-bottom: 33px;
+		@media #{$xl_device}{ 
+			width: fit-content;
+	        margin: 0 auto;
+			margin-bottom: 33px;
+	    }
+		@media #{$md_device}{ 
+	        margin-bottom: 14px;   
+	    }
+		.text-md-center{
+			.num{
+				@media #{$md_device}{ 
+					text-align: center; 
+				}
+			}
+		}
+
+	}
+	.ornament{
+		position: absolute;
+		right:24px;bottom:32px;z-index: -2;
+		min-width: 420px;
+		
+		img{
+			min-width: 420px; 
+			min-height: 420px; 
+		}
+	}
+	.mess-para{
+		width: 100%;
+		p{
+			&.after-md{
+				display: none;
+				font-size: 16px;
+				line-height: 22.4px;
+			}
+			@media #{$xl_device}{ 
+				text-align: center;
+			}
+			@media screen and (max-width: 1400px) and (min-width: 1200px) {
+				font-size: 14px; 
+			}
+			@media #{$md_device}{ 
+				&.before-md{
+					display: none;
+				}
+				&.after-md{
+					display: block;
+				}
+			}
+		}
+	}
+}
+.hero-image-wrapper{
+text-align: center;
+position: relative;
+left: 20px;
+}

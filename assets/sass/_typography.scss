@@ -1,0 +1,147 @@
+h1,
+h2, 
+h3, 
+h4, 
+h5, 
+h6{
+    color: var(--color-dark);
+    font-weight: bold; 
+}
+h1 {
+    font-size: 72px;
+    line-height: 80px; 
+} 
+h2 {
+    font-size: 60px;
+    line-height: 75px;
+}
+h3 {
+    font-size: 32px;
+    line-height: 42px;
+}
+h4 {
+    font-size: 26px;
+    line-height: 1.6em; 
+}
+h5 {
+    font-size: 20px;
+    line-height: 1.6em;
+}
+h6 {
+    font-size: 18px;
+    line-height: 30px;
+}
+.fw-400{
+    font-weight:400 !important;
+}
+.fw-500{
+    font-weight:500 !important;
+}
+.fw-600{
+    font-weight:600 !important;
+}
+.fw-700{
+    font-weight:700 !important;
+}
+.fw-800{
+    font-weight:800 !important;
+}
+.fw-900{
+    font-weight:900 !important;
+}
+.text-12{
+    font-size: 12px;
+}
+.xl-title{
+    font-size: 72px;
+    line-height: 85px;
+}
+.lg-title{
+    font-size: 60px;
+    line-height: 70px;
+}
+.md-title{
+    font-size: 32px;
+    line-height: 48px;
+}
+.sm-title{
+    font-size: 14px;
+    line-height: 24px;
+}
+.title-xl{
+    font-size: 64px;
+    line-height: 84px; 
+    @media #{$md_device}{
+        font-size: 32px; 
+        line-height: 43px;  
+    }
+}
+.panel-title-area{
+    margin-bottom: 16px; 
+    .title{
+        font-size: 24px;
+        line-height: 28px;
+        font-weight: 600; 
+        margin-bottom: 7px; 
+    }
+    p{
+        font-size: 16px;
+        line-height:24px; 
+        color: #384152;
+        @media #{$md_device}{
+            font-size: 14px; 
+            line-height: 19px; 
+        }
+    }
+    .text-14{
+        font-size: 14px; 
+        color: #6B7380; 
+    }
+}
+.sm-text{ 
+    font-size: 12px;
+    line-height: 13px;  
+    color: #384152;
+}
+.section-title{
+    margin-bottom: 40px;
+        @media #{$sm_device}{
+            margin-bottom: 24px;
+        }
+    .title{
+        font-size: 48px;
+        font-weight: 600;
+        line-height: 58px;
+        margin-bottom: 16px;
+        color: #111828;
+        @media #{$sm_device}{
+         margin-bottom: 12px;
+         font-size: 24px;
+         line-height: 29px;
+        }
+    }
+
+    .small-title{
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #384152;
+        @media #{$sm_device}{
+         font-size: 14px;
+         line-height: 20px;
+        }
+    }
+}
+.text-14{
+    font-size: 14px !important;
+    line-height: 17.6px;
+} 
+.sm-sm-text{
+            @media #{$sm_device}{ 
+               font-size: 12px;
+            }
+} 
+.text-16{
+    font-size: 16.5px; 
+    line-height: 20.74px;
+}

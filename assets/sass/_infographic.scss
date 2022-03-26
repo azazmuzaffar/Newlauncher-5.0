@@ -1,0 +1,29 @@
+.infographic-wrap{
+	position: relative; 
+	width: 353px; 
+	margin-right: 120px; 
+	.layer-panel{
+		position: absolute !important;
+	}
+	.p16-15{
+		padding:16px 15px; 
+	}
+	.mr-13{ 
+		margin-right: 13px;
+	}
+	.layer-1,.layer-2,.layer-3{
+		position: absolute !important;
+	}
+	.layer-1{
+		top: 63px !important;
+		left: -137px !important;
+	}.layer-2{ 
+		top: auto !important;
+		bottom: 47px !important;
+		left: -172px !important;
+	}.layer-3{ 
+		left: auto !important;
+		right: -139px !important;
+		top: 111px !important;
+	} 
+}  

@@ -1,0 +1,17 @@
+.text-dark {
+  color: #111828 !important;
+}
+.bg-gray {
+  background-color: #f9fafc;
+}
+.bg-xl-gray {
+  @media only screen and (min-width: 1200px) {
+    background-color: #f9fafc;
+  }
+}
+.text-danger {
+  color: #007f46 !important;
+}
+.text-gray-2 {
+  color: #6b7380 !important;
+}
