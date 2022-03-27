@@ -151,7 +151,7 @@ Two changes in CSS, as follows:
 
 ### Solution:
 
-#### Before change: Floor plan light gallery without the caption ->
+### Before change: Floor plan light gallery without the caption ->
 
       <div id="floor-plan-1">
         <a href="assets/img/sections/site-plan.png" class="btn btn-outline-table d-inline-flex align-items-center">
@@ -171,7 +171,7 @@ Two changes in CSS, as follows:
         </a>
       </div>
 
-#### After change: Floor plan light gallery with the caption ->
+### After change: Floor plan light gallery with the caption ->
 
       <div id="floor-plan-1">
       <!-- ************ New Attribute -> data-sub-html=".caption-1" ************ -->
