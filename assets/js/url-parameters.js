@@ -69,7 +69,7 @@
 $(document).ready(function () {
   $(".pagination-home li a").click(function () {
     queryString.push("hide", true);
-    $("html, body").animate({ scrollTop: 0 }, "slow");
+    $("html").animate({ scrollTop: 0 }, "slow");
     setTimeout(function () {
       getParameters();
     }, 0);

@@ -47,8 +47,7 @@
   }
 }
 
-
-.btn-outline-table{
+.btn-outline-table {
   padding: 2px 12px;
   border: 1px solid #743393;
   color: #743393;
@@ -65,13 +64,12 @@
   }
   @media #{$sm_device} {
     font-size: 12px;
-    svg{
+    svg {
       width: 12px !important;
       height: 12px !important;
     }
   }
 }
-
 
 .btn-primary {
   background-color: #743393;

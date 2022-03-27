@@ -348,13 +348,7 @@
   &::before {
     content: "";
     z-index: -1;
-    background: linear-gradient(
-      180deg,
-      rgba(17, 24, 40, 0.5) 12.36%,
-      rgba(17, 24, 40, 0) 36.66%,
-      rgba(17, 24, 40, 0.3) 57.13%,
-      rgba(17, 24, 40, 0.9) 100%
-    );
+    background: linear-gradient(180deg, rgba(17, 24, 40, 0.5) 12.36%, rgba(17, 24, 40, 0) 36.66%, rgba(17, 24, 40, 0.3) 57.13%, rgba(17, 24, 40, 0.9) 100%);
   }
 }
 .pagination-long {

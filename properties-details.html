@@ -1244,6 +1244,7 @@
                           <tr>
                             <th class="title">
                               Unit Type
+                              <!-- ********* -->
                               <!-- Sort Icon -->
                               <svg
                                 class="svg-icon"
@@ -1262,6 +1263,8 @@
                                   d="M524.545 914.154L816 546H241.074c-8.837 0-16 7.163-16 16a16 16 0 0 0 3.455 9.931l270.926 342.223c5.485 6.928 15.548 8.098 22.476 2.614a16 16 0 0 0 2.614-2.614z"
                                 />
                               </svg>
+                              <!-- Sort Icon -->
+                              <!-- ********* -->
                             </th>
                             <th class="title text-center">
                               Floor Plan
@@ -1350,7 +1353,7 @@
                             <td>1 - Bedroom</td>
                             <td class="text-center">
                               <div id="floor-plan-1">
-                                <a href="assets/img/ggg.jpg" class="btn btn-outline-table d-inline-flex align-items-center" data-sub-html=".caption">
+                                <a href="assets/img/ggg.jpg" class="btn btn-outline-table d-inline-flex align-items-center">
                                   <span class="icon-left d-inline-flex">
                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                       <path
@@ -1364,7 +1367,10 @@
                                   </span>
                                   1A-PH
                                   <img src="assets/img/ggg.jpg" alt="" style="display: none" />
-                                  <div class="caption" style="display: none">
+                                </a>
+                                <a href="assets/img/ggg.jpg" data-sub-html=".caption-2" style="display: none">
+                                  <img src="assets/img/ggg.jpg" alt="" style="display: none" />
+                                  <div class="caption-2" style="display: none">
                                     <p>1 Bedroom · $1.908M - $2.019M | 467 sqft · $2,900 - $3,000 PS</p>
                                   </div>
                                 </a>
@@ -2788,6 +2794,8 @@
         swipeToClose: false,
         slideEndAnimation: false,
         zoomFromOrigin: false,
+        allowMediaOverlap: false,
+        defaultCaptionHeight: 50,
       });
 
       lg.addEventListener("lgAfterOpen", () => {
