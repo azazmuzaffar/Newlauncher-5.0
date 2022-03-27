@@ -197,3 +197,17 @@ Two changes in CSS, as follows:
           <!-- ************ Caption -> End ************ -->
         </a>
       </div>
+      
+#### Also needs to add the following two conditions to Floor plan Lightgallery settings:
+
+      lightGallery(lgFloorplan1, {
+        plugins: [lgZoom, lgThumbnail, lgAutoplay, lgVideo],
+        closeOnTap: false,
+        swipeToClose: false,
+        slideEndAnimation: false,
+        zoomFromOrigin: false,
+        /********************/
+        allowMediaOverlap: false,
+        defaultCaptionHeight: 50,
+        /********************/
+      });
