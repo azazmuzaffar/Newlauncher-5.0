@@ -80,7 +80,7 @@
     background: red !important;
   }
   @media #{$sm_device} {
-    width: 100%;
+    height: 100vh !important;
   }
   .nav-toggle-btn {
     position: absolute;
