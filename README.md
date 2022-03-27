@@ -58,8 +58,6 @@ Note: For the floor plan each light gallery will be repeating this.
 
 ### Solution:
 
-You can also see the icons added at https://phplaravel-742341-2527871.cloudwaysapps.com/detail/marina-one-residences
-
       <!-- ********* -->
       <!-- Sort Icon -->
       <svg
@@ -149,3 +147,53 @@ Two changes in CSS, as follows:
          height: 100% !important;  
       }     
       
++ ### Issues # 5: Caption needs to be added for all Floor Plan Lightgallery. 
+
+### Solution:
+
+#### Before change: Floor plan light gallery without the caption ->
+
+      <div id="floor-plan-1">
+        <a href="assets/img/sections/site-plan.png" class="btn btn-outline-table d-inline-flex align-items-center">
+          <span class="icon-left d-inline-flex">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M7.89109 2.90099L5.39604 1H1V13H5.63366M8.84158 1H13V7.05941M5.63366 13H13V7.05941M5.63366 13V7.05941M4.08911 7.05941H7.17822M10.2673 7.05941H13"
+                stroke="#743393"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          1A-PH
+          <img src="assets/img/sections/site-plan.png" alt="" style="display: none" />
+        </a>
+      </div>
+
+#### After change: Floor plan light gallery with the caption ->
+
+      <div id="floor-plan-1">
+      <!-- ************ New Attribute -> data-sub-html=".caption-1" ************ -->
+        <a href="assets/img/sections/site-plan.png" class="btn btn-outline-table d-inline-flex align-items-center" data-sub-html=".caption-1">
+          <span class="icon-left d-inline-flex">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M7.89109 2.90099L5.39604 1H1V13H5.63366M8.84158 1H13V7.05941M5.63366 13H13V7.05941M5.63366 13V7.05941M4.08911 7.05941H7.17822M10.2673 7.05941H13"
+                stroke="#743393"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          1A-PH
+          <img src="assets/img/sections/site-plan.png" alt="" style="display: none" />
+          <!-- ************ Caption -> Start ************ -->
+          <div class="caption-1" style="display: none">
+                <!-- The data is coming from the database -->
+                <p>1 Bedroom · $1.908M - $2.019M | 467 sqft · $2,900 - $3,000 PS</p>
+          </div>
+          <!-- ************ Caption -> End ************ -->
+        </a>
+      </div>
