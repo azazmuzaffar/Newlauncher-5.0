@@ -4,7 +4,7 @@ Instructions for the changes done so far...
 
 + Issue # 1: Light Gallery is not removing the "#property-view" hash-value by clicking close icon.
 
-This code needs to be added at resources/views/front/detail.blade.php at 4117 line (almost).
+This code needs to be added at <b>resources/views/front/detail.blade.php</b> at <b>4117 line</b> (almost).
 
       /* ************************************************************ */
       /* Code to remove #property-view by clicking close icon as well */
