@@ -205,7 +205,7 @@
     position: fixed;
     right: 0;
     top: 0;
-    height: 100vh;
+    height: 100% !important;
     height: -webkit-fill-available;
     width: 360px;
     background-color: #fff;
