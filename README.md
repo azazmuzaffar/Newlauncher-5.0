@@ -4,7 +4,9 @@ Instructions for the changes done so far...
 
 + ### Issue # 1: Light Gallery is not removing the "#property-view" hash-value by clicking close icon.
 
-This code needs to be added at <b>resources/views/front/detail.blade.php</b> at <b>4117 line</b> (almost).
+### Solution:
+
+This code needs to be added at <b>resources/views/front/detail.blade.php</b> at <b>4117 line</b> (almost). <br>
 Note: For the floor plan each light gallery will be repeating this.
 
       /* ************************************************************ */
@@ -53,6 +55,8 @@ Note: For the floor plan each light gallery will be repeating this.
       /* ************************************************************ */
 
 + ### Issues # 2: Sort Icons needs to be added to the table Floor Plan & Sales Transection within the title <th></th>.
+
+### Solution:
 
 You can also see the icons added at https://phplaravel-742341-2527871.cloudwaysapps.com/detail/marina-one-residences
 
@@ -107,14 +111,41 @@ For Example:
 
 + ### Issues # 3: Filter close icon look's weird on Safari/IOS.
 
+### Solution:
+
 Please change structure of the button, as follows:
 
-#### Before:
+#### Before change:
 
       <button class="btn-times fas fa-times-circle"></button>
 
-#### After:
+#### After change:
 
       <button class="btn-times"><i class="fas fa-times-circle"></i></button>
+      
++ ### Issues # 4: Filter button is not showing fully on Firefox Android Mobiles.
 
+### Solution:
+
+Two changes in CSS, as follows:
+
+### Before change: 
+
+      .side-menu-wrapper {
+         height: 100vh;  
+      }
+      .all-filters-area,
+      .sort-fixd-wrap {
+         height: 100vh;  
+      }
+
+### After change: 
+
+      .side-menu-wrapper {
+         height: 100% !important;  
+      }
+      .all-filters-area,
+      .sort-fixd-wrap {
+         height: 100% !important;  
+      }     
       
