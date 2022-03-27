@@ -38,8 +38,10 @@ This code needs to be added at resources/views/front/detail.blade.php at 4117 li
         url.hash = "";
         history.replaceState(null, document.title, url);
       });
+      /* ************************************************************ */
       /* For floor plan each light gallery will be repeating this */
       /* So add it in a loop just like the  */
+      /* ************************************************************ */
       lgFloorplan0.addEventListener("lgBeforeClose", (e, o) => {
         showingGallery = false;
         const url = new URL(window.location);
