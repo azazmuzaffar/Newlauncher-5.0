@@ -2,7 +2,7 @@
 
 Instructions for the changes done so far...
 
-+ Issue # 1: Light Gallery is not removing the "#property-view" hash-value by clicking close icon.
++ ### Issue # 1: Light Gallery is not removing the "#property-view" hash-value by clicking close icon.
 
 This code needs to be added at <b>resources/views/front/detail.blade.php</b> at <b>4117 line</b> (almost).
 
@@ -51,7 +51,7 @@ This code needs to be added at <b>resources/views/front/detail.blade.php</b> at 
       /* Code to remove #property-view by clicking close icon as well */
       /* ************************************************************ */
 
-+ Issues # 2: Sort Icons needs to be added to the table Floor Plan & Sales Transection within the title <th></th>.
++ ### Issues # 2: Sort Icons needs to be added to the table Floor Plan & Sales Transection within the title <th></th>.
 
 You can also see the icons added at https://phplaravel-742341-2527871.cloudwaysapps.com/detail/marina-one-residences
 
