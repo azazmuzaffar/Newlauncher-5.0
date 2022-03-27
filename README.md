@@ -44,7 +44,7 @@ Note: For the floor plan each light gallery will be repeating this.
       /* ************************************************************ */
       /* For floor plan each light gallery will be repeating this */
       /* So add it in a loop just like you done with closegallery */
-      /* ************************************************************ */
+      /* ************************************************************  */
       lgFloorplan0.addEventListener("lgBeforeClose", (e, o) => {
         showingGallery = false;
         const url = new URL(window.location);
