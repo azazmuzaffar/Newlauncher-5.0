@@ -1320,7 +1320,7 @@ p .custom-badge-group {
   position: fixed;
   right: 0;
   top: 0;
-  height: 100vh;
+  height: 100% !important;
   height: -webkit-fill-available;
   width: 400px;
   background-color: #fff;
@@ -1331,8 +1331,9 @@ p .custom-badge-group {
 }
 
 .side-menu-wrapper .main-nav-wrap {
-  height: 100%;
+  height: 100% !important;
   width: 100%;
+  overflow: hidden;
   position: relative;
 }
 
