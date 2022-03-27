@@ -198,7 +198,7 @@ Two changes in CSS, as follows:
         </a>
       </div>
       
-#### Also needs to add the following two conditions to Floor plan Lightgallery settings:
+### Also needs to add the following two conditions to Floor plan Lightgallery settings:
 
       lightGallery(lgFloorplan1, {
         plugins: [lgZoom, lgThumbnail, lgAutoplay, lgVideo],
@@ -209,5 +209,24 @@ Two changes in CSS, as follows:
         /********************/
         allowMediaOverlap: false,
         defaultCaptionHeight: 50,
+        /********************/
+      });
+
++ ### Issues # 6: Detail Page lightgallery caption is overlaping and blocking the video controls:
+See at slide 15 -> https://newlauncher.com.sg/detail/marina-one-residences
+
+### Solution:
+
+### N to add the following two conditions to Detail Page Banner Lightgallery settings:
+
+      lightGallery(lgFloorplan1, {
+        plugins: [lgZoom, lgThumbnail, lgAutoplay, lgVideo],
+        closeOnTap: false,
+        swipeToClose: false,
+        slideEndAnimation: false,
+        zoomFromOrigin: false,
+        /********************/
+        allowMediaOverlap: false,
+        defaultCaptionHeight: 40,
         /********************/
       });
