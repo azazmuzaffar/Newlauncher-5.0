@@ -5,6 +5,7 @@ Instructions for the changes done so far...
 + ### Issue # 1: Light Gallery is not removing the "#property-view" hash-value by clicking close icon.
 
 This code needs to be added at <b>resources/views/front/detail.blade.php</b> at <b>4117 line</b> (almost).
+Note: For the floor plan each light gallery will be repeating this.
 
       /* ************************************************************ */
       /* Code to remove #property-view by clicking close icon as well */
@@ -40,7 +41,7 @@ This code needs to be added at <b>resources/views/front/detail.blade.php</b> at 
       });
       /* ************************************************************ */
       /* For floor plan each light gallery will be repeating this */
-      /* So add it in a loop just like the  */
+      /* So add it in a loop just like you done with closegallery */
       /* ************************************************************ */
       lgFloorplan0.addEventListener("lgBeforeClose", (e, o) => {
         showingGallery = false;
@@ -103,3 +104,17 @@ For Example:
           <!-- Sort Icon -->
           <!-- ********* -->
       </th>
+
++ ### Issues # 3: Filter close icon look's weird on Safari/IOS.
+
+Please change structure of the button, as follows:
+
+#### Before:
+
+      <button class="btn-times fas fa-times-circle"></button>
+
+#### After:
+
+      <button class="btn-times"><i class="fas fa-times-circle"></i></button>
+
+      
