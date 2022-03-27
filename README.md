@@ -1,2 +1,50 @@
-## Newlauncher / https://azazmuzaffar.github.io/Newlauncher/
-![screencapture-azazmuzaffar-github-io-Newlauncher-2022-ddddd01-30-02_42_49](https://user-images.githubusercontent.com/64412852/151850621-2842b64d-9676-4378-be50-ed4bc077596c.png)
+## Newlauncher / https://azazmuzaffar.github.io/Newlauncher-5.0/
+
+Instructions for the changes done so far...
+
++ Issue # 1: Light Gallery is not removing the "#property-view" hash-value by clicking close icon.
+
+This code needs to be added at resources/views/front/detail.blade.php at 4117 line (almost).
+
+      /* ************************************************************ */
+      /* Code to remove #property-view by clicking close icon as well */
+      lg.addEventListener("lgBeforeClose", (e, o) => {
+        showingGallery = false;
+        const url = new URL(window.location);
+        url.hash = "";
+        history.replaceState(null, document.title, url);
+      });
+      lgSiteplan.addEventListener("lgBeforeClose", (e, o) => {
+        showingGallery = false;
+        const url = new URL(window.location);
+        url.hash = "";
+        history.replaceState(null, document.title, url);
+      });
+      lgLocationmap.addEventListener("lgBeforeClose", (e, o) => {
+        showingGallery = false;
+        const url = new URL(window.location);
+        url.hash = "";
+        history.replaceState(null, document.title, url);
+      });
+      lgUnitmix.addEventListener("lgBeforeClose", (e, o) => {
+        showingGallery = false;
+        const url = new URL(window.location);
+        url.hash = "";
+        history.replaceState(null, document.title, url);
+      });
+      lgBalanceunit.addEventListener("lgBeforeClose", (e, o) => {
+        showingGallery = false;
+        const url = new URL(window.location);
+        url.hash = "";
+        history.replaceState(null, document.title, url);
+      });
+      /* For floor plan each light gallery will be repeating this */
+      /* So add it in a loop just like the  */
+      lgFloorplan0.addEventListener("lgBeforeClose", (e, o) => {
+        showingGallery = false;
+        const url = new URL(window.location);
+        url.hash = "";
+        history.replaceState(null, document.title, url);
+      });
+      /* Code to remove #property-view by clicking close icon as well */
+      /* ************************************************************ */
