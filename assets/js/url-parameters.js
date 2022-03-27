@@ -69,8 +69,7 @@
 $(document).ready(function () {
   $(".pagination-home li a").click(function () {
     queryString.push("hide", true);
-    var sPos = $(".page-root").offset().top;
-    $("html, body").animate({ scrollTop: sPos }, 200, "swing");
+    $("html, body").animate({ scrollTop: 0 }, "slow");
     setTimeout(function () {
       getParameters();
     }, 0);

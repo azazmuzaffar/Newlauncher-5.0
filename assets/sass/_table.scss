@@ -60,13 +60,13 @@
       } */
     }
   }
-  &.table-floor-plan{
-    tbody{
-      tr{
-        &:last-of-type{
-          td{
+  &.table-floor-plan {
+    tbody {
+      tr {
+        &:last-of-type {
+          td {
             font-weight: normal;
-            &:first-of-type{
+            &:first-of-type {
               font-weight: 600;
             }
           }
