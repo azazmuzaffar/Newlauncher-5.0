@@ -1335,7 +1335,6 @@ p .custom-badge-group {
   width: 100%;
   overflow: hidden;
   position: relative;
-  background: purple;
 }
 
 @media (max-width: 575.98px) {
