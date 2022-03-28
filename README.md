@@ -230,3 +230,23 @@ See at slide 15 -> https://newlauncher.com.sg/detail/marina-one-residences
         defaultCaptionHeight: 40,
         /********************/
       });
+      
++ ### Issue # 7: For the Floor plans Lightgallery, browser back button is not able to hide the Lightgallery.
+
+### Solution:
+
+Changes have been at <b>resources/views/front/detail.blade.php</b> at <b>4200 or something line</b> (almost). <br>
+Note: The condtion <b>if(pluginInstance_fp!==null)</b> was not executed beacuse there is no pluginInstance_fp, pluginInstance_fp is starting from pluginInstance_fp_0
+
+Before Change:
+
+            if(pluginInstance_fp!==null)
+              pluginInstance_fp.closeGallery();
+            @foreach ($project->unit_fps as $unit)
+              @php
+                $unit_index = $loop->index;
+              @endphp
+              @if (count($unit->floorplans)>0)     
+                pluginInstance_fp_{{ $unit_index }}.closeGallery();
+              @endif
+            @endforeach
