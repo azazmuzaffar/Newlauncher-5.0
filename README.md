@@ -240,25 +240,25 @@ Note: The condtion <b>if(pluginInstance_fp!==null)</b> was not executed beacuse 
 
 Before Change:
 
-            if(pluginInstance_fp!==null)
-              pluginInstance_fp.closeGallery();
-            @foreach ($project->unit_fps as $unit)
-              @php
-                $unit_index = $loop->index;
-              @endphp
-              @if (count($unit->floorplans)>0)     
-                pluginInstance_fp_{{ $unit_index }}.closeGallery();
-              @endif
-            @endforeach
+      if(pluginInstance_fp!==null)
+         pluginInstance_fp.closeGallery();
+      @foreach ($project->unit_fps as $unit)
+         @php
+            $unit_index = $loop->index;
+         @endphp
+         @if (count($unit->floorplans)>0)     
+            pluginInstance_fp_{{ $unit_index }}.closeGallery();
+         @endif
+      @endforeach
 
 After Change:
 
-            @foreach ($project->unit_fps as $unit)
-              @php
-                $unit_index = $loop->index;
-              @endphp
-              @if (count($unit->floorplans)>0) 
-                if(pluginInstance_fp_{{ $unit_index }}!==null)
-                    pluginInstance_fp_{{ $unit_index }}.closeGallery();
-              @endif
-            @endforeach
+@foreach ($project->unit_fps as $unit)
+   @php
+      $unit_index = $loop->index;
+   @endphp
+   @if (count($unit->floorplans)>0) 
+      if(pluginInstance_fp_{{ $unit_index }}!==null)
+         pluginInstance_fp_{{ $unit_index }}.closeGallery();
+      @endif
+@endforeach
