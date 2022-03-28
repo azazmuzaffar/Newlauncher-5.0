@@ -236,7 +236,7 @@ See at slide 15 -> https://newlauncher.com.sg/detail/marina-one-residences
 ### Solution:
 
 Changes have been at <b>resources/views/front/detail.blade.php</b> at <b>4200 or something line</b> (almost). <br>
-Note: The condtion <b>********* if(pluginInstance_fp!==null) *********</b> was not executed beacuse there is no <b>pluginInstance_fp</b>, <b>pluginInstance_fp</b> is starting from pluginInstance_fp_0
+Note: The condtion <b>********* if(pluginInstance_fp!==null) *********</b> is not executed beacuse there is no <b>pluginInstance_fp</b>, <b>pluginInstance_fp</b> is starting from pluginInstance_fp_0
 
 Before Change:
 
