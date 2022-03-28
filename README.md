@@ -250,3 +250,15 @@ Before Change:
                 pluginInstance_fp_{{ $unit_index }}.closeGallery();
               @endif
             @endforeach
+
+After Change:
+
+            @foreach ($project->unit_fps as $unit)
+              @php
+                $unit_index = $loop->index;
+              @endphp
+              @if (count($unit->floorplans)>0) 
+                if(pluginInstance_fp_{{ $unit_index }}!==null)
+                    pluginInstance_fp_{{ $unit_index }}.closeGallery();
+              @endif
+            @endforeach
