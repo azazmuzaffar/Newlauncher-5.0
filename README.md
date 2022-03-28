@@ -219,7 +219,7 @@ See at slide 15 -> https://newlauncher.com.sg/detail/marina-one-residences
 
 ### N to add the following two conditions to Detail Page Banner Lightgallery settings:
 
-      lightGallery(lgFloorplan1, {
+      lightGallery(lg, {
         plugins: [lgZoom, lgThumbnail, lgAutoplay, lgVideo],
         closeOnTap: false,
         swipeToClose: false,
@@ -236,29 +236,29 @@ See at slide 15 -> https://newlauncher.com.sg/detail/marina-one-residences
 ### Solution:
 
 Changes have been at <b>resources/views/front/detail.blade.php</b> at <b>4200 or something line</b> (almost). <br>
-Note: The condtion <b>if(pluginInstance_fp!==null)</b> was not executed beacuse there is no pluginInstance_fp, pluginInstance_fp is starting from pluginInstance_fp_0
+Note: The condtion <b>********* if(pluginInstance_fp!==null) *********</b> was not executed beacuse there is no <b>pluginInstance_fp</b>, <b>pluginInstance_fp</b> is starting from pluginInstance_fp_0
 
 Before Change:
 
-      if(pluginInstance_fp!==null)
-         pluginInstance_fp.closeGallery();
-      @foreach ($project->unit_fps as $unit)
-         @php
-            $unit_index = $loop->index;
-         @endphp
-         @if (count($unit->floorplans)>0)     
-            pluginInstance_fp_{{ $unit_index }}.closeGallery();
-         @endif
-      @endforeach
+            if(pluginInstance_fp!==null)
+              pluginInstance_fp.closeGallery();
+            @foreach ($project->unit_fps as $unit)
+              @php
+                $unit_index = $loop->index;
+              @endphp
+              @if (count($unit->floorplans)>0)     
+                pluginInstance_fp_{{ $unit_index }}.closeGallery();
+              @endif
+            @endforeach
 
 After Change:
 
-@foreach ($project->unit_fps as $unit)
-   @php
-      $unit_index = $loop->index;
-   @endphp
-   @if (count($unit->floorplans)>0) 
-      if(pluginInstance_fp_{{ $unit_index }}!==null)
-         pluginInstance_fp_{{ $unit_index }}.closeGallery();
-      @endif
-@endforeach
+            @foreach ($project->unit_fps as $unit)
+              @php
+                $unit_index = $loop->index;
+              @endphp
+              @if (count($unit->floorplans)>0) 
+                if(pluginInstance_fp_{{ $unit_index }}!==null)
+                    pluginInstance_fp_{{ $unit_index }}.closeGallery();
+              @endif
+            @endforeach
