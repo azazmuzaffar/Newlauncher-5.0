@@ -1,5 +1,87 @@
 ## Newlauncher / https://azazmuzaffar.github.io/Newlauncher-5.0/
 
+
+### Adding "Offer Bar" to thr Home and Detail Page
+
+### HTML
+
+      <!-- Offer for Card Home Page "-card--" -->
+      <div class="-offer-bar-- -card--">
+          <div class="-bar--">
+            <p><span>Offer</span>No GST, Zero Parking Charges, Zero PLC Charging Charges, Zero PLC Charging Charges, Zero PLC Charges</p>
+          </div>
+      </div>
+
+      <!-- Offer for Detail Page "-para--" -->
+      <div class="-offer-bar-- -para--">
+          <div class="-bar--">
+            <p><span>Offer</span>No GST, Zero Parking Charges, Zero PLC Charging Charges, Zero PLC Charging Charges, Zero PLC Charges</p>
+          </div>
+      </div>
+
+      <!-- Offer with Fit Content width "-fit-content--" -->
+      <div class="-offer-bar-- -para-- -fit-content--">
+          <div class="-bar--">
+            <p><span>Offer</span>No GST, Zero Parking Charges, Zero PLC Charging Charges, Zero PLC Charging Charges, Zero PLC Charges</p>
+          </div>
+      </div>
+
+### CSS
+
+      .-offer-bar-- {
+        width: 100%;
+      }
+      .-offer-bar--.-card-- {
+        padding: 0px 20px;
+        margin-top: 16px;
+      }
+      .-offer-bar--.-para-- {
+        padding: 0px 18px;
+        margin-bottom: 16px;
+      }
+      .-offer-bar--.-fit-content-- .-bar-- {
+        max-width: fit-content;
+        margin: 0;
+      }
+      .-offer-bar-- .-bar-- {
+        background: #fff7e1;
+        padding: 5px 10px 5px 4px;
+        margin: 0 auto;
+        border-radius: 4px;
+      }
+      .-offer-bar-- .-bar-- p {
+        font-family: "Source Sans Pro";
+        width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 140%;
+        color: #384152;
+      }
+      .-offer-bar-- .-bar-- p span {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 120%;
+        text-transform: uppercase;
+        padding: 2px 8px;
+        text-align: center;
+        border-radius: 4px;
+        margin-right: 8px;
+        color: #202938;
+        background: #ffc72c;
+      }
+      @media only screen and (max-width: 575.98px) {
+        .-offer-bar--.-card-- {
+          padding: 0px 12px;
+        }
+        .-offer-bar--.-para-- {
+          padding: 0px 18px;
+        }
+      }
+
 Instructions for the changes done so far...
 
 + ### Issue # 1: Light Gallery is not removing the "#property-view" hash-value by clicking close icon.
