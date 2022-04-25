@@ -570,13 +570,16 @@
                       <div class="filter-body">
                         <ul class="selected-filter-2 reset-ul d-flex flex-wrap">
                           <li class="chip chip-light">
-                            MS H20 <button class="btn-times"><i class="fas fa-times-circle"></i></button>
+                            MS H20
+                            <button class="btn-times"><i class="fas fa-times-circle"></i></button>
                           </li>
                           <li class="chip chip-light">
-                            Sunrise Property Consultant <button class="btn-times"><i class="fas fa-times-circle"></i></button>
+                            Sunrise Property Consultant
+                            <button class="btn-times"><i class="fas fa-times-circle"></i></button>
                           </li>
                           <li class="chip chip-light">
-                            Romel Group chip-light <button class="btn-times"><i class="fas fa-times-circle"></i></button>
+                            Romel Group chip-light
+                            <button class="btn-times"><i class="fas fa-times-circle"></i></button>
                           </li>
                         </ul>
                       </div>
@@ -587,15 +590,379 @@
                         Project Name
                         <span class="chip chip-sm chip-bg">
                           <span>1</span>
-                          <button class="btn-times filter-close"><i class="fas fa-times-circle"></i></button>
+                          <button class="btn-times filter-close">
+                            <i class="fas fa-times-circle"></i>
+                          </button>
                         </span>
                         <button class="angle-btn fas fa-angle-down"></button>
                       </h3>
+                      <style>
+                        #search-list {
+                          position: absolute;
+                          padding: 5px 0px;
+                          left: 0;
+                          z-index: 99;
+                          margin-top: 5px;
+                          width: 100%;
+                          list-style-type: none;
+                          border-radius: 8px;
+                          background: #fff;
+                          box-shadow: 0px 0px 16px -4px rgba(16, 24, 40, 0.1), 0px 4px 6px -2px rgba(16, 24, 40, 0.05);
+                          max-height: 218px;
+                          overflow-y: auto;
+                          border: 1px solid #eeeeee;
+                          visibility: hidden;
+                          opacity: 0;
+                          -webkit-transition: opacity 0.2s, visibility 0.2s;
+                          transition: opacity 0.2s, visibility 0.2s;
+                        }
+                        #liveSearch:focus ~ #search-list {
+                          visibility: visible;
+                          opacity: 1;
+                        }
+                        #search-list li#no-results {
+                          display: none;
+                          text-align: center;
+                          padding: 12px 30px;
+                        }
+                        #search-list li#no-results h6 {
+                          font-size: 14px;
+                          line-height: 14px;
+                          margin-bottom: 4px;
+                        }
+                        #search-list li#no-results p {
+                          font-size: 12px;
+                          line-height: 12px;
+                        }
+                        #search-list li a {
+                          display: block;
+                          padding: 6px 12px;
+                          text-decoration: none;
+                          display: flex;
+                          align-items: center;
+                          margin: 0;
+                          /* border-bottom: 1px solid #eeeeee; */
+                          font-size: 14px;
+                          color: #000;
+                        }
+                        #search-list li a svg {
+                          margin-right: 8px;
+                        }
+                        #search-list li a:hover:not(.header) {
+                          background-color: #f5eef9;
+                        }
+                      </style>
                       <div class="filter-body">
                         <div class="sm-searech">
-                          <input type="text" class="form-control" placeholder="Search project name" />
+                          <input type="text" class="form-control" placeholder="Search project name" onkeyup="doSearch()" id="liveSearch" />
                           <button class="search-icon-btn"></button>
+                          <ul id="search-list">
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>Allgreen Properties</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>Amara Holdings</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>Aurum Land</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>Bukit Sembawang Estates</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>CapitaLand Group</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>China Overseas Land</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>Chip Eng Seng Corporation</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>City Developments Limited</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>CK Asset Holdings Limited</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>CSC Land Group</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>EL Development</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>Fantasia Holdings</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>Far East Consortium</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>Fragrance Group</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>Frasers Property</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>Goodland Group</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>GuocoLand</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>Heeton Holdings</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>Ho Lee Group</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                    d="M4.39044 4.39044H4.39722M13.6057 8.73698L8.74376 13.5988C8.61784 13.725 8.46825 13.8251 8.30362 13.8932C8.13898 13.9616 7.96247 13.9966 7.78427 13.9966C7.60607 13.9966 7.42956 13.9616 7.26493 13.8932C7.10028 13.8251 6.95069 13.725 6.82477 13.5988L1 7.78088V1H7.78088L13.6057 6.82477C13.8582 7.07885 14 7.42258 14 7.78088C14 8.13918 13.8582 8.4829 13.6057 8.73698Z"
+                                    stroke="#743393"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                                <span>Hock Lian Seng Holdings</span>
+                              </a>
+                            </li>
+                            <li id="no-results">
+                              <h6>No results found for "<span id="search-keyword"></span>"</h6>
+                              <p>Please try different search.</p>
+                            </li>
+                          </ul>
                         </div>
+                        <script>
+                          function doSearch() {
+                            var input, filter, ul, li, a, i, txtValue;
+                            input = document.getElementById("liveSearch");
+                            filter = input.value.toUpperCase();
+                            ul = document.getElementById("search-list");
+                            li = ul.getElementsByTagName("li");
+                            for (i = 0; i < li.length; i++) {
+                              a = li[i].getElementsByTagName("a")[0];
+                              txtValue = a.textContent || a.innerText;
+                              document.getElementById("search-keyword").innerHTML = input.value;
+                              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                li[i].style.display = "";
+                              } else {
+                                li[i].style.display = "none";
+                                li[li.length - 1].style.display = "block";
+                              }
+                            }
+                          }
+                        </script>
                         <ul id="expanded-project-name" data-each-show="5" class="check-box-lists mh-none">
                           <li class="list-item form-check">
                             <input class="form-check-input" type="checkbox" value="" id="check-box-1" />
@@ -679,7 +1046,9 @@
                         Project Developer
                         <span class="chip chip-sm chip-bg">
                           <span>1</span>
-                          <button class="btn-times filter-close"><i class="fas fa-times-circle"></i></button>
+                          <button class="btn-times filter-close">
+                            <i class="fas fa-times-circle"></i>
+                          </button>
                         </span>
                         <button class="angle-btn fas fa-angle-down"></button>
                       </h3>
@@ -771,7 +1140,9 @@
                         Project Location
                         <span class="chip chip-sm chip-bg">
                           <span>1</span>
-                          <button class="btn-times filter-close"><i class="fas fa-times-circle"></i></button>
+                          <button class="btn-times filter-close">
+                            <i class="fas fa-times-circle"></i>
+                          </button>
                         </span>
                         <button class="angle-btn fas fa-angle-down"></button>
                       </h3>
@@ -848,7 +1219,9 @@
                         Completion Status
                         <span class="chip chip-sm chip-bg">
                           <span>1</span>
-                          <button class="btn-times filter-close"><i class="fas fa-times-circle"></i></button>
+                          <button class="btn-times filter-close">
+                            <i class="fas fa-times-circle"></i>
+                          </button>
                         </span>
                         <div class="sm-title fw-400 toggle-with-parent">Completed Projects</div>
                         <button class="angle-btn fas fa-angle-down"></button>
@@ -872,7 +1245,9 @@
                         Completion Year
                         <span class="chip chip-sm chip-bg">
                           <span id="no-of-f">1</span>
-                          <button class="btn-times filter-close"><i class="fas fa-times-circle"></i></button>
+                          <button class="btn-times filter-close">
+                            <i class="fas fa-times-circle"></i>
+                          </button>
                         </span>
                         <button class="angle-btn fas fa-angle-down"></button>
                       </h3>
@@ -898,7 +1273,9 @@
                         Unit Bedroom
                         <span class="chip chip-sm chip-bg">
                           <span>1</span>
-                          <button class="btn-times filter-close"><i class="fas fa-times-circle"></i></button>
+                          <button class="btn-times filter-close">
+                            <i class="fas fa-times-circle"></i>
+                          </button>
                         </span>
                         <button class="angle-btn fas fa-angle-down"></button>
                       </h3>
@@ -988,17 +1365,24 @@
                     5 Stars <button class="btn-times"><i class="fas fa-times-circle"></i></button>
                   </li>
                   <li class="chip">
-                    Air conditioning <button class="btn-times"><i class="fas fa-times-circle"></i></button>
+                    Air conditioning
+                    <button class="btn-times"><i class="fas fa-times-circle"></i></button>
                   </li>
                   <li class="chip">
-                    Prime District <button class="btn-times"><i class="fas fa-times-circle"></i></button>
+                    Prime District
+                    <button class="btn-times"><i class="fas fa-times-circle"></i></button>
                   </li>
                   <li class="chip">
-                    D10 - Tanglin/Holland/Bukit Timah <button class="btn-times"><i class="fas fa-times-circle"></i></button>
+                    D10 - Tanglin/Holland/Bukit Timah
+                    <button class="btn-times"><i class="fas fa-times-circle"></i></button>
                   </li>
-                  <li class="clear-btn d-none d-xl-flex align-items-center"><a href="#" class="btn-text">Clear All</a></li>
+                  <li class="clear-btn d-none d-xl-flex align-items-center">
+                    <a href="#" class="btn-text">Clear All</a>
+                  </li>
                 </ul>
-                <div class="clear-btn d-flex d-xl-none align-items-center"><a href="#" class="btn-text">Clear All</a></div>
+                <div class="clear-btn d-flex d-xl-none align-items-center">
+                  <a href="#" class="btn-text">Clear All</a>
+                </div>
               </div>
               <!-- Listing Start -->
               <div class="card-primary mb-4">
@@ -1585,9 +1969,15 @@
                     <!-- Text Content -->
                     <div class="text-content pt-12px">
                       <ul class="badge-gray-lists reset-ul d-flex flex-wrap mb-lg-1 pt-1 pt-lg-0">
-                        <li class="me-1"><span class="badge badge-gray rounded-pill">Upcoming Launch</span></li>
-                        <li class="me-1"><span class="badge badge-gray rounded-pill">From 22nd Dec 2022</span></li>
-                        <li class="me-1"><span class="badge badge-gray rounded-pill hide-xl-xxl">Indicative Prices</span></li>
+                        <li class="me-1">
+                          <span class="badge badge-gray rounded-pill">Upcoming Launch</span>
+                        </li>
+                        <li class="me-1">
+                          <span class="badge badge-gray rounded-pill">From 22nd Dec 2022</span>
+                        </li>
+                        <li class="me-1">
+                          <span class="badge badge-gray rounded-pill hide-xl-xxl">Indicative Prices</span>
+                        </li>
                       </ul>
                       <h2 class="title">Amber Park <small>in Amber Garden</small></h2>
                       <ul class="inline-dot-list">
@@ -2586,7 +2976,9 @@
                     </svg>
                   </a>
                 </li>
-                <li class="page-item"><a class="page-link active" href="javascript:void(0)">1</a></li>
+                <li class="page-item">
+                  <a class="page-link active" href="javascript:void(0)">1</a>
+                </li>
                 <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
                 <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
                 <li class="page-item">
@@ -2921,7 +3313,9 @@
                 <div class="blog-content">
                   <div class="mb-auto">
                     <h4 class="title">Brick house designs: Ways to use brick for wall exterior</h4>
-                    <p>One recurring thing among many architectural marvels in the world is the usage of bricks. An oft-used material for house construction, bricks, ...</p>
+                    <p>
+                      One recurring thing among many architectural marvels in the world is the usage of bricks. An oft-used material for house construction, bricks, ...
+                    </p>
                   </div>
                   <div class="avater-sm-wrap d-flex align-items-center">
                     <span class="thumb"><img src="assets/img/user/1.png" alt="" /></span>
@@ -2940,7 +3334,9 @@
                 <div class="blog-content">
                   <div class="mb-auto">
                     <h4 class="title">House parapet design: Home parapet wall design ideas and images</h4>
-                    <p>Parapets play a vital role in the design of a house. Before we move on examining the various house parapet designs that can be ideal for your home.</p>
+                    <p>
+                      Parapets play a vital role in the design of a house. Before we move on examining the various house parapet designs that can be ideal for your home.
+                    </p>
                   </div>
                   <div class="avater-sm-wrap d-flex align-items-center">
                     <span class="thumb"><img src="assets/img/user/2.png" alt="" /></span>
@@ -3002,7 +3398,10 @@
             </div>
             <div class="col-lg-4 mb-30">
               <div class="testimonial-item d-lg-flex flex-lg-column">
-                <p class="desc">“Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.”</p>
+                <p class="desc">
+                  “Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet. Amet minim mollit non deserunt ullamco est sit aliqua
+                  dolor do amet sint.”
+                </p>
                 <div class="avater-sm-wrap d-flex align-items-center mt-lg-auto">
                   <span class="thumb"><img src="assets/img/user/5.png" alt="" /></span>
                   <div class="avater-content">
@@ -3015,8 +3414,8 @@
             <div class="col-lg-4 mb-30">
               <div class="testimonial-item d-lg-flex flex-lg-column">
                 <p class="desc">
-                  “Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate
-                  aute id deserunt nisi.”
+                  “Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute
+                  irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.”
                 </p>
                 <div class="avater-sm-wrap d-flex align-items-center mt-lg-auto">
                   <span class="thumb"><img src="assets/img/user/6.png" alt="" /></span>
@@ -3157,7 +3556,10 @@
                     </a>
                   </div>
                   <div class="pe-lg-5">
-                    <p>New Launcher is Singapore’s fastest growing property portal. With us, you’ll feel right at home when searching for houses, condominiums, apartments and HDBs for sales & rent in</p>
+                    <p>
+                      New Launcher is Singapore’s fastest growing property portal. With us, you’ll feel right at home when searching for houses, condominiums, apartments
+                      and HDBs for sales & rent in
+                    </p>
                     <p>Check out our handy guide to find the best location for your lifestyle and the unending adventures each neighbourhood in Singapore.</p>
                     <p>
                       This will help us quickly identify you and get you the right kind of help on
