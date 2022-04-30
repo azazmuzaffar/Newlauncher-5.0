@@ -1,5 +1,87 @@
 ## Newlauncher / https://azazmuzaffar.github.io/Newlauncher-5.0/
 
+### Adding new Banner:
+
+### HTML
+
+      <section class="hero-area">
+        <div class="container --banner-">
+          <div class="row">
+            <div class="col-lg-6">
+              <img src="./assets/img/banner-building.png" alt="" />
+            </div>
+            <div class="col-lg-6">
+              <h1>Loremp Impsump</h1>
+              <p>
+                Eget adipiscing facilisis at vitae. Ac lacus cras mauris et proin velit velit dictum pretium. Ac lacus cras mauris et proin velit velit dictum pretium.
+                Eget adipiscing facilisis at vitae.
+              </p>
+              <p>
+                Eget adipiscing facilisis at vitae. Ac lacus cras mauris et proin velit velit dictum pretium. Ac lacus cras mauris et proin velit velit dictum pretium.
+                Eget adipiscing facilisis at vitae.
+              </p>
+              <p>
+                Eget adipiscing facilisis at vitae. Ac lacus cras mauris et proin velit velit dictum pretium. Ac lacus cras mauris et proin velit velit dictum pretium.
+                Eget adipiscing facilisis at vitae.
+              </p>
+              <p>
+                Eget adipiscing facilisis at vitae. Ac lacus cras mauris et proin velit velit dictum pretium. Ac lacus cras mauris et proin velit velit dictum pretium.
+                Eget adipiscing facilisis at vitae.
+              </p>
+              <p>
+                Eget adipiscing facilisis at vitae. Ac lacus cras mauris et proin velit velit dictum pretium. Ac lacus cras mauris et proin velit velit dictum pretium.
+                Eget adipiscing facilisis at vitae.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+### CSS
+
+      .hero-area .--banner- h1 {
+          font-weight: 600;
+          font-size: 48px;
+          line-height: 120%;
+          margin-bottom: 40px;
+        }
+        .hero-area .--banner- p {
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 140%;
+          letter-spacing: 0.03em;
+          color: #6b7380;
+          margin-bottom: 20px;
+        }
+        .hero-area .--banner- p:last-of-type {
+          margin-bottom: 0px;
+        }
+        @media only screen and (max-width: 991.98px) {
+          .hero-area .--banner- img {
+            margin-bottom: 40px;
+            width: 100%;
+          }
+        }
+        @media only screen and (max-width: 767.98px) {
+          .hero-area .--banner- img {
+            margin-bottom: 24px;
+          }
+          .hero-area .--banner- h1,
+          .hero-area .--banner- p {
+            text-align: center;
+          }
+        }
+        @media only screen and (max-width: 575.98px) {
+          .hero-area .--banner- h1 {
+            font-size: 24px;
+            margin-bottom: 24px;
+          }
+          .hero-area .--banner- p {
+            font-size: 14px;
+            line-height: 20px;
+          }
+        }
+
 
 ### Adding "Offer Bar" to thr Home and Detail Page
 
