@@ -328,6 +328,14 @@ DetailsPageSlide();
       });
 
     $(this).toggleClass("opened");
+    $(this).parent("li").addClass("make-bold");
+    $(this).parent("li").siblings("li").addClass("make-bold");
+
+    var openedLists = $(".opened").length;
+    if (openedLists <= 0) {
+      $(this).parent("li").removeClass("make-bold");
+      $(this).parent("li").siblings("li").removeClass("make-bold");
+    }
   });
 
   $(".open-filter-area").on("click", function (event) {
