@@ -610,6 +610,38 @@
                         <button class="angle-btn fas fa-angle-down"></button>
                       </h3>
                       <style>
+                        .angle-btn {
+                          position: absolute;
+                          right: 10px;
+                          top: 12px;
+                          height: 20px;
+                          width: 20px;
+                          border-radius: 50%;
+                          border-color: transparent;
+                          background-color: transparent;
+                          transition: 0.3s;
+                        }
+                        .angle-btn::before {
+                          position: absolute;
+                          top: 4px;
+                          left: 2px;
+                          content: "";
+                          width: 12px;
+                          height: 8px;
+                          border-color: transparent;
+                          color: transparent;
+                          background: transparent;
+                          background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23111828' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+                          background-size: contain;
+                          background-position: center;
+                          background-repeat: no-repeat;
+                        }
+                        .angle-btn.opened {
+                          transform: rotate(-180deg);
+                        }
+                        #liveSearch:focus ~ .angle-btn {
+                          transform: rotate(-180deg);
+                        }
                         #search-list {
                           position: absolute;
                           padding: 5px 0px;
@@ -629,7 +661,14 @@
                           -webkit-transition: opacity 0.2s, visibility 0.2s;
                           transition: opacity 0.2s, visibility 0.2s;
                         }
+                        #liveSearch {
+                          padding-right: 32px !important;
+                        }
                         #liveSearch:focus ~ #search-list {
+                          visibility: visible;
+                          opacity: 1;
+                        }
+                        #search-list.opened {
                           visibility: visible;
                           opacity: 1;
                         }
@@ -667,8 +706,9 @@
                       </style>
                       <div class="filter-body">
                         <div class="sm-searech">
-                          <input type="text" class="form-control" placeholder="Search project name" onkeyup="doSearch()" id="liveSearch" />
+                          <input type="text" class="form-control live-search-1" placeholder="Search project name" onkeyup="doSearch()" id="liveSearch" />
                           <button class="search-icon-btn"></button>
+                          <button class="angle-btn fas fa-angle-down" id="showLiveSearch"></button>
                           <ul id="search-list">
                             <li>
                               <a href="#">
@@ -3418,9 +3458,7 @@
             </div>
             <div class="col-lg-4 mb-30">
               <div class="testimonial-item d-lg-flex flex-lg-column">
-                <p class="desc">
-                  “Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.”
-                </p>
+                <p class="desc">“Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.”</p>
                 <div class="avater-sm-wrap d-flex align-items-center mt-lg-auto">
                   <span class="thumb"><img src="assets/img/user/5.png" alt="" /></span>
                   <div class="avater-content">
@@ -3432,10 +3470,7 @@
             </div>
             <div class="col-lg-4 mb-30">
               <div class="testimonial-item d-lg-flex flex-lg-column">
-                <p class="desc">
-                  “Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat
-                  incididunt sint deserunt ut voluptate aute id deserunt nisi.”
-                </p>
+                <p class="desc">“Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.”</p>
                 <div class="avater-sm-wrap d-flex align-items-center mt-lg-auto">
                   <span class="thumb"><img src="assets/img/user/6.png" alt="" /></span>
                   <div class="avater-content">
@@ -3575,10 +3610,7 @@
                     </a>
                   </div>
                   <div class="pe-lg-5">
-                    <p>
-                      New Launcher is Singapore’s fastest growing property portal. With us, you’ll feel right at home when searching for houses, condominiums, apartments and HDBs for sales &
-                      rent in
-                    </p>
+                    <p>New Launcher is Singapore’s fastest growing property portal. With us, you’ll feel right at home when searching for houses, condominiums, apartments and HDBs for sales & rent in</p>
                     <p>Check out our handy guide to find the best location for your lifestyle and the unending adventures each neighbourhood in Singapore.</p>
                     <p>
                       This will help us quickly identify you and get you the right kind of help on
@@ -3603,5 +3635,20 @@
     <script src="assets/js/apexcharts.min.js"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/chart-main.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        // Making Dropdown visible on click
+        $("#showLiveSearch").click(function () {
+          $(this).toggleClass("opened");
+          $(this).siblings("#search-list").toggleClass("opened");
+        });
+        // Making Dropdown visible on input Focus
+        $(".live-search-1").focus(function () {
+          $("#showLiveSearch").addClass("opened");
+          $("#search-list").addClass("opened");
+        });
+      });
+    </script>
   </body>
 </html>
