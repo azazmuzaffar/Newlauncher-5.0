@@ -705,7 +705,7 @@
                         }
                       </style>
                       <div class="filter-body">
-                        <div class="sm-searech">
+                        <div class="sm-searech search-area">
                           <input type="text" class="form-control live-search-1" placeholder="Search project name" onkeyup="doSearch()" id="liveSearch" />
                           <button class="search-icon-btn"></button>
                           <button class="angle-btn fas fa-angle-down" id="showLiveSearch"></button>
@@ -3647,6 +3647,15 @@
         $(".live-search-1").focus(function () {
           $("#showLiveSearch").addClass("opened");
           $("#search-list").addClass("opened");
+        });
+        // Making Dropdown not visible on input not Focus
+        $(document).mouseup(function (e) {
+          var container = $(".search-area");
+          // if the target of the click isn't the container nor a descendant of the container
+          if (!container.is(e.target) && container.has(e.target).length === 0) {
+            container.children("#showLiveSearch").removeClass("opened");
+            container.children("#search-list").removeClass("opened");
+          }
         });
       });
     </script>
