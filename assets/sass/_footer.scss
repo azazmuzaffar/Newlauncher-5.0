@@ -35,6 +35,10 @@
 .footer-content {
   .logo-whit {
     margin-bottom: 32px;
+    a {
+      display: block;
+      width: fit-content;
+    }
     @media #{$md_device} {
       margin-bottom: 21px;
     }

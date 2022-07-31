@@ -1656,18 +1656,40 @@ p .custom-badge-group {
 }
 
 .card-primary .card-header .text-content .title {
+  margin-bottom: 6px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.card-primary .card-header .text-content .title h2,
+.card-primary .card-header .text-content .title p {
+  overflow: hidden;
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.card-primary .card-header .text-content .title h2 {
   font-weight: 600;
   font-size: 20px;
   line-height: 24px;
-  margin-bottom: 6px;
   color: #111828;
+  margin: 0 4px 0 0;
 }
 
-.card-primary .card-header .text-content .title small {
+.card-primary .card-header .text-content .title p {
   font-size: 14px;
   line-height: 19px;
   color: #384152;
   font-weight: normal;
+  margin: 4px 0 0 0;
 }
 
 .card-primary .card-header .text-content.pt-12px {
@@ -2046,6 +2068,12 @@ p .custom-badge-group {
   margin-top: 38px;
 }
 
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+  .mr-0fsm {
+    margin-right: 0 !important;
+  }
+}
+
 @media only screen and (max-width: 767.98px) {
   .mr-0fsm {
     margin-right: 0 !important;
@@ -2336,6 +2364,58 @@ p .custom-badge-group {
   text-align: center;
   position: relative;
   left: 20px;
+}
+
+/* hide disable arrow */
+.slick-disabled {
+  display: none !important;
+}
+
+/* slick dots */
+.slick-dots {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+  margin: 0;
+  padding: 50px 0px 0px;
+  max-width: 414px;
+  list-style-type: none;
+  /* dots list */
+  /* dots button */
+  /* active dot */
+}
+
+.slick-dots li {
+  margin: 0 0.25rem;
+  display: block !important;
+  width: 100% !important;
+}
+
+.slick-dots li:first-of-type {
+  margin-left: 0px;
+}
+
+.slick-dots li:last-of-type {
+  margin-right: 0px;
+}
+
+.slick-dots button {
+  display: block;
+  width: 0.8rem;
+  height: 0.4rem;
+  padding: 0;
+  width: 100% !important;
+  border: none;
+  background-color: #e0e0e0;
+  text-indent: -9999px;
+}
+
+.slick-dots li.slick-active button {
+  background-color: #8389be;
 }
 
 .infographic-wrap {
@@ -4853,6 +4933,13 @@ p .custom-badge-group {
 
 .footer-content .logo-whit {
   margin-bottom: 32px;
+}
+
+.footer-content .logo-whit a {
+  display: block;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 
 @media only screen and (max-width: 767.98px) {

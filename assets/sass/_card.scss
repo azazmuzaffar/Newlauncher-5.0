@@ -72,16 +72,31 @@
         padding-left: 12px;
       }
       .title {
-        font-weight: 600;
-        font-size: 20px;
-        line-height: 24px;
         margin-bottom: 6px;
-        color: #111828;
-        small {
+        display: flex;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        h2,
+        p {
+          overflow: hidden;
+          display: block;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          max-width: 100%;
+        }
+        h2 {
+          font-weight: 600;
+          font-size: 20px;
+          line-height: 24px;
+          color: #111828;
+          margin: 0 4px 0 0;
+        }
+        p {
           font-size: 14px;
           line-height: 19px;
           color: #384152;
           font-weight: normal;
+          margin: 4px 0 0 0;
         }
       }
     }
@@ -396,6 +411,11 @@
 
 .pagination-fc {
   margin-top: 38px;
+}
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+  .mr-0fsm {
+    margin-right: 0 !important;
+  }
 }
 @media #{$md_device} {
   .mr-0fsm {
