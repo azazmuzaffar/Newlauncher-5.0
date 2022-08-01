@@ -32,4 +32,21 @@ For Example:
 
 ![Remove Links - 3](https://user-images.githubusercontent.com/64412852/182071112-9ef1de55-29f4-498f-aea0-303190a2d78f.png)
 
+## 3) Remove Links - 2: 
+### (about.blade.html) (B/W line 91 to 107)
+
+## Solution: 
+
+Just replace all the hyperlinks with div tag and remove <b>href</b> attribute, also add "each-brand" to each div. 
+
+For Example:
+
+      <div class="each-brand">
+         <img src="{{ asset("front/img/about/brands/Forbes.svg") }}" alt="" />
+      </div>
+
+
+![Remove Links - 2](https://user-images.githubusercontent.com/64412852/182073909-84a00b13-86a8-428e-80f6-23c33e7b7214.png)
+
+
 
