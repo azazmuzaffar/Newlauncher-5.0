@@ -156,8 +156,18 @@ You can add them as inline CSS just like you have done for the background image 
 ## 7) Keeping all the prices info like below in 2 lines for screen 1200-1400?
 ![image](https://user-images.githubusercontent.com/64412852/182103607-1274a6f9-2b4f-41b2-b144-8807e5fafd09.png)
 
-### (index.blade.html) (
+### (index.blade.html) (Compare and replace all the classes with the highlighted ones)
+![image](https://user-images.githubusercontent.com/64412852/182110280-370478d5-c8f7-4982-8bdb-b40458c1bec8.png)
 
+Also, please add the following CSS code in style.css and _card.scss accordingly.
+
+```css
+      @media only screen and (min-width: 1200px) and (max-width: 1399px){
+        .mr-0fsm {
+            margin-right: 0 !important;
+        }
+      }
+``` 
 
 
 
