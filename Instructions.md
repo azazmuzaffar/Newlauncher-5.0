@@ -1,4 +1,4 @@
-#### All the changes has already done at https://phplaravel-742341-2788700.cloudwaysapps.com/home, so you can take help from there by inspecting elements and compare.
+### All the changes has already done at https://phplaravel-742341-2788700.cloudwaysapps.com/home, so you can take help from there by inspecting elements and compare.
 
 ## 1) Listing Card Improvements: Opening Whatsapp in new tab.
 
