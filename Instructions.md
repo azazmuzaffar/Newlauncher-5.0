@@ -95,10 +95,12 @@ Add the following code to the CSS and SCSS files.
       .footer-content{
          .logo-whit{
             margin-bottom: 32px;
+            /* New Code - Start */
             a{
                display: block;
                width: fit-content;
             }
+            /* End - New Code */
             @media #{$md_device}{
                margin-bottom: 21px; 
             }
