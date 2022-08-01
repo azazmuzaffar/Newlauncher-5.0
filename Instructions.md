@@ -39,13 +39,24 @@ For Example:
 ### (about.blade.html) (B/W line 91 to 107)
 Just replace all the hyperlinks with div tag and remove <b>href</b> attribute, also add "each-brand" to each div. 
 ### (style.css) (B/W line 6752 to 6813)
-Change all the "a" with the ".each-brand" class coming right after the .brands-area class, b/w the mentioned lines.
+Make sure to change all the "a" with the ".each-brand" class coming right after the .brands-area class, b/w the mentioned lines.
 
 For Example:
 
       <div class="each-brand">
          <img src="{{ asset("front/img/about/brands/Forbes.svg") }}" alt="" />
       </div>
+
+For Example:
+
+      .as-featured-area.container .brands-area .each-brand {
+        margin-right: 41px;
+        text-decoration: none;
+      }
+
+      .as-featured-area.container .brands-area .each-brand:last-of-type {
+        margin-right: 0px;
+      }
 
 
 ![Remove Links - 2](https://user-images.githubusercontent.com/64412852/182073909-84a00b13-86a8-428e-80f6-23c33e7b7214.png)
