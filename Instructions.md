@@ -19,7 +19,7 @@ With:
    window.open($(this).data("value") + "", "_blank");
 ```
 
-
+![Remove Links - 3](https://user-images.githubusercontent.com/64412852/182071112-9ef1de55-29f4-498f-aea0-303190a2d78f.png)
 
 ## 2) Remove Links - 3: 
 ### (index.blade.html) (B/W line 519 to 548)
@@ -36,7 +36,7 @@ For Example:
       </div>
 ```
 
-![Remove Links - 3](https://user-images.githubusercontent.com/64412852/182071112-9ef1de55-29f4-498f-aea0-303190a2d78f.png)
+![Remove Links - 2](https://user-images.githubusercontent.com/64412852/182073909-84a00b13-86a8-428e-80f6-23c33e7b7214.png)
 
 ## 3) Remove Links - 2: 
 
@@ -69,7 +69,7 @@ For Example:
       }
 ```
 
-![Remove Links - 2](https://user-images.githubusercontent.com/64412852/182073909-84a00b13-86a8-428e-80f6-23c33e7b7214.png)
+
 
 
 
