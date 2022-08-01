@@ -72,6 +72,8 @@ For Example:
       }
 ```
 
+
+## 1) Footer Logo: Only the logo should be clickable link.
 ![Bottom Logo Clickable Area](https://user-images.githubusercontent.com/64412852/182077675-8280e8d9-0418-4da0-b764-ff91d14e3315.png)
 
 
