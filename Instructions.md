@@ -134,8 +134,7 @@ You can add them as inline CSS just like you have done for the background image 
 ### (footer.blade.html) (Compare and replace the existing classes with highlighted ones)
 ![image](https://user-images.githubusercontent.com/64412852/182100631-acba7857-07e8-4edb-812a-414e7378a9a5.png)
 
-### Please add the following CSS to (style.css) and (_footer.scss) accordingly
-
+### Please add the following CSS to (style.css) (somewhere around 5143 line) and (_footer.scss) (somewhere around 186 line) 
 ```css
       @media (min-width: 992px) and (max-width: 1199px){
          .footer-accourdion-wrap {
@@ -143,6 +142,15 @@ You can add them as inline CSS just like you have done for the background image 
          }
       }
 ```
+### please change the media query for following code from max-width: 991.98px; to max-width: 1199px; for (style.css) and from lg_device to xl_device.
+
+```css
+     .footer-content .copyright {
+       border-top: 1px solid #353b48;
+       padding-top: 20px;
+       margin-top: 5px;
+     }
+``` 
 
 
 
