@@ -108,6 +108,27 @@ Add the following code to the CSS and SCSS files.
       ...
 ```
 
+## 5) Best Deals 1 & 2: Benner/Slide image appear weirdly at some resolutions.
+![Best Deal - iPad Resolution - 2](https://user-images.githubusercontent.com/64412852/182083408-9a972db2-217a-4300-98db-22e5533d9053.png)
+
+## Solution: 
+
+Add these two following CSS properties to the Banner/Slide bg image.
+
+```css
+    background-size: cover;
+    background-position: center center;
+```
+
+You can add them as inline CSS just like you have done for the background image src, check below. 
+(index.blade.html) (1469)
+
+![image](https://user-images.githubusercontent.com/64412852/182085138-6bf285b9-9c21-4629-b795-f785ffbe933e.png)
+
+
+
+
+
 
 
 
