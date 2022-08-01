@@ -7,12 +7,15 @@
 
 Replace this:
 
-      // location.href=$(this).data("value")+"";
+```js
+   // location.href=$(this).data("value")+"";
+```
 
 With:
 
-      window.open($(this).data("value") + "", "_blank");
-      
+```js
+   window.open($(this).data("value") + "", "_blank");
+```
 
 ![Listing Card Improvements](https://user-images.githubusercontent.com/64412852/182070614-b0065243-c2ea-496f-b755-1266cc5cbf88.png)
 
@@ -25,10 +28,11 @@ Just replace all the hyperlinks with div tag and remove <b>href</b> attribute.
 
 For Example:
 
+```html
       <div class="brand mb-7 d-none d-md-block">
          <img class="lazyload" data-src="{{ asset("front/img/brand/1.svg") }}" alt="">
       </div>
-
+```
 
 ![Remove Links - 3](https://user-images.githubusercontent.com/64412852/182071112-9ef1de55-29f4-498f-aea0-303190a2d78f.png)
 
@@ -40,17 +44,17 @@ For Example:
 Just replace all the hyperlinks with div tag and remove <b>href</b> attribute, also add "each-brand" to each div. 
 ### (style.css) (B/W line 6752 to 6813)
 Make sure to change all the "a" with the ".each-brand" class coming right after the .brands-area class, b/w the mentioned lines.
-```html
-   <span style="color: red"> Some green text </span>
-```
+
+  
+
 
 
 For Example:
-
+```html
       <div class="each-brand">
          <img src="{{ asset("front/img/about/brands/Forbes.svg") }}" alt="" />
       </div>
-
+```
 For Example:
 
       .as-featured-area.container .brands-area .each-brand {
