@@ -156,6 +156,8 @@ You can add them as inline CSS just like you have done for the background image 
 ## 7) Keeping all the prices info like below in 2 lines for screen 1200-1400?
 ![image](https://user-images.githubusercontent.com/64412852/182103607-1274a6f9-2b4f-41b2-b144-8807e5fafd09.png)
 
+### (index.blade.html) (
+
 
 
 
