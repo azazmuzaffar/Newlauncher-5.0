@@ -45,7 +45,7 @@ Just replace all the hyperlinks with div tag and remove <b>href</b> attribute, a
 ### (style.css) (B/W line 6752 to 6813)
 Make sure to change all the "a" with the ".each-brand" class coming right after the .brands-area class, b/w the mentioned lines.
 
-##### Note: I can't find "about-us.scss", if it is there somewhere so please do the same (replace all "a" with .each-brand coming inside .brands-area)
+- Note: I can't find "about-us.scss", if it is there somewhere so please do the same (replace all "a" with .each-brand coming inside .brands-area)
   
 
 
