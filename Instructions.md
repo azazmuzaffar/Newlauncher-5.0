@@ -5,7 +5,7 @@
 ## Solution: 
 
 
-Remove this:
+Replace this:
 
       // location.href=$(this).data("value")+"";
 
@@ -19,6 +19,11 @@ With:
 ## 2) Remove Links - 3: 
 ### (index.blade.html) (B/W line 519 to 548)
 
+For Example:
+
+      <div class="brand mb-7 d-none d-md-block">
+         <img class="lazyload" data-src="{{ asset("front/img/brand/1.svg") }}" alt="">
+      </div>
 
 
 ![Remove Links - 3](https://user-images.githubusercontent.com/64412852/182071112-9ef1de55-29f4-498f-aea0-303190a2d78f.png)
