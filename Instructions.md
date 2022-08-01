@@ -142,7 +142,7 @@ You can add them as inline CSS just like you have done for the background image 
          }
       }
 ```
-### please change the media query for following code from max-width: 991.98px; to max-width: 1199px; for (style.css) and from lg_device to xl_device.
+### please change the media query for following code from max-width: 991.98px; to max-width: 1199px; for (style.css) and from lg_device to xl_device for (_footer.scss)
 
 ```css
      .footer-content .copyright {
