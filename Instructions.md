@@ -33,11 +33,13 @@ For Example:
 ![Remove Links - 3](https://user-images.githubusercontent.com/64412852/182071112-9ef1de55-29f4-498f-aea0-303190a2d78f.png)
 
 ## 3) Remove Links - 2: 
-### (about.blade.html) (B/W line 91 to 107)
 
 ## Solution: 
 
+### (about.blade.html) (B/W line 91 to 107)
 Just replace all the hyperlinks with div tag and remove <b>href</b> attribute, also add "each-brand" to each div. 
+### (style.css) (B/W line 6752 to 6813)
+Change all the "a" with the ".each-brand" coming after the .brands-area
 
 For Example:
 
