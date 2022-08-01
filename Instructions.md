@@ -1,5 +1,5 @@
 ### Listing Card Improvements: Opening Whatsapp in new tab.
-(main.js) (Line 587 to 588)
+## (main.js) (Line 587 to 588)
 
 Remove this:
 
