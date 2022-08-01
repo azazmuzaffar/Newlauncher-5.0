@@ -76,6 +76,36 @@ For Example:
 ## 1) Footer Logo: Only the logo should be clickable link.
 ![Bottom Logo Clickable Area](https://user-images.githubusercontent.com/64412852/182077675-8280e8d9-0418-4da0-b764-ff91d14e3315.png)
 
+## Solution: 
+
+Add the following code to the CSS and SCSS files.
+
+(style.css) (Add somewhere around 4951 line)
+
+```css
+      .footer-content .logo-whit a{
+        display: block;
+        width: fit-content;
+      }
+```
+
+(_footer.scss) (Add after line 38, from 39 to 42 inside .logo-whit) like below:
+
+```css
+      .footer-content{
+         .logo-whit{
+            margin-bottom: 32px;
+            a{
+               display: block;
+               width: fit-content;
+            }
+            @media #{$md_device}{
+               margin-bottom: 21px; 
+            }
+         }
+      ...
+```
+
 
 
 
