@@ -131,10 +131,18 @@ You can add them as inline CSS just like you have done for the background image 
 
 ## Solution: 
 
-(footer.blade.html) (Compare and replace the existing classes with highlighted ones)
+### (footer.blade.html) (Compare and replace the existing classes with highlighted ones)
 ![image](https://user-images.githubusercontent.com/64412852/182100631-acba7857-07e8-4edb-812a-414e7378a9a5.png)
 
+### Please add the following CSS to (style.css) and (_footer.scss) accordingly
 
+```css
+      @media (min-width: 992px) and (max-width: 1199px){
+         .footer-accourdion-wrap {
+            padding: 0px 12px;
+         }
+      }
+```
 
 
 
