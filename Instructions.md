@@ -1,4 +1,4 @@
-# All the instructions to make changes are below, I have already implemented them at https://phplaravel-742341-2788700.cloudwaysapps.com/home so you can take assistence from there. 
+## All the instructions to make changes are below, I have already implemented them at https://phplaravel-742341-2788700.cloudwaysapps.com/home so you can take assistence from there. 
 
 ## 1) Listing Card Improvements: Opening Whatsapp in new tab.
 
