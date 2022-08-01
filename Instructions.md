@@ -1,6 +1,8 @@
+## 1) Listing Card Improvements: Opening Whatsapp in new tab.
+
 ![Listing Card Improvements](https://user-images.githubusercontent.com/64412852/182070614-b0065243-c2ea-496f-b755-1266cc5cbf88.png)
 
-## 1) Listing Card Improvements: Opening Whatsapp in new tab.
+
 ### (main.js) (Line 587 to 588)
 
 
@@ -19,9 +21,10 @@ With:
    window.open($(this).data("value") + "", "_blank");
 ```
 
+## 2) Remove Links - 3: 
+
 ![Remove Links - 3](https://user-images.githubusercontent.com/64412852/182071112-9ef1de55-29f4-498f-aea0-303190a2d78f.png)
 
-## 2) Remove Links - 3: 
 ### (index.blade.html) (B/W line 519 to 548)
 
 ## Solution: 
@@ -36,9 +39,9 @@ For Example:
       </div>
 ```
 
-![Remove Links - 2](https://user-images.githubusercontent.com/64412852/182073909-84a00b13-86a8-428e-80f6-23c33e7b7214.png)
-
 ## 3) Remove Links - 2: 
+
+![Remove Links - 2](https://user-images.githubusercontent.com/64412852/182073909-84a00b13-86a8-428e-80f6-23c33e7b7214.png)
 
 ## Solution: 
 
@@ -68,6 +71,9 @@ For Example:
         margin-right: 0px;
       }
 ```
+
+![Bottom Logo Clickable Area](https://user-images.githubusercontent.com/64412852/182077675-8280e8d9-0418-4da0-b764-ff91d14e3315.png)
+
 
 
 
