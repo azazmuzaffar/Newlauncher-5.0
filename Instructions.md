@@ -2,7 +2,8 @@
 ### (main.js) (Line 587 to 588)
 
 <br>
-Solution: 
+## Solution: 
+<br>
 
 Remove this:
 
