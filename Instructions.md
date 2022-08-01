@@ -40,6 +40,7 @@ For Example:
 Just replace all the hyperlinks with div tag and remove <b>href</b> attribute, also add "each-brand" to each div. 
 ### (style.css) (B/W line 6752 to 6813)
 Make sure to change all the "a" with the ".each-brand" class coming right after the .brands-area class, b/w the mentioned lines.
+<span style="color: green"> Some green text </span>
 
 For Example:
 
