@@ -19,6 +19,10 @@ With:
 ## 2) Remove Links - 3: 
 ### (index.blade.html) (B/W line 519 to 548)
 
+## Solution: 
+
+Just replace all the hyperlinks with div tag and remove href attribute.
+
 For Example:
 
       <div class="brand mb-7 d-none d-md-block">
