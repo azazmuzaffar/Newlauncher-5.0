@@ -39,7 +39,7 @@ For Example:
 ### (about.blade.html) (B/W line 91 to 107)
 Just replace all the hyperlinks with div tag and remove <b>href</b> attribute, also add "each-brand" to each div. 
 ### (style.css) (B/W line 6752 to 6813)
-Change all the "a" with the ".each-brand" coming after the .brands-area
+Change all the "a" with the ".each-brand" class coming right after the .brands-area class, b/w the mentioned lines.
 
 For Example:
 
