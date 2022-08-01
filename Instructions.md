@@ -21,7 +21,7 @@ With:
 
 ## Solution: 
 
-Just replace all the hyperlinks with div tag and remove href attribute.
+Just replace all the hyperlinks with div tag and remove <b>href</b> attribute.
 
 For Example:
 
