@@ -126,7 +126,13 @@ You can add them as inline CSS just like you have done for the background image 
 ![image](https://user-images.githubusercontent.com/64412852/182085138-6bf285b9-9c21-4629-b795-f785ffbe933e.png)
 
 
+## 5) Changing footer like below in screenshot b/w 992px to 1200px resolution
+![image](https://user-images.githubusercontent.com/64412852/182098962-fd0a2926-cf27-4ee3-8262-7d93deb0e5e8.png)
 
+## Solution: 
+
+(footer.blade.html) (Compare and replace the existing classes with highlighted ones)
+![image](https://user-images.githubusercontent.com/64412852/182100631-acba7857-07e8-4edb-812a-414e7378a9a5.png)
 
 
 
