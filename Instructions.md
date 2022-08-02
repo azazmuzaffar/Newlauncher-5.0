@@ -196,7 +196,7 @@ You can add them as inline CSS just like you have done for the background image 
     <p>in <project-address></p>
 </div>  
 ``` 
-### (style.css) (_card.scss)
+### (style.css) comment previous code and add new code.
 
 ```css
 
@@ -260,7 +260,7 @@ You can add them as inline CSS just like you have done for the background image 
 
 ```
 
-### (_card.scss)
+### (_card.scss) comment previous code and add new code.
 
 ```css
 /* .title {
