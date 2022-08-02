@@ -174,6 +174,29 @@ You can add them as inline CSS just like you have done for the background image 
 ``` 
 
 
+## 8) Truncate the card title, project name and location.
+
+![image](https://user-images.githubusercontent.com/64412852/182431159-e0aec484-e56a-4f27-962a-e94ceb591f5a.png)
+
+### (index.blade.html) (search.blade.html)
+
+#### Change the card title code to this:
+
+```html
+<div class="title">
+    <h2>{{ $listing->project_name }}</h2>
+    <p>in {{ $listing->project_address }}</p>
+</div>
+``` 
+For filter search to this:
+
+```html
+<div class="title">
+    <h2><project-name></h2>
+    <p>in <project-address></p>
+</div>  
+``` 
+
 
 
 
