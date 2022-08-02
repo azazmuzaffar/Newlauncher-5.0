@@ -188,7 +188,7 @@ You can add them as inline CSS just like you have done for the background image 
     <p>in {{ $listing->project_address }}</p>
 </div>
 ``` 
-For filter search to this:
+#### For filter search to this:
 
 ```html
 <div class="title">
