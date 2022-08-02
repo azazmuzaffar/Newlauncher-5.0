@@ -196,6 +196,69 @@ You can add them as inline CSS just like you have done for the background image 
     <p>in <project-address></p>
 </div>  
 ``` 
+### (style.css) (_card.scss)
+
+```css
+
+/* .card-primary .card-header .text-content .title {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  margin-bottom: 6px;
+  color: #111828;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.card-primary .card-header .text-content .title small {
+  font-size: 14px;
+  line-height: 19px;
+  color: #384152;
+  font-weight: normal;
+} */
+
+
+/* New Code - Start */
+.card-primary .card-header .text-content .title {
+  margin-bottom: 6px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.card-primary .card-header .text-content .title h2,
+.card-primary .card-header .text-content .title p {
+  overflow: hidden;
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.card-primary .card-header .text-content .title h2 {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #111828;
+  margin: 0 4px 0 0;
+}
+
+.card-primary .card-header .text-content .title p {
+  font-size: 14px;
+  line-height: 19px;
+  color: #384152;
+  font-weight: normal;
+  margin: 4px 0 0 0;
+}
+/* End - New Code */
+
+```
 
 
 
