@@ -260,6 +260,57 @@ You can add them as inline CSS just like you have done for the background image 
 
 ```
 
+### (_card.scss)
+
+```css
+
+/* .title{
+				font-weight: 600;
+				font-size: 20px;
+				line-height: 24px; 
+				margin-bottom: 6px;
+				color:#111828;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
+				small{
+					font-size: 14px;
+					line-height: 19px; 
+					color: #384152;
+					font-weight: normal; 
+				}
+			} */
+			.title {
+				margin-bottom: 6px;
+				display: flex;
+				align-items: flex-end;
+				flex-wrap: wrap;
+				h2,
+				p {
+				  overflow: hidden;
+				  display: block;
+				  text-overflow: ellipsis;
+				  white-space: nowrap;
+				  max-width: 100%;
+				}
+				h2 {
+				  font-weight: 600;
+				  font-size: 20px;
+				  line-height: 24px;
+				  color: #111828;
+				  margin: 0 4px 0 0;
+				}
+				p {
+				  font-size: 14px;
+				  line-height: 19px;
+				  color: #384152;
+				  font-weight: normal;
+				  margin: 4px 0 0 0;
+				}
+			  }
+
+```
+
 
 
 
