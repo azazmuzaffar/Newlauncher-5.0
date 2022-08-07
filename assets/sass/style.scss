@@ -17,6 +17,7 @@
 @import "blog";
 @import "testimonial";
 @import "tabs";
+@import "faqs";
 @import "chart";
 @import "table";
 @import "pagination";
@@ -94,4 +95,27 @@
     margin-bottom: 14px;
     max-width: 93%;
   }
+}
+
+/* _budge.scss 17 */
+
+.badge-primary,
+.badge-success {
+  background-color: #743393;
+  color: #fff;
+  font-weight: 600;
+  &:hover {
+    color: #fff;
+  }
+}
+
+.badge-success {
+  background-color: green;
+}
+
+/* _card.scss 45 */
+
+.badge-primary,
+.badge-success {
+  top: 12px;
 }

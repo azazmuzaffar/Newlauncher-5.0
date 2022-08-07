@@ -1174,19 +1174,25 @@ h6 {
   width: 15px;
 }
 
-.badge-primary {
+.badge-primary,
+.badge-success {
   background-color: #743393;
   color: #fff;
   font-weight: 600;
 }
 
-.badge-primary:hover {
+.badge-primary:hover,
+.badge-success:hover {
   color: #fff;
 }
 
+.badge-success {
+  background-color: green;
+}
+
 .badge-light {
-  background-color: #F3F4F6;
-  color: #6B7380;
+  background-color: #f3f4f6;
+  color: #6b7380;
   font-weight: normal;
 }
 
@@ -1228,9 +1234,9 @@ p .custom-badge-group {
 }
 
 .badge-gray {
-  background: #FFFFFF;
-  border: 1px solid #E6E7EB;
-  color: #9CA2AE;
+  background: #ffffff;
+  border: 1px solid #e6e7eb;
+  color: #9ca2ae;
   padding: 2px 7.3px;
   font-size: 10px;
 }
@@ -1619,7 +1625,8 @@ p .custom-badge-group {
   }
 }
 
-.card-primary .card-header .thumbnail-wrapper .badge-primary {
+.card-primary .card-header .thumbnail-wrapper .badge-primary,
+.card-primary .card-header .thumbnail-wrapper .badge-success {
   top: 12px;
 }
 
@@ -3864,6 +3871,130 @@ p .custom-badge-group {
   opacity: 1;
 }
 
+.faq-items .faq-item {
+  position: relative;
+  padding: 23px 26px 23px 26px;
+  -webkit-box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.08);
+          box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  /* &:last-of-type {
+      margin-bottom: 0px;
+    } */
+}
+
+.faq-items .faq-item .faq-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.faq-items .faq-item .open-close-faq {
+  position: relative;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border-color: transparent;
+  background-color: transparent;
+  margin-left: auto;
+  margin-right: -6px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.faq-items .faq-item .open-close-faq::before {
+  position: absolute;
+  top: 4px;
+  left: 2px;
+  content: "";
+  width: 12px;
+  height: 8px;
+  border-color: transparent;
+  color: transparent;
+  background: transparent;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23111828' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.faq-items .faq-item h3 {
+  display: block;
+  width: calc(100% - 40px);
+}
+
+.faq-items .faq-item h3,
+.faq-items .faq-item p {
+  font-size: 16px;
+  line-height: 21px;
+  margin: 0;
+}
+
+.faq-items .faq-item p {
+  display: none;
+  -webkit-animation: mymove 1s;
+  animation: mymove 1s;
+}
+
+.faq-items .faq-item.active .open-close-faq {
+  -webkit-transform: rotate(-180deg);
+          transform: rotate(-180deg);
+}
+
+.faq-items .faq-item.active .faq-header {
+  margin-bottom: 15px;
+}
+
+.faq-items .faq-item.active p {
+  display: block;
+}
+
+@media only screen and (max-width: 991.98px) {
+  .faq-items .faq-item {
+    padding: 15px 18px 15px 18px;
+  }
+  .faq-items .faq-item:last-of-type {
+    margin-bottom: 0px;
+  }
+  .faq-items .faq-item h3,
+  .faq-items .faq-item p {
+    font-size: 14px;
+    line-height: 19px;
+  }
+  .faq-items .faq-item.active .faq-header {
+    margin-bottom: 10px;
+  }
+}
+
+@-webkit-keyframes mymove {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(-20%);
+    transform: translateY(-20%);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0%);
+    transform: translateY(0%);
+  }
+}
+
+@keyframes mymove {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(-20%);
+    transform: translateY(-20%);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0%);
+    transform: translateY(0%);
+  }
+}
+
 .chart-wrapper .apexcharts-legend {
   margin-top: 20px;
 }
@@ -5222,5 +5353,28 @@ p .custom-badge-group {
     margin-bottom: 14px;
     max-width: 93%;
   }
+}
+
+/* _budge.scss 17 */
+.badge-primary,
+.badge-success {
+  background-color: #743393;
+  color: #fff;
+  font-weight: 600;
+}
+
+.badge-primary:hover,
+.badge-success:hover {
+  color: #fff;
+}
+
+.badge-success {
+  background-color: green;
+}
+
+/* _card.scss 45 */
+.badge-primary,
+.badge-success {
+  top: 12px;
 }
 /*# sourceMappingURL=style.css.map */
