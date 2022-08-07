@@ -98,6 +98,7 @@ function DetailsPageSlide() {
   var mySwiper = new Swiper(".media-slide-container", {
     loop: false,
     resistanceRatio: 0.5,
+    autoHeight: true,
     breakpoints: {
       0: {
         slidesPerView: 1,
@@ -109,6 +110,7 @@ function DetailsPageSlide() {
       },
     },
   });
+
 
   /* Go to the slide that include images */
   $(".badge-photos").click(function (e) {
@@ -125,7 +127,7 @@ function DetailsPageSlide() {
   /* Go to the slide that include video tour */
   $(".badge-tour").click(function (e) {
     e.preventDefault();
-    var Tour = $(".a-slide").length;
+    var Tour = $(".an-image").length+$(".a-video").length;
     mySwiper.slideTo(Tour);
   });
 
@@ -161,16 +163,18 @@ function DetailsPageSlide() {
   });
 
   $(".more-").click(function () {
-    $(this).parent().siblings(".paras-").addClass("more");
+    $(this).siblings(".paras-").addClass("more");
     $(this).text(" ");
-    $(this).parent("p").siblings(".paras-").children().children(".less-").text("Read Less");
+    $(this).siblings(".less-").text(" Read Less");
+    $(this).siblings(".dots").text("");
     sliderSwiper.updateAutoHeight(1);
   });
 
   $(".less-").click(function () {
-    $(this).parent().parent().removeClass("more");
+    $(this).siblings(".paras-").removeClass("more");
     $(this).text(" ");
-    $(this).parent().parent().siblings("p").children(".more-").text("Read More");
+    $(this).siblings(".dots").text("...");
+    $(this).siblings(".more-").text(" Read More");
     sliderSwiper.updateAutoHeight(1);
   });
 }
@@ -272,6 +276,16 @@ DetailsPageSlide();
   });
 
   $(".body-backdrop").on("click", function () {
+    if ($('.all-filters-area').hasClass('open') && typeof reloadListing !== 'undefined' && typeof setURL !== 'undefined') {
+      setURL();
+      console.log("typeof showSection"+typeof showSection)
+      if(typeof showSection !== "undefined"){
+        console.log("called");
+        showSection();
+      }
+      reloadListing(true);     
+      setSelectedFilters(); 
+    }
     if ($(".side-menu-wrapper").hasClass("open")) {
       $(".side-menu-wrapper").removeClass("open");
       $(".body-backdrop").removeClass("open");
@@ -288,10 +302,12 @@ DetailsPageSlide();
   // HEADER SCRIPTS END
 
   // Filter scrips
-  $(".filter-content-item .title").on("click", function (e) {
-    if ($(e.target).is(".filter-close")) {
-      window.location.assign("#");
-    } else if ($(e.target).is("span")) {
+  $(".filter-content-item .title").on('click', function(e) { 
+    //console.log(e.target);
+    if($(e.target).is(".filter-close")||$(e.target).is(".filter-close-range")||$(e.target).is(".filter-close-text")||$(e.target).is(".fa-times-circle")) {
+        //console.log("masuk");
+    }
+    else if($(e.target).is("span")) {
       e.stopPropagation();
     } else {
       var ThisItem = $(this).closest(".filter-content-item").find(".filter-body");
@@ -306,15 +322,14 @@ DetailsPageSlide();
       $(this).closest(".filter-content-item").find(".toggle-with-parent").slideToggle(250);
 
       // stoping click on
-      $(".chip").click(function (e) {
-        e.stopPropagation();
+      $(".chip").click(function(e) {
+        //e.stopPropagation();
       });
     }
   });
 
-  $(".chip .btn-times").click(function (e) {
-    e.preventDefault();
-    window.location.assign("#");
+  $(".chip .btn-times").click(function(e){
+    e.preventDefault();    
   });
 
   $(".check-box-lists li .check-box-lists").parent("li").append('<button class="plus-toggle">');
@@ -328,39 +343,68 @@ DetailsPageSlide();
       });
 
     $(this).toggleClass("opened");
-    $(this).parent("li").addClass("make-bold");
-    $(this).parent("li").siblings("li").addClass("make-bold");
-
-    var openedLists = $(".opened").length;
-    if (openedLists <= 0) {
-      $(this).parent("li").removeClass("make-bold");
-      $(this).parent("li").siblings("li").removeClass("make-bold");
-    }
   });
 
   $(".open-filter-area").on("click", function (event) {
-    event.preventDefault();
-    $(".all-filters-area").addClass("open");
-    $(".body-backdrop").addClass("open");
-    $("body").css("overflow", "hidden");
+    //console.log(page);
+    if(typeof page == 'undefined' || page!=="detail"){      
+      event.preventDefault();
+      $(".all-filters-area").addClass("open");
+      $(".body-backdrop").addClass("open");
+      $("body").css("overflow", "hidden");
 
-    setTimeout(function () {
-      $(".all-filters-wrap").scrollTop(0);
-    }, 0);
+      setTimeout(function () {
+        $(".all-filters-wrap").scrollTop(0);
+      }, 0);
+    }
   });
 
-  $(".filter-area-header .btn-back-icon").on("click", function (event) {
+  $(".filter-area-header:not(.detail) .btn-back-icon").on("click", function (event) {
     event.preventDefault();
     $("body").css("overflow", "auto");
-    $(".all-filters-area").removeClass("open");
-    $(".body-backdrop").removeClass("open");
+
+    if ($('.all-filters-area').hasClass('open') && typeof reloadListing !== 'undefined' && typeof setURL !== 'undefined') {      
+      setURL();      
+      console.log("typeof showSection"+typeof showSection)
+      if(typeof showSection !== "undefined"){
+        console.log("called");
+        showSection();
+      }
+      reloadListing(true);
+      setSelectedFilters();
+    }
+
+    $('.all-filters-area').removeClass('open');
+    $(".body-backdrop").removeClass('open');
+  });
+  const resetLGOnFloorPlanTable = function() {
+    const start = (fp_current_page - 1) * fp_per_page;
+    let count = 0;
+    const filteredunit = filterItems(unit_fp, filter_fp);
+    for (let i = start; i < filteredunit.length; i++) {
+      if(count == fp_per_page) break;
+      initLG('floor-plan-' + i);
+      count++;
+    }
+  }
+
+  $(".filter-area-header.detail .btn-back-icon").on("click", function (event) {
+    event.preventDefault();
+    $("body").css("overflow", "auto");
+    $('.all-filters-area').removeClass('open');
+    $(".body-backdrop").removeClass('open');
+    $(".input-style2.error input").val("");
+    $(".input-style2").removeClass("error");
+    $(".error-message").html("");  
+    const filterType = $("#filter-type").val();
+    if (filterType === "floorplan") resetLGOnFloorPlanTable();   
   });
 
   $(".open-sort-area").on("click", function (event) {
     event.preventDefault();
     $(".sort-fixd-wrap").addClass("open");
     $(".body-backdrop").addClass("open");
-    $("body").css("overflow", "hidden");
+    $("body").css("overflow", "hidden");    
   });
 
   $(".sort-fixd-wrap .btn-back-icon").on("click", function (event) {
@@ -402,17 +446,17 @@ DetailsPageSlide();
     $(tabArea).find(target).addClass("active");
   });
 
-  $(".input-style2 input").focus(function () {
+  $(".input-style2 input,textarea").focus(function () {
     $(this).parent(".input-style2").addClass("focused");
   });
-  $(".input-style2 input").blur(function () {
+  $(".input-style2 input,textarea").blur(function () {
     checkInputsValue();
   });
 
   checkInputsValue();
 
   function checkInputsValue() {
-    $(".input-style2 input").each(function () {
+    $(".input-style2 input,textarea").each(function () {
       if ($(this).val() != "") {
         $(this).parent(".input-style2").addClass("focused");
       } else {
@@ -427,7 +471,7 @@ DetailsPageSlide();
       console.log("Right");
       var dropDown = $(this).closest(".accourdion-item").find(".ac-body");
 
-      $(this).closest(".footer-accourdion-wrap").find(".ac-body").not(dropDown).slideUp(250);
+      $(this).closest('.footer-accourdion-wrap').find('.ac-body').not(dropDown).slideUp(250);
 
       if ($(this).hasClass("active")) {
         $(this).removeClass("active");
@@ -537,11 +581,22 @@ DetailsPageSlide();
     }
   );
 
-  $("[data-get-num]").click(function (event) {
-    event.preventDefault();
+  $(document).on("click",".detailhref div.nohref",function(e){            
+    e.cancelBubble = true;
+    if($(this).hasClass("href-tel")){
+      location.href="tel:"+$(this).data("value")+"";
+    }else if($(this).hasClass("href-wa")){
+      location.href=$(this).data("value")+"";
+    }
+    return false;
+  });
+
+  $(document).on("click","[data-get-num]",function(event) {
+    event.preventDefault();  
     var num = $(this).attr("data-get-num");
     $(this).text(num);
-    $(this).addClass("btn-change-to-gray");
+    $(this).addClass('btn-change-to-gray');
+    //window.location.href = $(this).attr("href");
   });
 
   $("[data-expandedlist]").click(function (event) {
@@ -661,6 +716,7 @@ $(document).ready(function () {
 new Swiper(".swipe-it", {
   loop: false,
   resistanceRatio: 0.5,
+  slidesPerView:2,
   freeMode: true,
   navigation: {
     nextEl: ".table-transparent .moveit-next",

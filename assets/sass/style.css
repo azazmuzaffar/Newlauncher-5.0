@@ -5152,4 +5152,75 @@ p .custom-badge-group {
     display: block;
   }
 }
+
+/* Adding New block of text... */
+.more-content {
+  margin-bottom: 33px;
+  max-width: 87%;
+}
+
+.more-content .paras- {
+  max-height: 0px;
+  overflow: hidden;
+  color: #6b7380;
+  font-weight: normal;
+  display: none;
+  overflow: hidden;
+}
+
+.more-content .paras-.more {
+  display: block;
+  display: unset;
+}
+
+.more-content p,
+.more-content .dots {
+  font-size: 16px;
+  line-height: 21px;
+  color: #6b7380;
+  font-weight: normal;
+}
+
+.more-content p:last-of-type {
+  margin-bottom: 0;
+}
+
+.more-content p span {
+  font-weight: 600;
+  color: #743393;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 1400px) {
+  .more-content {
+    max-width: 85%;
+  }
+  .more-content p,
+  .more-content .dots {
+    font-size: 14px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .more-content {
+    max-width: 600px;
+    margin: 0 auto;
+    margin-bottom: 33px;
+    text-align: center;
+  }
+  .more-content p,
+  .more-content .dots {
+    font-size: 16px;
+    line-height: 21px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .more-content {
+    margin-bottom: 14px;
+    max-width: 93%;
+  }
+}
 /*# sourceMappingURL=style.css.map */
