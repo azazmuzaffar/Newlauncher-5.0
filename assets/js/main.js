@@ -775,9 +775,13 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-  $(".open-close-faq").click(function () {
-    $(".faq-item.active").removeClass("active");
-    // $(".tab").addClass("active"); // instead of this do the below
-    $(this).parent().parent(".faq-item").addClass("active");
+  $(".faq-item").click(function () {
+    if ($(this).hasClass("opened-faq")) {
+      $(this).removeClass("opened-faq");
+    } else {
+      $(".faq-item.opened-faq").removeClass("opened-faq");
+      $(this).addClass("opened-faq");
+      var numItems = $(".opened-faq").length;
+    }
   });
 });

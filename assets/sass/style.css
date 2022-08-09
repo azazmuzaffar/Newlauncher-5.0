@@ -1187,7 +1187,7 @@ h6 {
 }
 
 .badge-success {
-  background-color: green;
+  background-color: #529333;
 }
 
 .badge-light {
@@ -1625,9 +1625,31 @@ p .custom-badge-group {
   }
 }
 
-.card-primary .card-header .thumbnail-wrapper .badge-primary,
-.card-primary .card-header .thumbnail-wrapper .badge-success {
+.card-primary .card-header .thumbnail-wrapper .project-status {
+  position: absolute;
+  left: 12px;
   top: 12px;
+}
+
+.card-primary .card-header .thumbnail-wrapper .project-status li {
+  margin-bottom: 5px;
+}
+
+.card-primary .card-header .thumbnail-wrapper .project-status li .badge-card {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 14.4px;
+  font-weight: 600;
+  text-decoration: none;
+  display: block;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.card-primary .card-header .thumbnail-wrapper .project-status li:last-of-type {
+  margin-bottom: 0px;
 }
 
 .card-primary .card-header .thumbnail-wrapper .badge-img-count {
@@ -3873,14 +3895,10 @@ p .custom-badge-group {
 
 .faq-items .faq-item {
   position: relative;
-  padding: 23px 26px 23px 26px;
   -webkit-box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.08);
           box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
   margin-bottom: 20px;
-  /* &:last-of-type {
-      margin-bottom: 0px;
-    } */
 }
 
 .faq-items .faq-item .faq-header {
@@ -3890,6 +3908,8 @@ p .custom-badge-group {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  padding: 23px 26px 23px 26px;
+  cursor: pointer;
 }
 
 .faq-items .faq-item .open-close-faq {
@@ -3937,23 +3957,20 @@ p .custom-badge-group {
   display: none;
   -webkit-animation: mymove 1s;
   animation: mymove 1s;
+  padding: 0px 26px 23px 26px;
 }
 
-.faq-items .faq-item.active .open-close-faq {
+.faq-items .faq-item.opened-faq .open-close-faq {
   -webkit-transform: rotate(-180deg);
           transform: rotate(-180deg);
 }
 
-.faq-items .faq-item.active .faq-header {
-  margin-bottom: 15px;
-}
-
-.faq-items .faq-item.active p {
+.faq-items .faq-item.opened-faq p {
   display: block;
 }
 
 @media only screen and (max-width: 991.98px) {
-  .faq-items .faq-item {
+  .faq-items .faq-item .faq-header {
     padding: 15px 18px 15px 18px;
   }
   .faq-items .faq-item:last-of-type {
@@ -3963,9 +3980,7 @@ p .custom-badge-group {
   .faq-items .faq-item p {
     font-size: 14px;
     line-height: 19px;
-  }
-  .faq-items .faq-item.active .faq-header {
-    margin-bottom: 10px;
+    padding: 0px 18px 15px 18px;
   }
 }
 

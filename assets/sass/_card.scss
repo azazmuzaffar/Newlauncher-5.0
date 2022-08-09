@@ -42,9 +42,26 @@
           }
         }
       }
-      .badge-primary,
-      .badge-success {
+      .project-status {
+        position: absolute;
+        left: 12px;
         top: 12px;
+        li {
+          .badge-card {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            line-height: 14.4px;
+            font-weight: 600;
+            text-decoration: none;
+            display: block;
+            width: fit-content;
+          }
+          margin-bottom: 5px;
+          &:last-of-type {
+            margin-bottom: 0px;
+          }
+        }
       }
       .badge-img-count {
         bottom: 12px;
