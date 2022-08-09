@@ -3980,6 +3980,8 @@ p .custom-badge-group {
   .faq-items .faq-item p {
     font-size: 14px;
     line-height: 19px;
+  }
+  .faq-items .faq-item p {
     padding: 0px 18px 15px 18px;
   }
 }
