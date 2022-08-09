@@ -775,13 +775,12 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-  $(".faq-item").click(function () {
-    if ($(this).hasClass("opened-faq")) {
-      $(this).removeClass("opened-faq");
+  $(".faq-item .faq-header").click(function () {
+    if ($(this).parent(".faq-item").hasClass("opened-faq")) {
+      $(this).parent(".faq-item").removeClass("opened-faq");
     } else {
       $(".faq-item.opened-faq").removeClass("opened-faq");
-      $(this).addClass("opened-faq");
-      var numItems = $(".opened-faq").length;
+      $(this).parent(".faq-item").addClass("opened-faq");
     }
   });
 });
