@@ -34,73 +34,16 @@
 ![image](https://user-images.githubusercontent.com/64412852/189832774-60e3f851-af84-4ee7-b7af-447d4fda661a.png)
 
 
-## 1) Adding navigations to property details page on image slider? 
+## 1) Adding navigations to property details page on nav slider? 
 
 ![Put next prev](https://user-images.githubusercontent.com/64412852/189857352-9e0be147-e146-4b8c-92f5-e685f747a876.png)
 
-###  (style.css) (main.js)
+###  (detail.blade.html (298 line ~))
 
 ## Solution: 
 
-```html
-<!-- Arrow Right -->
-<div class="the-arrow go-right">
-    <svg width="18" height="30" viewBox="0 0 18 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-       <path d="M15 15L16.4142 16.4142L17.8284 15L16.4142 13.5858L15 15ZM3.41421 29.4142L16.4142 16.4142L13.5858 13.5858L0.585785 26.5858L3.41421 29.4142ZM16.4142 13.5858L3.41422 0.585786L0.585789 3.41421L13.5858 16.4142L16.4142 13.5858Z" fill="#fff"/>
-    </svg>
- </div>
- <!-- Arrow Left -->
- <div class=" the-arrow go-left">
-    <svg width="18" height="30" viewBox="0 0 18 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-       <path d="M3 15L1.58579 13.5858L0.171573 15L1.58579 16.4142L3 15ZM14.5858 0.585786L1.58579 13.5858L4.41421 16.4142L17.4142 3.41421L14.5858 0.585786ZM1.58579 16.4142L14.5858 29.4142L17.4142 26.5858L4.41421 13.5858L1.58579 16.4142Z" fill="#fff"/>
-    </svg>
- </div>
-```
+### please enable this piece of code to enable the arrows.
 
-```css
-/*----------------------------------*/
-/*      Custom Arrow for Swiper     */
-/*----------------------------------*/
+![image](https://user-images.githubusercontent.com/64412852/189864506-193607a2-50b6-4898-9379-fc89b729b89d.png)
 
-.media-section .the-arrow{
-  display: none;
-}
-@media only screen and (min-width: 992px) {
-  .media-section{
-      position: relative;
- }
-  .media-section .the-arrow{
-      display: block;
-      position: absolute;
-      z-index: 999;
-      left: 0;
-      top: 0;
-      width: 40px;
-      height: calc(100% - 8px);
-      background: rgba(0, 0, 0, 0.7);
-      cursor: pointer;
- }
-  .media-section .the-arrow svg{
-      width: 12px;
-      position: relative;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
- }
-  .media-section .the-arrow svg path{
-      width: 10px;
- }
-  .media-section .the-arrow.go-right{
-      left: unset;
-      right: 0;
- }
-  .media-section .swiper-button-disabled{
-      visibility: hidden;
-      opacity: 0;
-      transition: .2s;
- }
-}
-/*----------------------------------*/
-/*----------------------------------*/
 
-```
