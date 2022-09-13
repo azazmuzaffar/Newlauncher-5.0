@@ -42,7 +42,7 @@
 
 ## Solution: 
 
-### please enable this piece of code to enable the arrows.
+### please uncomment this piece of code to enable the arrows.
 
 ![image](https://user-images.githubusercontent.com/64412852/189864506-193607a2-50b6-4898-9379-fc89b729b89d.png)
 
