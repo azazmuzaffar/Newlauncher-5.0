@@ -54,6 +54,8 @@
 
 ## Solution: 
 
+### Please add the html code to html (as per screenshot), css in style.css (end of file), js in main.js (end of file);
+
 ```html
    <button class="clear-data">
       <i class="fas fa-times-circle"></i>
@@ -87,4 +89,24 @@
         font-size: 18px;
         color: #6b7380;
    }
+```
+
+```js
+  /* Show/Hide clear icon & reset input */
+  $(document).ready(function() {
+    /* Show/Hide clear icon */
+      $(".filter-body .sm-searech input").on("input", function() {
+          if ($(this).val() === "") {
+              $(this).siblings(".clear-data").removeClass("show");
+          } else {
+              $(this).siblings(".clear-data").addClass("show");
+          }
+      });
+      /* Reset input */
+      $('.filter-body .sm-searech .clear-data').click(function() {
+          $(this).siblings('input').val("");
+          $(this).removeClass("show");
+          /* $(this).siblings('input').focus(); */
+      });
+  });
 ```
