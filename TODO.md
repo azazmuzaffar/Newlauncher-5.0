@@ -48,7 +48,7 @@
 
 ![image](https://user-images.githubusercontent.com/64412852/190113788-70c3e4d3-bc7d-474d-a3ea-07da0afa7d0d.png)
 
-## 3) Adding clear button on inputs and make it work accordingly?
+## 4) Adding clear button on inputs and make it work accordingly?
 
 ![2nd change](https://user-images.githubusercontent.com/64412852/190114585-2986e9e9-31e6-4dbf-bfaa-6f93291aaa62.png)
 
