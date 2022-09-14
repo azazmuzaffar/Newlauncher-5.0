@@ -54,7 +54,7 @@
 
 ## Solution: 
 
-### Please add the html code to html (as per screenshot), css in style.css (end of file), js in main.js (end of file);
+### Please add the html code to html (as per screenshot (same with the other filter option, ex Project Developer, Project Location etc...)), css in style.css (end of file), js in main.js (end of file);
 
 ```html
    <button class="clear-data">
