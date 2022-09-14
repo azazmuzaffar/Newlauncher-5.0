@@ -38,12 +38,17 @@
 
 ![Put next prev](https://user-images.githubusercontent.com/64412852/189857352-9e0be147-e146-4b8c-92f5-e685f747a876.png)
 
-###  (detail.blade.html (298 line ~))
+###  
 
 ## Solution: 
 
-### please uncomment this piece of code to enable the arrows.
+### (detail.blade.html (298 line ~)) please uncomment this piece of code to enable the arrows.
 
 ![image](https://user-images.githubusercontent.com/64412852/189864506-193607a2-50b6-4898-9379-fc89b729b89d.png)
+
+### (style.css (1149 line ~)) please change the color with the higlighted one, and comment out the code as commented in screenshot.
+
+![image](https://user-images.githubusercontent.com/64412852/190113788-70c3e4d3-bc7d-474d-a3ea-07da0afa7d0d.png)
+
 
 
