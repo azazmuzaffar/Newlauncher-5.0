@@ -61,7 +61,8 @@
       <i class="fas fa-times-circle"></i>
    </button>
 ```
-![image](https://user-images.githubusercontent.com/64412852/190116733-22b8ea03-18c3-4919-8200-a1418a7688e9.png)
+![image](https://user-images.githubusercontent.com/64412852/190117376-e1510f52-3e6f-4403-8f5d-bf65dd1ecf77.png)
+
 
 ```css
    /* ---- New ---- */
