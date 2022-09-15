@@ -141,3 +141,14 @@
    }
    /*-------------------------------*/
 ```
+
+## 6) Tag bubbles have some unncessary top padding. if it is not needed, we can remove it.
+
+![image](https://user-images.githubusercontent.com/64412852/190372130-b73261a3-350f-460d-9587-12e980dbe4f8.png)
+
+## Solution: 
+
+### Please just simply remove that highlighted pt-1 class from badge list, repeat the same process for Detail, Search page as well.
+
+![image](https://user-images.githubusercontent.com/64412852/190371826-053bd453-9057-42e9-b0ea-4787199e4356.png)
+
