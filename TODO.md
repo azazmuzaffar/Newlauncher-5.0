@@ -93,6 +93,8 @@
    }
 ```
 
+### please make sure that the input value that you are storing in veriable for search should be empty on click of .clear-data
+
 ```js
   /* Show/Hide clear icon & reset input */
   $(document).ready(function() {
@@ -111,4 +113,31 @@
           /* $(this).siblings('input').focus(); */
       });
   });
+```
+
+## 4) If the Tag goes down, should have some vertical space in b/w
+
+![If the Tag goes down should have some vertical space](https://user-images.githubusercontent.com/64412852/190368686-22cf44e8-fedd-472e-b7ce-f12810888817.png)
+
+## Solution: 
+
+### (style.css) please change the CSS and add the new one according.
+
+![image](https://user-images.githubusercontent.com/64412852/190369417-61bb344d-a0d9-4d7f-9546-3256a5aab02f.png)
+
+```css
+   .card-primary .badge-gray-lists {
+     /*margin value changed from 8 to 3px*/
+     margin-bottom: 3px !important;
+   }
+
+   /*------------ New ---------------*/
+   .card-primary .badge-gray-lists li{
+     margin-bottom: 5px;
+   }
+
+   .card-primary .badge-gray-lists li:last-of-type{
+     margin-bottom: 0px;
+   }
+   /*-------------------------------*/
 ```
