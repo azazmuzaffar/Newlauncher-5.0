@@ -115,7 +115,7 @@
   });
 ```
 
-## 4) If the Tag goes down, should have some vertical space in b/w
+## 5) If the Tag goes down, should have some vertical space in b/w
 
 ![If the Tag goes down should have some vertical space](https://user-images.githubusercontent.com/64412852/190368686-22cf44e8-fedd-472e-b7ce-f12810888817.png)
 
