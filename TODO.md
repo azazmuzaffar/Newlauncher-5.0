@@ -1,5 +1,7 @@
 ### All the changes have already been made at https://phplaravel-742341-2874759.cloudwaysapps.com/home, you can take help from there by inspecting elements, comparing them, and copying classes, etc...
 
++ Please do all the CSS changes in style.css, and there respective scss files to avoid confusions in future.
+
 <hr>
 
 ## 1) Making copyright text opacity to 0.7?
@@ -148,7 +150,7 @@
 
 ## Solution: 
 
-### Please just simply remove that highlighted pt-1 class from badge list, repeat the same process for Detail, Search page as well.
+### Please just simply remove that highlighted pt-1 class from badge list, repeat the same process Search page as well.
 
 ![image](https://user-images.githubusercontent.com/64412852/190371826-053bd453-9057-42e9-b0ea-4787199e4356.png)
 
