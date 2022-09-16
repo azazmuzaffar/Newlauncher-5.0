@@ -116,42 +116,7 @@
       });
   });
 ```
-
-## 5) If the Tag goes down, should have some vertical space in b/w
-
-![If the Tag goes down should have some vertical space](https://user-images.githubusercontent.com/64412852/190368686-22cf44e8-fedd-472e-b7ce-f12810888817.png)
-
-## Solution: 
-
-### (style.css) please change the CSS and add the new one according.
-
-![image](https://user-images.githubusercontent.com/64412852/190565258-196b4668-01e1-42dd-b2ab-9c0651bda4ed.png)
-
-```css
-   .card-primary .badge-gray-lists {
-     /*margin value changed from 8 to 3px*/
-     margin-bottom: 3px !important;
-   }
-
-   /*------------ New ---------------*/
-   .card-primary .badge-gray-lists li{
-     margin-bottom: 5px;
-   }
-   /*-------------------------------*/
-```
-
-## 6) Tag bubbles have some unncessary top padding. if it is not needed, we can remove it.
-
-![image](https://user-images.githubusercontent.com/64412852/190372130-b73261a3-350f-460d-9587-12e980dbe4f8.png)
-
-## Solution: 
-
-### Please just simply remove that highlighted pt-1 class from badge list, repeat the same process Search page as well.
-
-![image](https://user-images.githubusercontent.com/64412852/190371826-053bd453-9057-42e9-b0ea-4787199e4356.png)
-
-
-## 6) I am thinking to use 22 Dec 2022 kind of format on 1200px to 1400px and the longer format, 22nd Dec 2022 on all other screens.
+## 5) I am thinking to use 22 Dec 2022 kind of format on 1200px to 1400px and the longer format, 22nd Dec 2022 on all other screens.
 
 ![Date Shorter](https://user-images.githubusercontent.com/64412852/190567198-07144b3f-ddf8-4893-9cf3-2326a37937fc.png)
 
@@ -183,5 +148,41 @@
      }
    }
 ```
+
+
+## 6) If the Tag goes down, should have some vertical space in b/w
+
+![If the Tag goes down should have some vertical space](https://user-images.githubusercontent.com/64412852/190368686-22cf44e8-fedd-472e-b7ce-f12810888817.png)
+
+## Solution: 
+
+### (style.css) please change the CSS and add the new one according.
+
+![image](https://user-images.githubusercontent.com/64412852/190565258-196b4668-01e1-42dd-b2ab-9c0651bda4ed.png)
+
+```css
+   .card-primary .badge-gray-lists {
+     /*margin value changed from 8 to 3px*/
+     margin-bottom: 3px !important;
+   }
+
+   /*------------ New ---------------*/
+   .card-primary .badge-gray-lists li{
+     margin-bottom: 5px;
+   }
+   /*-------------------------------*/
+```
+
+## 7) Tag bubbles have some unncessary top padding. if it is not needed, we can remove it.
+
+![image](https://user-images.githubusercontent.com/64412852/190372130-b73261a3-350f-460d-9587-12e980dbe4f8.png)
+
+## Solution: 
+
+### Please just simply remove that highlighted pt-1 class from badge list, repeat the same process Search page as well.
+
+![image](https://user-images.githubusercontent.com/64412852/190371826-053bd453-9057-42e9-b0ea-4787199e4356.png)
+
+
 
 
