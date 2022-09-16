@@ -129,6 +129,8 @@
 
 ## Solution: 
 
+I think it's happening because of the single quote that we have in the word = King ' s, and it's making trouble in matching the text or may be something related, so please do check on the function and the approach that you using in back for matching purposes etc...
+
 ## 7) I am thinking to use 22 Dec 2022 kind of format on 1200px to 1400px and the longer format, 22nd Dec 2022 on all other screens.
 
 ![Date Shorter](https://user-images.githubusercontent.com/64412852/190567198-07144b3f-ddf8-4893-9cf3-2326a37937fc.png)
