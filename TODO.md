@@ -123,6 +123,9 @@
 
 ## Solution: 
 
+
+### Please create a div with class ".title-selections" inside "filter-content-item" and put the h3 ".title" inside it and get the ".toggle-with-parent" div outside the title and put along with it as below.
+
 ```html 
    <div class="filter-content-item has-opened">
       <div class="title-selections">
@@ -140,9 +143,6 @@
       </div>
     ...
 ```
-
-### Please create a div with class ".title-selections" inside "filter-content-item" and put the h3 ".title" inside it and put the 
-
 
 ### (style.css) Please add this code to the css file.
 
