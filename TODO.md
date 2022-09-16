@@ -125,7 +125,7 @@
 
 ### (style.css) please change the CSS and add the new one according.
 
-![image](https://user-images.githubusercontent.com/64412852/190369417-61bb344d-a0d9-4d7f-9546-3256a5aab02f.png)
+![image](https://user-images.githubusercontent.com/64412852/190565258-196b4668-01e1-42dd-b2ab-9c0651bda4ed.png)
 
 ```css
    .card-primary .badge-gray-lists {
@@ -136,10 +136,6 @@
    /*------------ New ---------------*/
    .card-primary .badge-gray-lists li{
      margin-bottom: 5px;
-   }
-
-   .card-primary .badge-gray-lists li:last-of-type{
-     margin-bottom: 0px;
    }
    /*-------------------------------*/
 ```
