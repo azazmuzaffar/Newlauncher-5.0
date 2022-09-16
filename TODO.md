@@ -150,3 +150,38 @@
 
 ![image](https://user-images.githubusercontent.com/64412852/190371826-053bd453-9057-42e9-b0ea-4787199e4356.png)
 
+
+## 6) I am thinking to use 22 Dec 2022 kind of format on 1200px to 1400px and the longer format, 22nd Dec 2022 on all other screens.
+
+![Date Shorter](https://user-images.githubusercontent.com/64412852/190567198-07144b3f-ddf8-4893-9cf3-2326a37937fc.png)
+
+## Solution: 
+
+### I have prepaired a structure to use the both format accordingly as resolution.
+
+```html
+   <span class="btw-12-14"> Put this format here: 22 Dec 2022 </span>
+   <span class="all-other"> Put this format here: 22nd Dec 2022 </span>
+```
+```css
+   /* Show format 22nd Dec 2022 */
+   .all-other {
+     display: block;
+     display: unset;
+   }
+   /* Show format 22 Dec 2022 */
+   .btw-12-14 {
+     display: none;
+   }
+   @media only screen and (max-width: 1400px) and (min-width: 1200px) {
+     .all-other {
+       display: none;
+     }
+     .btw-12-14 {
+       display: block;
+       display: unset;
+     }
+   }
+```
+
+
