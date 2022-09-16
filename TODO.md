@@ -112,7 +112,7 @@
       $('.filter-body .sm-searech .clear-data').click(function() {
           $(this).siblings('input').val("");
           $(this).removeClass("show");
-          /* $(this).siblings('input').focus(); */
+          $(this).siblings('input').focus();
       });
   });
 ```
