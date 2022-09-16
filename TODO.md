@@ -116,7 +116,20 @@
       });
   });
 ```
-## 5) I am thinking to use 22 Dec 2022 kind of format on 1200px to 1400px and the longer format, 22nd Dec 2022 on all other screens.
+
+## 5) Chevron Down icon should remain at it's original place (vertically top)
+
+![Screenshot_1](https://user-images.githubusercontent.com/64412852/190575547-7fc3570c-9fc8-4ca2-aeff-255c8522f50e.png)
+
+## Solution: 
+
+## 6) Not sure why. But, this particular project name - The Reef at King's Dock cannot be cleared when you press the x button on the filter bubble.
+
+![image](https://user-images.githubusercontent.com/64412852/190576299-ff4bf4c7-8cf2-4fe4-bba3-749fd9d77b9e.png)
+
+## Solution: 
+
+## 7) I am thinking to use 22 Dec 2022 kind of format on 1200px to 1400px and the longer format, 22nd Dec 2022 on all other screens.
 
 ![Date Shorter](https://user-images.githubusercontent.com/64412852/190567198-07144b3f-ddf8-4893-9cf3-2326a37937fc.png)
 
@@ -150,7 +163,7 @@
 ```
 
 
-## 6) If the Tag goes down, should have some vertical space in b/w
+## 8) If the Tag goes down, should have some vertical space in b/w
 
 ![If the Tag goes down should have some vertical space](https://user-images.githubusercontent.com/64412852/190368686-22cf44e8-fedd-472e-b7ce-f12810888817.png)
 
@@ -173,7 +186,7 @@
    /*-------------------------------*/
 ```
 
-## 7) Tag bubbles have some unncessary top padding. if it is not needed, we can remove it.
+## 9) Tag bubbles have some unncessary top padding. if it is not needed, we can remove it.
 
 ![image](https://user-images.githubusercontent.com/64412852/190372130-b73261a3-350f-460d-9587-12e980dbe4f8.png)
 
