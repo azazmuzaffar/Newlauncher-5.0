@@ -123,6 +123,42 @@
 
 ## Solution: 
 
+```html 
+   <div class="filter-content-item has-opened">
+      <div class="title-selections">
+         <!-- Now h3 ".title" is inside new DIV -->
+         <h3 class="title">
+            Project Size
+            <span class="chip chip-sm chip-bg d-none">
+            <span>0</span>
+            <button class="btn-times filter-close" data-key="project_size"><i class="fas fa-times-circle"></i></button>
+            </span> 
+            <button class="angle-btn fas fa-angle-down"></button>
+         </h3>
+         <!-- Now this div is outside the h3 ".title" -->
+         <div class="sm-title fw-400 toggle-with-parent"></div>
+      </div>
+    ...
+```
+
+### Please create a div with class ".title-selections" inside "filter-content-item" and put the h3 ".title" inside it and put the 
+
+
+### (style.css) Please add this code to the css file.
+
+```css
+   /*------------- New ----------------*/
+   .filter-content-item .title-selections{
+     cursor: pointer;
+   }
+   /*----------------------------------*/
+```
+
+### (main.js) please change the highlighted class from ".title" to ".title-selections"
+
+![image](https://user-images.githubusercontent.com/64412852/190584450-41968f71-243d-45b7-9656-303f9b169027.png)
+
+
 ## 6) Not sure why. But, this particular project name - The Reef at King's Dock cannot be cleared when you press the x button on the filter bubble.
 
 ![image](https://user-images.githubusercontent.com/64412852/190576299-ff4bf4c7-8cf2-4fe4-bba3-749fd9d77b9e.png)
