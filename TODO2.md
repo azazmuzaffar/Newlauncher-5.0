@@ -44,3 +44,18 @@
   color: #111828;
 }
 ```
+
+## 3) Sales Trend Dropdown issue
+
+![Sales Trend Dropdown](https://user-images.githubusercontent.com/64412852/194262409-0b107f65-6493-46c8-8146-cb117021ca42.png)
+
+### (css/style.css)(sass/style.css)
+
+## Solution: 
+
+### please look at the screenshot and make chanegs accordingly.
+
++ Removing line: padding: 0px 6px;
++ Adding line: padding-left: 6px;
+
+![image](https://user-images.githubusercontent.com/64412852/194261991-77bb9bcd-685d-4e6a-913b-7dcfd371c985.png)
