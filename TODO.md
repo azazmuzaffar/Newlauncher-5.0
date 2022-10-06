@@ -100,15 +100,18 @@ I think it's happening because of the single quote that we have in the word = Ki
    /*-------------------------------*/
 ```
 
-## 9) Tag bubbles have some unncessary top padding. if it is not needed, we can remove it.
+## 9) Tag bubbles have some unncessary top padding. if it is not needed, we can remove it b/w 768 to 992.
 
 ![image](https://user-images.githubusercontent.com/64412852/190372130-b73261a3-350f-460d-9587-12e980dbe4f8.png)
 
 ## Solution: 
 
-### Please just simply remove that highlighted pt-1 class from badge list, repeat the same process Search page as well.
+### (index.blade.php)(search.blade.php)
 
-![image](https://user-images.githubusercontent.com/64412852/190371826-053bd453-9057-42e9-b0ea-4787199e4356.png)
+### Please update the badge-gray-list classes to as higlighted in screenshot.
+
+![image](https://user-images.githubusercontent.com/64412852/194241027-c670f52e-546b-4aff-b3f4-8e47d8a7d9be.png)
+
 
 
 
