@@ -8,11 +8,9 @@
 
 ![Bold Selected Tab](https://user-images.githubusercontent.com/64412852/194244130-ffbc8bae-8a6e-450a-91d1-dbbb412be037.png)
 
-### (style.css) (line # 5039 ~)
+### (css/style.css)(sass/style.css)
 
 ## Solution: 
-
-### (css/style.css)(sass/style.css)
 
 ![image](https://user-images.githubusercontent.com/64412852/194246633-7d2d47a8-77e5-479b-aac9-bddb73c4db79.png)
 
