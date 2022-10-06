@@ -4,21 +4,23 @@
 
 <hr>
 
-## 1) Making copyright text opacity to 0.7?
+## 1) Make selected option text bold.
 
-![Change Footer Copyright Color](https://user-images.githubusercontent.com/64412852/189831002-76d566b6-bbe5-4e95-9b2a-b9f8db9a7404.png)
+![Bold Selected Tab](https://user-images.githubusercontent.com/64412852/194244130-ffbc8bae-8a6e-450a-91d1-dbbb412be037.png)
 
 ### (style.css) (line # 5039 ~)
 
 ## Solution: 
 
+### (css/style.css)(sass/style.css)
+
+![image](https://user-images.githubusercontent.com/64412852/194246633-7d2d47a8-77e5-479b-aac9-bddb73c4db79.png)
+
 ```css
-   .footer-content .copyright p {
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 20px;
-      color: #fff;
-      /* New */
-      opacity: 0.7;
-    }
+.nav-tabs .nav-item .active.nav-link {
+  background-color: transparent;
+  color: #111828;
+  /* New */
+  font-weight: 700;
+}
 ```
