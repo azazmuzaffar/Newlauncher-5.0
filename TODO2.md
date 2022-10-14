@@ -59,3 +59,25 @@
 + Adding line: padding-left: 6px;
 
 ![image](https://user-images.githubusercontent.com/64412852/194261991-77bb9bcd-685d-4e6a-913b-7dcfd371c985.png)
+
+
+## 4) Can we stop flickering for the sticky footer?
+
+![image](https://user-images.githubusercontent.com/64412852/195791148-6878ebdb-9e76-4f41-b975-7136cc04d642.png)
+
+### (css/style.css)(sass/style.css)
+
+## Solution: 
+
+### please change and comment the code as in below.
+
+```css
+/* .panel-card .dev-avater-wrap {
+  margin-top: 5px;
+} */
+
+.panel-card .dev-avater-wrap{
+  /* margin-bottom: 18px; */
+  padding-bottom: 18px;
+}
+```
