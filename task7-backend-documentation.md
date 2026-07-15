@@ -339,18 +339,53 @@ When the workers return, MinIO uses the stored blocks to restore and synchronize
 
 The application runs on a **k3s cluster** consisting of one Raspberry Pi 5 master and eight Raspberry Pi 3 workers. The Pi 4 sensor node remains outside the cluster and sends detection events to the Flask backend over HTTP.
 
+
 ```mermaid
-flowchart LR
-    S[Pi 4 Sensor<br/>Outside Cluster] -->|POST /events| M
+flowchart TB
+    S["Pi 4 Sensor<br/>AI Camera + Detection<br/>Outside k3s"] -->|"POST /events"| KS
 
-    subgraph K[k3s Cluster]
-        direction LR
+    subgraph K["k3s Cluster"]
+        direction TB
 
-        M[Pi 5 Master<br/>Flask Pod<br/>PostgreSQL<br/>React + Traefik]
+        subgraph KM["Kubernetes Management"]
+            direction LR
+            DS["DaemonSet<br/>Flask on Master + All Workers"]
+            SS["StatefulSet × 8<br/>MinIO on Workers"]
+            KS["Backend Service<br/>Routes to Healthy Flask Pods"]
+        end
 
-        W[8 × Pi 3 Workers<br/>Flask Pod on each<br/>MinIO Pod on each]
+        subgraph MASTER["Pi 5 Master"]
+            direction TB
+            MP["Master Node<br/>Flask Pod + Container"]
+            MO["Control Plane<br/>PostgreSQL<br/>React + Traefik"]
+        end
 
-        M --- W
+        subgraph R1["Workers 1–4"]
+            direction LR
+            W1["Worker 1<br/>Flask Pod + Container<br/>MinIO<br/>Node Exporter"]
+            W2["Worker 2<br/>Flask Pod + Container<br/>MinIO<br/>Node Exporter"]
+            W3["Worker 3<br/>Flask Pod + Container<br/>MinIO<br/>Node Exporter"]
+            W4["Worker 4<br/>Flask Pod + Container<br/>MinIO<br/>Node Exporter"]
+        end
+
+        subgraph R2["Workers 5–8"]
+            direction LR
+            W5["Worker 5<br/>Flask Pod + Container<br/>MinIO<br/>Node Exporter"]
+            W6["Worker 6<br/>Flask Pod + Container<br/>MinIO<br/>Node Exporter"]
+            W7["Worker 7<br/>Flask Pod + Container<br/>MinIO<br/>Node Exporter"]
+            W8["Worker 8<br/>Flask Pod + Container<br/>MinIO<br/>Node Exporter"]
+        end
+
+        DS -.->|"Creates Flask Pods"| MP
+        DS -.->|"Creates Flask Pods"| R1
+        DS -.->|"Creates Flask Pods"| R2
+
+        SS -.->|"Creates MinIO Pods"| R1
+        SS -.->|"Creates MinIO Pods"| R2
+
+        KS -->|"API traffic"| MP
+        KS -->|"Healthy backend Pods"| R1
+        KS -->|"Healthy backend Pods"| R2
     end
 ```
 
