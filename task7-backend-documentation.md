@@ -491,26 +491,37 @@ The purpose of clustering is to distribute application processing and storage ac
 
 # Monitoring System
 
-The monitoring system is separate from Flask event processing. Node Exporter runs on the master, sensor, and worker nodes and exposes hardware metrics on port `9100`.
+The monitoring system runs separately from Flask event processing.
 
-Prometheus uses a pull-based model and collects the latest metrics every **15 seconds**. Blackbox Exporter separately checks ping and HTTP reachability for nodes and the camera service.
+**Node Exporter** runs on the master, sensor, and worker nodes. It reads hardware information from the operating system and exposes it as metrics on port `9100`.
+
+**Prometheus** is a time-series monitoring system. It collects these metrics every **15 seconds** and stores them for dashboards and alerts.
 
 ```mermaid
 flowchart LR
-    A[Master + Sensor + 8 Workers] --> B[Node Exporter on Each Node]
-    B -->|HTTP scrape every 15 seconds| C[Prometheus]
-    C --> D[Grafana Dashboard]
-    C --> E[React Monitoring View]
-    C --> F[Alertmanager]
-    F --> G[Telegram Alerts]
+    N["Cluster Nodes<br/>Node Exporter :9100"] -->|"Metrics every 15s"| P["Prometheus"]
+    P --> G["Grafana + React Dashboard"]
+    P --> A["Alertmanager"]
+    A --> T["Telegram Alert"]
 ```
 
-The configured collection interval is:
+Blackbox Exporter separately checks whether nodes and HTTP services are reachable.
+
+A shortened Prometheus configuration is shown below:
 
 ```yaml
 global:
   scrape_interval: 15s
   evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: node-exporter
+    static_configs:
+      - targets:
+          - master:9100
+          - sensor:9100
+          - worker1:9100
+          - worker2:9100
 ```
 
 Collected metrics include:
@@ -522,15 +533,17 @@ Collected metrics include:
 - Network and node availability
 - System uptime
 
-The communication flow is:
+The monitoring flow is:
 
 ```text
-Node Exporter exposes metrics → Prometheus collects and stores them
-Prometheus data → Grafana and React display the latest values
-Prometheus alert rule → Alertmanager → Telegram notification
+Node Exporter → Prometheus → Grafana / React
+                         ↓
+                   Alertmanager
+                         ↓
+                     Telegram
 ```
 
-Grafana visualizes the Prometheus time-series data. The React monitoring pages also read the Prometheus HTTP API, which is why the values on the dashboard update as new 15-second samples become available.
+Grafana visualizes the stored Prometheus data as graphs. The React monitoring pages also read the Prometheus HTTP API, so new values appear when the next **15-second** sample is collected.
 
 ---
 
