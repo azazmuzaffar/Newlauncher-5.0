@@ -70,25 +70,40 @@ flowchart LR
 
 
 
-A shortened version of the sensor communication code is shown below:
+A shortened version of the sensor-side REST communication is shown below:
 
 ```python
 # sensor/detect_stream.py
-imx500 = IMX500(RPK_PATH)
 
-event = {
-    "sensor_id": SENSOR_ID,
-    "location": LOCATION,
-    "model_version": "yolo11n-imx500-v1",
-    "detections": detections,
-    "threat_level": threat_level(labels_seen),
-    "snapshot_b64": snapshot_b64,
-}
+def _post_event(detections, snapshot_b64):
+    labels_seen = [item["class"] for item in detections]
 
-requests.post(API_URL, json=event, timeout=3)
+    event = {
+        "event_id": str(uuid.uuid4()),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "sensor_id": SENSOR_ID,
+        "location": LOCATION,
+        "model_version": "yolo11n-imx500-v1",
+        "detections": detections,
+        "threat_level": threat_level(labels_seen),
+        "snapshot_b64": snapshot_b64,
+    }
+
+    # Forward the event as JSON to Flask's /events endpoint.
+    requests.post(API_URL, json=event, timeout=3)
 ```
 
-The request runs in a background thread, so a slow network connection does not stop the live camera stream.
+The sensor starts this function in a background thread:
+
+```python
+threading.Thread(
+    target=_post_event,
+    args=(detections, snapshot_b64),
+    daemon=True,
+).start()
+```
+
+This prevents a slow or temporarily unavailable network connection from stopping the live camera and detection loop.
 
 ---
 
