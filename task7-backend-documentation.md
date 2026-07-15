@@ -72,13 +72,11 @@ flowchart LR
 
 A shortened version of the sensor-side REST communication is shown below:
 
-Your current code already shows the sensor sending the event to Flask here:
-
 ```python
 requests.post(API_URL, json=event, timeout=3)
 ```
 
-For clearer GitHub documentation, show both the sensor side and the Flask receiver side.
+The sensor sends the detection event to Flask using HTTP POST.
 
 ```python
 # Sensor node: sensor/detect_stream.py
@@ -99,7 +97,7 @@ requests.post(
 )
 ```
 
-Flask receives the same request through the `/events` endpoint:
+Flask receives the event at `/events` and stores it.
 
 ```python
 # Master node: master/server/server.py
