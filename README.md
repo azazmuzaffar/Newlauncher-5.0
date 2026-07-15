@@ -10,25 +10,27 @@ The backend receives AI detection events from the sensor node, stores event info
 
 ```mermaid
 flowchart TD
-    sensor["Sensor Node<br/>Pi 4 + AI Camera"] -->|"POST /events"| backend
+    sensor["Sensor Node\n(Pi 4 + AI Camera)"] -->|"POST /events"| traefik
 
-    subgraph cluster["k3s Cluster — Master + 8 Workers"]
-        backend["Flask Backend<br/>DaemonSet x9"]
-        minio[("MinIO<br/>StatefulSet x8 · EC:4")]
-        frontend["React Dashboard<br/>Deployment"]
-        traefik["Traefik Ingress<br/>:80"]
+    subgraph cluster["k3s High-Availability Cluster (1x Master Pi 5 + 8x Worker Pi 3)"]
+        traefik["Traefik Ingress\n(Port 80)"]
+        backend["Flask Backend\n(DaemonSet - All Nodes)"]
+        minio[("MinIO Distributed Storage\n(StatefulSet - 8 Workers)")]
+        frontend["React Dashboard\n(Deployment)"]
     end
 
-    postgres[("PostgreSQL<br/>on Master")]
+    postgres[("PostgreSQL\n(on Master Node)")]
+    telegram["Telegram Bot\n(Alerts)"]
 
-    backend -->|"INSERT"| postgres
-    backend -->|"PUT image"| minio
-    backend -->|"sendPhoto"| telegram["Telegram Bot"]
-
-    browser["Browser"] --> traefik
-    traefik --> frontend
+    %% Traffic Routing
     traefik -->|"/api"| backend
     traefik -->|"/evidence"| minio
+    traefik --> frontend
+
+    %% Backend operations
+    backend -->|"1. Metadata SQL"| postgres
+    backend -->|"2. Put Object"| minio
+    backend -->|"3. Alert Notify"| telegram
 ```
 
 The sensor posts detections to the Flask backend, which writes to PostgreSQL and MinIO and pushes a Telegram alert. The React dashboard reads back through the same REST API behind Traefik.
