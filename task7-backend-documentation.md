@@ -72,38 +72,55 @@ flowchart LR
 
 A shortened version of the sensor-side REST communication is shown below:
 
-```python
-# sensor/detect_stream.py
-
-def _post_event(detections, snapshot_b64):
-    labels_seen = [item["class"] for item in detections]
-
-    event = {
-        "event_id": str(uuid.uuid4()),
-        "timestamp": datetime.now(timezone.utc).isoformat(),
-        "sensor_id": SENSOR_ID,
-        "location": LOCATION,
-        "model_version": "yolo11n-imx500-v1",
-        "detections": detections,
-        "threat_level": threat_level(labels_seen),
-        "snapshot_b64": snapshot_b64,
-    }
-
-    # Forward the event as JSON to Flask's /events endpoint.
-    requests.post(API_URL, json=event, timeout=3)
-```
-
-The sensor starts this function in a background thread:
+Your current code already shows the sensor sending the event to Flask here:
 
 ```python
-threading.Thread(
-    target=_post_event,
-    args=(detections, snapshot_b64),
-    daemon=True,
-).start()
+requests.post(API_URL, json=event, timeout=3)
 ```
 
-This prevents a slow or temporarily unavailable network connection from stopping the live camera and detection loop.
+For clearer GitHub documentation, show both the sensor side and the Flask receiver side.
+
+```python
+# Sensor node: sensor/detect_stream.py
+
+event = {
+    "sensor_id": SENSOR_ID,
+    "location": LOCATION,
+    "detections": detections,
+    "threat_level": threat_level(labels_seen),
+    "snapshot_b64": snapshot_b64,
+}
+
+# Send detection event and image to the Flask backend
+requests.post(
+    "http://<master-node-ip>:8080/events",
+    json=event,
+    timeout=3
+)
+```
+
+Flask receives the same request through the `/events` endpoint:
+
+```python
+# Master node: master/server/server.py
+
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route("/events", methods=["POST"])
+def receive_event():
+    event = request.get_json()
+
+    sensor_id = event["sensor_id"]
+    threat_level = event["threat_level"]
+    detections = event["detections"]
+    snapshot_b64 = event["snapshot_b64"]
+
+    store_event(event)
+
+    return jsonify({"status": "stored"}), 201
+```
 
 ---
 
