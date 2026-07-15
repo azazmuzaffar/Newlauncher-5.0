@@ -70,6 +70,16 @@ flowchart LR
     E -->|POST /events| F[Flask Backend]
 ```
 
+flowchart TB
+
+    subgraph MainFlow[""]
+        direction LR
+        A[AI Camera] --> B[Threat Detection]
+        B -->|POST /events| C[Flask Backend]
+    end
+
+    B -.-> D["Event Details<br/>Threat Type<br/>Confidence Score<br/>Timestamp<br/>Sensor ID<br/>Evidence Image"]
+
 A shortened version of the sensor communication code is shown below:
 
 ```python
