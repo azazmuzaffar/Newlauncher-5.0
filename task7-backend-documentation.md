@@ -241,19 +241,18 @@ new → acknowledged → resolved
 
 ## MinIO
 
-MinIO stores the evidence images generated during detection.
+MinIO stores the evidence images generated during threat detection.
 
-Example:
+Example object structure:
 
 ```text
 evidence/
-
- ├── 2026/07/15/event001.jpg
- ├── 2026/07/15/event002.jpg
- └── 2026/07/15/event003.jpg
+├── 2026/07/15/event001.jpg
+├── 2026/07/15/event002.jpg
+└── 2026/07/15/event003.jpg
 ```
 
-Flask uploads the decoded JPEG through the MinIO S3-compatible API:
+Flask uploads each decoded image through the MinIO S3-compatible API:
 
 ```python
 _minio().put_object(
@@ -265,50 +264,54 @@ _minio().put_object(
 )
 ```
 
-Why MinIO?
+### Why MinIO?
 
-- Designed for object and image storage
-- Suitable for larger binary files
+- Designed for image and object storage
 - Provides an S3-compatible API
-- Supports distributed storage and fault tolerance across the worker nodes
+- Supports distributed storage across the worker nodes
+- Keeps images available when some workers fail
+
+---
 
 ### Distributed Image Storage
 
-MinIO runs as an **8-replica StatefulSet**, with one MinIO Pod and one persistent volume on each Pi 3 worker. The configured `EC:4` erasure coding divides every image into **4 data blocks** and creates **4 parity blocks**. The following worker-to-block mapping is an illustrative example; MinIO manages the exact shard placement internally.
+MinIO runs as an **8-replica StatefulSet**, with one storage Pod on each Pi 3 worker.
+
+Using **EC:4 erasure coding**, every image is divided into:
+
+- 4 data blocks containing the image information
+- 4 parity blocks containing recovery information
 
 ```mermaid
 flowchart TB
-    A[Evidence Image<br/>event001.jpg] --> B[MinIO EC:4]
+    A[Evidence Image] --> B[MinIO EC:4]
 
-    B --> D1[Data Block D1]
-    B --> D2[Data Block D2]
-    B --> D3[Data Block D3]
-    B --> D4[Data Block D4]
-    B --> P1[Parity Block P1]
-    B --> P2[Parity Block P2]
-    B --> P3[Parity Block P3]
-    B --> P4[Parity Block P4]
+    B --> D[4 Data Blocks]
+    B --> P[4 Parity Blocks]
 
-    D1 --> W1[Worker 1]
-    D2 --> W2[Worker 2]
-    D3 --> W3[Worker 3]
-    D4 --> W4[Worker 4]
-    P1 --> W5[Worker 5]
-    P2 --> W6[Worker 6]
-    P3 --> W7[Worker 7]
-    P4 --> W8[Worker 8]
+    D --> W1[Worker 1: D1]
+    D --> W2[Worker 2: D2]
+    D --> W3[Worker 3: D3]
+    D --> W4[Worker 4: D4]
+
+    P --> W5[Worker 5: P1]
+    P --> W6[Worker 6: P2]
+    P --> W7[Worker 7: P3]
+    P --> W8[Worker 8: P4]
 ```
 
-- **Data blocks** contain encoded parts of the original image.
-- **Parity blocks** contain recovery information used to reconstruct missing blocks.
-- A parity block does not replace one particular data block. MinIO combines the available data and parity blocks during recovery.
+The worker-to-block mapping is only an illustration. MinIO manages the actual block placement internally.
 
-The relevant MinIO configuration is:
+Parity blocks do not replace one specific data block. MinIO combines the available data and parity blocks to reconstruct the original image.
+
+The relevant configuration is:
 
 ```yaml
 kind: StatefulSet
+
 spec:
   replicas: 8
+
   template:
     spec:
       containers:
@@ -320,13 +323,15 @@ spec:
 
 ### Storage Availability
 
-| Worker Nodes Offline | Read Existing Images | Write New Images |
+| Workers offline | Read existing images | Store new images |
 |:---:|:---:|:---:|
 | 0–3 | Yes | Yes |
 | 4 | Yes | No |
 | 5 or more | No | No |
 
-With four workers offline, the remaining four blocks can reconstruct an existing image, but MinIO no longer has the five-node write quorum required to safely accept a new image. When workers return, MinIO can use the persistent data to heal missing or outdated blocks.
+With four workers offline, MinIO still has enough blocks to reconstruct existing images, but it does not have the required write quorum for new images.
+
+When the workers return, MinIO uses the stored blocks to restore and synchronize the distributed data.
 
 ---
 
