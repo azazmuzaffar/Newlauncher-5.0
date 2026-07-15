@@ -128,13 +128,11 @@ The Flask backend receives the event at the `/events` REST endpoint. It checks w
 
 ```mermaid
 flowchart LR
-    A[Sensor Node] -->|POST /events| B[Flask REST API]
-    B --> C[Validate Event]
-    C --> D[Decode Base64 JPEG]
-    D --> E[event_store.store_event]
-    E --> F[(PostgreSQL Metadata)]
-    E --> G[MinIO Evidence Image]
-    E --> H[Telegram Alert]
+    A[Sensor Node] -->|POST /events<br/>JSON + Base64 Image| B[Flask REST API]
+    B --> C[Process Event]
+    C --> D[(PostgreSQL<br/>Metadata)]
+    C --> E[MinIO<br/>Evidence Image]
+    C --> F[Telegram Alert]
 ```
 
 A simplified version of the Flask endpoint is:
