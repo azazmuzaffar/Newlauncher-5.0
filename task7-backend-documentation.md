@@ -337,93 +337,85 @@ When the workers return, MinIO uses the stored blocks to restore and synchronize
 
 # Kubernetes Deployment and Node Placement
 
-The application cluster contains one **Pi 5 master node** and eight **Pi 3 worker nodes**. The Pi 4 sensor node is outside the k3s cluster and communicates with the backend over HTTP.
-
-The Flask backend is packaged as a Docker image. A Kubernetes **DaemonSet** then ensures that one backend Pod containing this image runs on every k3s node. Docker builds the image, while the k3s `containerd` runtime runs it inside the Pods.
+The application runs on a **k3s cluster** consisting of one Raspberry Pi 5 master and eight Raspberry Pi 3 workers. The Pi 4 sensor node remains outside the cluster and sends detection events to the Flask backend over HTTP.
 
 ```mermaid
-flowchart TB
-    A[Docker Image<br/>sentinel-backend] --> B[Backend DaemonSet]
+flowchart LR
+    S[Pi 4 Sensor<br/>Outside Cluster] -->|POST /events| M
 
     subgraph K[k3s Cluster]
         direction LR
-        M[Master Pi 5<br/>Flask Pod<br/>Control Plane + PostgreSQL + React]
-        W[8 × Worker Pi 3<br/>1 Flask Pod per worker<br/>1 MinIO Pod per worker]
+
+        M[Pi 5 Master<br/>Flask Pod<br/>PostgreSQL<br/>React + Traefik]
+
+        W[8 × Pi 3 Workers<br/>Flask Pod on each<br/>MinIO Pod on each]
+
+        M --- W
     end
-
-    B --> M
-    B --> W
-
-    S[Backend Kubernetes Service] -->|Routes requests to healthy Pods| M
-    S -->|Routes requests to healthy Pods| W
 ```
 
-The relationship is:
+The Flask backend is first packaged as a Docker image. k3s then runs the image as a container inside a Kubernetes Pod.
 
 ```text
-Docker image → Container → Pod → DaemonSet → k3s cluster
+Docker Image → Container → Pod → DaemonSet → k3s Cluster
 ```
 
-A shortened version of the Kubernetes configuration is:
+A Kubernetes **DaemonSet** ensures that one Flask backend Pod runs on every available cluster node.
+
+A **Service** provides a stable backend endpoint and routes requests to healthy Flask Pods.
+
+A shortened version of the deployment configuration is shown below:
 
 ```yaml
 apiVersion: v1
 kind: Service
+metadata:
+  name: backend
 spec:
   selector:
     app: backend
   ports:
     - port: 8080
       targetPort: 8080
+
 ---
 apiVersion: apps/v1
 kind: DaemonSet
+metadata:
+  name: backend
 spec:
+  selector:
+    matchLabels:
+      app: backend
+
   template:
+    metadata:
+      labels:
+        app: backend
+
     spec:
       containers:
         - name: backend
           image: 192.168.137.10:5000/sentinel-backend:latest
+
+          ports:
+            - containerPort: 8080
+
           readinessProbe:
             httpGet:
               path: /health
               port: 8080
 ```
 
-### What Each Part Does
+### How It Works
 
-- **Docker** packages Flask, Python, and the required libraries into one portable image.
-- **DaemonSet** creates one Flask Pod on every available k3s node.
-- **Pod** is the Kubernetes unit that contains and runs the backend container.
-- **Service** provides a stable endpoint and routes API traffic to healthy Flask Pods.
-- **Traefik** routes browser paths such as `/api` and `/evidence` to the correct Kubernetes Service.
-- The **sensor** posts directly to the master node on `hostPort 8080`; browser API requests use Traefik and the backend Service.
-- **Readiness and liveness probes** check `/health` so unhealthy Pods can be removed from traffic or restarted.
+- **Docker** packages Flask, Python, and the required libraries.
+- **DaemonSet** creates one backend Pod on every available k3s node.
+- **Service** routes API requests to healthy backend Pods.
+- **Traefik** routes browser requests such as `/api` to the backend Service.
+- **Health probes** check `/health` and prevent unhealthy Pods from receiving traffic.
 
-### Node Placement
-
-**Master Node — Raspberry Pi 5**
-
-- k3s control plane
-- Traefik ingress
-- PostgreSQL database
-- React frontend
-- One Flask backend Pod
-- Local Docker image registry
-
-**Worker Nodes — 8 × Raspberry Pi 3**
-
-- k3s agent
-- One Flask backend Pod per worker
-- One MinIO Pod and persistent volume per worker
-- Node Exporter monitoring agent
-
-### Benefits
-
-- Backend instances are automatically deployed on every cluster node.
-- If one worker fails, the Kubernetes Service continues using the remaining healthy backend Pods.
-- When a disconnected node returns, the DaemonSet ensures that its backend Pod is running again.
-- All backend replicas use the same PostgreSQL and MinIO storage, so they remain interchangeable.
+If a worker node disconnects, its backend Pod becomes unavailable, but the Kubernetes Service continues routing requests to the remaining healthy Pods. When the node returns, the DaemonSet ensures that the backend Pod is running again.
 
 ---
 
