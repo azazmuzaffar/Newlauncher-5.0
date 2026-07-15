@@ -176,66 +176,66 @@ The system uses two different storage solutions because metadata and image files
 
 ## PostgreSQL
 
-PostgreSQL stores structured event information.
+PostgreSQL stores the structured and searchable information for each detection event.
 
-Example:
+Stored metadata includes:
 
-```text
-Event ID
-Timestamp
-Sensor ID
-Location
-Threat Level
-Detections and Confidence Scores
-Status
-MinIO Image Reference
-```
+- Event ID and timestamp
+- Sensor ID and location
+- Threat level
+- Detected objects and confidence scores
+- Event status
+- Reference to the image stored in MinIO
 
-The main database structure used by the project is:
+A simplified version of the event table is shown below:
 
 ```sql
-CREATE TABLE IF NOT EXISTS events (
+CREATE TABLE events (
     id           BIGSERIAL PRIMARY KEY,
-    received_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
+    received_at  TIMESTAMPTZ DEFAULT now(),
     sensor_id    TEXT,
     location     TEXT,
     threat_level TEXT,
     detections   JSONB,
     confidence   DOUBLE PRECISION,
     image_key    TEXT,
-    image_url    TEXT,
-    status       TEXT NOT NULL DEFAULT 'new'
+    status       TEXT DEFAULT 'new'
 );
 ```
 
-Flask inserts the searchable event metadata after uploading the image:
+Flask stores the event metadata after the evidence image has been uploaded to MinIO:
 
 ```python
 cur.execute(
     """
     INSERT INTO events
         (sensor_id, location, threat_level, detections,
-         confidence, image_key, image_url)
-    VALUES (%s, %s, %s, %s, %s, %s, %s)
+         confidence, image_key)
+    VALUES (%s, %s, %s, %s, %s, %s)
     """,
-    (sensor_id, location, threat_level,
-     psycopg2.extras.Json(detections),
-     confidence, image_key, image_url),
+    (
+        sensor_id,
+        location,
+        threat_level,
+        Json(detections),
+        confidence,
+        image_key,
+    ),
 )
 ```
 
-The `status` field supports the event workflow:
+The event status supports the following workflow:
 
 ```text
 new → acknowledged → resolved
 ```
 
-Why PostgreSQL?
+### Why PostgreSQL?
 
-- Efficient searching, sorting, and filtering of events
-- Supports simultaneous access from all Flask backend instances
-- `JSONB` allows each event to contain a flexible list of detected objects and bounding boxes
-- Stores shared settings such as the cluster-wide detection on/off state
+- Supports fast searching, sorting, and filtering
+- Allows all Flask backend instances to access the same data
+- Uses JSONB for flexible detection results
+- Stores the shared detection on/off setting
 
 ---
 
