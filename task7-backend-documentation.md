@@ -63,25 +63,8 @@ When a detected object passes the confidence threshold:
 
 ```mermaid
 flowchart LR
-    A[IMX500 AI Camera] --> B[network.rpk Model]
-    B --> C[Object Detection]
-    C --> D[OpenCV JPEG Snapshot]
-    D --> E[JSON Event + Base64 Image]
-    E -->|POST /events| F[Flask Backend]
-
-flowchart LR
     A[AI Camera] --> B[Threat Detection]
     B -->|POST Event| C[Flask Backend]
-
-flowchart TB
-
-    subgraph MainFlow[""]
-        direction LR
-        A[AI Camera] --> B[Threat Detection]
-        B -->|POST /events| C[Flask Backend]
-    end
-
-    B -.-> D["Event Details<br/>Threat Type<br/>Confidence Score<br/>Timestamp<br/>Sensor ID<br/>Evidence Image"]
 ```
 
 
