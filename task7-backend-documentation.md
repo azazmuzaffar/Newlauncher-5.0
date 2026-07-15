@@ -549,74 +549,75 @@ Grafana visualizes the stored Prometheus data as graphs. The React monitoring pa
 
 # Failure Handling
 
-If a worker node becomes unavailable:
+The cluster continues operating when an individual worker node becomes unavailable.
 
-- Its Flask Pod and MinIO block become temporarily unavailable.
-- The Kubernetes Service continues routing API requests to the remaining healthy Flask Pods.
-- The DaemonSet does not move a second Flask copy to another node because its rule is one Pod per node.
-- When the worker reconnects, the DaemonSet ensures that its Flask Pod runs again.
-- MinIO continues according to the available read and write quorum shown above.
+```mermaid
+flowchart LR
+    A["Worker Online<br/>Flask + MinIO"] --> B["Worker Disconnects"]
 
-> **Current limitation:** The Pi 5 master runs the k3s control plane, PostgreSQL, Traefik, and the frontend. It is therefore a single point of failure in the current implementation.
+    B --> C["Flask Pod Unavailable"]
+    B --> D["MinIO Storage Block Unavailable"]
 
----
+    C --> E["Service Routes Requests<br/>to Healthy Flask Pods"]
+    D --> F["MinIO Continues<br/>Using Available Quorum"]
 
-# Technology Decisions
+    E --> G["Backend Remains Available"]
+    F --> G
 
-## Why Flask?
+    G --> H["Worker Reconnects"]
+    H --> I["DaemonSet Restores Flask Pod"]
+    H --> J["MinIO Reconnects and Heals Data"]
+```
 
-Flask was selected because:
+### Worker Failure Behaviour
 
-- It is lightweight and suitable for Raspberry Pi devices.
-- It is Python-based and fits naturally with the Python sensor application.
-- It provides simple REST APIs for communication between the sensor, storage, and frontend.
-- The backend is stateless because shared data is stored in PostgreSQL and MinIO.
+| Component | Behaviour |
+|---|---|
+| Flask backend | Remaining Flask Pods continue processing requests |
+| Kubernetes Service | Stops routing traffic to the unavailable Pod |
+| DaemonSet | Restores the Flask Pod when the worker reconnects |
+| MinIO | Continues according to the available read and write quorum |
+| Monitoring | Detects the node failure and triggers an alert |
+| Recovery | Flask and MinIO return automatically when the node reconnects |
 
-The AI model is not executed by Flask. The IMX500 camera performs the inference, and Flask receives and manages the detection result.
+The DaemonSet follows a **one Pod per node** rule. It does not create a second Flask Pod on another node when one worker disconnects. Backend availability is maintained by the Flask Pods already running on the remaining nodes.
 
----
+### Current Limitation
 
-## Why PostgreSQL?
+```mermaid
+flowchart LR
+    M["Pi 5 Master"] --> C["k3s Control Plane"]
+    M --> P["PostgreSQL"]
+    M --> T["Traefik"]
+    M --> R["React Frontend"]
 
-PostgreSQL was selected because:
+    M -.-> F["Master Failure<br/>Central Services Unavailable"]
+```
 
-- Event data requires structured and searchable storage.
-- It supports filtering, sorting, and managing detection records.
-- Multiple Flask backend instances can access the database at the same time.
-- `JSONB` supports flexible detection data without creating a separate table for every detected object.
+The Raspberry Pi 5 master currently hosts the control plane, PostgreSQL, Traefik, and the React frontend. It is therefore a **single point of failure** in the current implementation.
 
----
-
-## Why MinIO?
-
-MinIO was selected because:
-
-- The project mainly stores image evidence.
-- Object storage is more suitable for image files than a relational database.
-- It provides an S3-compatible interface.
-- Erasure coding distributes images across the eight workers and provides fault tolerance.
-
----
-
-## Why k3s?
-
-k3s was selected because:
-
-- It is a lightweight Kubernetes distribution.
-- It is suitable for ARM-based edge devices.
-- It manages Pods and Services across the Raspberry Pi cluster.
-- It supports DaemonSets, StatefulSets, health checks, and Traefik ingress.
+A production deployment could reduce this limitation by using multiple control-plane nodes and replicated database services.
 
 ---
 
-# Final System Provides
+# Conclusion
 
-- AI-based threat detection
-- Flask REST API communication
-- Distributed backend deployment
-- Persistent PostgreSQL event storage
-- Distributed MinIO evidence-image storage
-- Web dashboard and event workflow
-- Cluster monitoring with 15-second metric collection
-- Telegram threat and infrastructure alerts
-- Automated service management using Kubernetes
+Task 7 provides the backend, clustering, distributed storage, and monitoring infrastructure for the threat-detection system.
+
+The AI sensor sends detection events to the Flask REST API. Flask stores searchable event metadata in PostgreSQL and uploads evidence images to MinIO. MinIO distributes the image blocks across the eight worker nodes using erasure coding.
+
+The Flask backend is packaged as a Docker image and deployed across the cluster using a Kubernetes DaemonSet. A Kubernetes Service provides a stable endpoint and routes requests to healthy backend Pods.
+
+Node Exporter collects hardware metrics from the Raspberry Pi nodes, Prometheus stores new samples every **15 seconds**, and Grafana and React display the monitoring information. Alertmanager sends infrastructure warnings through Telegram.
+
+The completed system provides:
+
+- REST communication between the sensor and backend
+- Searchable event metadata in PostgreSQL
+- Distributed evidence-image storage in MinIO
+- One Flask backend instance on every cluster node
+- Automatic routing to healthy backend Pods
+- Fault tolerance during individual worker failures
+- Hardware and availability monitoring
+- Telegram alerts for threats and infrastructure problems
+- Automatic recovery when disconnected workers return
