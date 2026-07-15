@@ -68,7 +68,10 @@ flowchart LR
     C --> D[OpenCV JPEG Snapshot]
     D --> E[JSON Event + Base64 Image]
     E -->|POST /events| F[Flask Backend]
-```
+
+flowchart LR
+    A[AI Camera] --> B[Threat Detection]
+    B -->|POST Event| C[Flask Backend]
 
 flowchart TB
 
@@ -79,6 +82,9 @@ flowchart TB
     end
 
     B -.-> D["Event Details<br/>Threat Type<br/>Confidence Score<br/>Timestamp<br/>Sensor ID<br/>Evidence Image"]
+```
+
+
 
 A shortened version of the sensor communication code is shown below:
 
