@@ -124,7 +124,7 @@ def receive_event():
 
 ## 2. Backend Processing
 
-The Flask backend receives the event at the `/events` REST endpoint. It checks whether detection is enabled, decodes the image, and passes the event to the persistence layer.
+The sensor sends the detection event to the Flask `/events` endpoint. Flask checks whether detection is enabled and then passes the event to the storage layer.
 
 ```mermaid
 flowchart LR
@@ -135,22 +135,28 @@ flowchart LR
     C --> F[Telegram Alert]
 ```
 
-A simplified version of the Flask endpoint is:
+A simplified version of the Flask endpoint is shown below:
 
 ```python
 # master/server/server.py
+
 @app.route("/events", methods=["POST"])
 def receive_event():
-    data = request.json
+    data = request.get_json()
 
     if not event_store.is_detection_enabled():
         return jsonify({"status": "ignored"}), 200
 
     event_store.store_event(data)
+
     return jsonify({"status": "received"}), 200
 ```
 
-The React dashboard retrieves stored events through REST endpoints such as:
+The `store_event()` function stores the event metadata in PostgreSQL, uploads the evidence image to MinIO, and triggers the Telegram notification.
+
+### Frontend Communication
+
+The React dashboard communicates with Flask through REST endpoints:
 
 ```text
 GET  /api/events
@@ -160,7 +166,7 @@ GET  /api/detection
 POST /api/detection
 ```
 
-React does not connect directly to PostgreSQL. It communicates with Flask, and Flask reads or updates the stored data.
+React does not connect directly to PostgreSQL or MinIO. It sends requests to Flask, and Flask reads or updates the stored data.
 
 ---
 
