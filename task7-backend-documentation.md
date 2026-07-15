@@ -2,184 +2,367 @@
 
 ## Overview
 
-In this task, we deployed a distributed backend system on a Raspberry Pi cluster using Flask, PostgreSQL, MinIO, Docker, and k3s Kubernetes.
+In this task, we deployed the backend of the threat-detection system on a **9-node k3s Raspberry Pi cluster**.
 
-The backend receives AI detection events from the sensor node, stores event information, saves evidence images, and provides APIs for the frontend dashboard.
+The implementation uses:
+
+- **Flask** for the REST API
+- **PostgreSQL** for event metadata and shared application settings
+- **MinIO** for distributed evidence-image storage
+- **k3s** for workload deployment and service routing
+- **Docker/OCI images** for packaging the backend and frontend
+
+The **Pi 4 sensor with the IMX500 AI camera is outside the k3s cluster**. It performs AI inference and sends detection events to the cluster backend.
+
+---
 
 ## Architecture
 
 ```mermaid
-flowchart LR
-    sensor["Sensor Node<br/>Pi 4"] -->|"POST event"| backend["Flask Backend<br/>k3s cluster"]
-    backend --> postgres[("PostgreSQL")]
-    backend --> minio[("MinIO")]
-    backend --> telegram["Telegram Alert"]
-    backend --> dashboard["React Dashboard"]
+graph TD
+    sensor["Sensor Node<br/>Pi 4 + IMX500 AI Camera"]
+    browser["Browser"]
+    telegram["Telegram Bot"]
 
-    style backend fill:#eef1f6,stroke:#333,stroke-width:1px
-    style postgres fill:#eef1f6,stroke:#333,stroke-width:1px
-    style minio fill:#eef1f6,stroke:#333,stroke-width:1px
+    subgraph cluster["k3s Cluster: Pi 5 Master + 8 Pi 3 Workers"]
+        traefik["Traefik Ingress<br/>Port 80"]
+        frontend["React SPA + nginx<br/>Deployment x1"]
+        service["Backend Service<br/>Routes to healthy Pods"]
+        backend["Flask Backend Pods<br/>DaemonSet x9"]
+        minio["MinIO Distributed Storage<br/>StatefulSet x8, EC:4"]
+    end
+
+    postgres[("PostgreSQL 16<br/>Master Node")]
+
+    sensor -->|"POST /events<br/>JSON + Base64 JPEG"| backend
+    browser --> traefik
+    traefik -->|"/"| frontend
+    traefik -->|"/api"| service
+    service --> backend
+    backend -->|"INSERT/SELECT metadata"| postgres
+    backend -->|"S3 PUT/GET image"| minio
+    traefik -->|"/evidence"| minio
+    backend -->|"Threat notification"| telegram
 ```
 
-One sentence version: the sensor sends a detection to the backend, the backend saves it (Postgres + MinIO), alerts Telegram, and the dashboard reads it back.
+---
 
-## Tech Stack
+## Technology Stack
 
 | Component | Technology | Purpose |
 |---|---|---|
-| Backend | Flask (Python) | REST API, handles detection events |
-| Frontend | React | Dashboard for events and camera |
-| Database | PostgreSQL | Event metadata |
-| Object Storage | MinIO | Evidence images |
-| Containerization | Docker | Packages the services |
-| Cluster | k3s Kubernetes | Deploys and manages everything |
-| Monitoring | Prometheus + Grafana | Node health |
+| AI sensor | Pi 4 + IMX500 camera | Runs detection and sends events |
+| Backend | Flask (Python) | Receives events and provides REST APIs |
+| Database | PostgreSQL | Stores searchable event metadata and shared settings |
+| Object storage | MinIO | Stores evidence images across worker nodes |
+| Frontend | React + nginx | Displays events, images, and system information |
+| Cluster platform | k3s | Manages Pods, Services, StatefulSets, and ingress |
+| Image packaging | Docker/OCI images | Packages backend, frontend, and MinIO software |
+| Container runtime | k3s containerd | Runs the container images inside Kubernetes Pods |
+
+> Docker is used to build and push the images to the local registry. Inside k3s, the images are run by the bundled **containerd** runtime.
+
+---
 
 ## System Workflow
 
 ### 1. Threat Detection
 
-The AI camera continuously analyzes the video stream. When a threat is detected: detection info is generated, a snapshot is captured, and the event is sent to the backend.
+The IMX500 camera performs AI inference on the sensor node. When an object passes the configured confidence threshold, the sensor creates an event containing:
 
-```mermaid
-flowchart LR
-    cam["AI Camera"] --> model["AI Model"] --> event["Threat Event"]
-    style cam fill:#eef1f6,stroke:#333
-    style model fill:#eef1f6,stroke:#333
-    style event fill:#eef1f6,stroke:#333
+- Sensor ID and location
+- Threat level
+- Detected object classes
+- Confidence scores
+- Bounding boxes
+- JPEG snapshot encoded as Base64
+
+The sensor sends this data to:
+
+```text
+POST http://192.168.137.10:8080/events
 ```
+
+The network request runs in a background thread, so a slow connection does not stop the live camera stream.
 
 ### 2. Backend Processing
 
-The Flask backend receives the event and performs: event validation, metadata processing, image storage handling, database storage, alert notification.
+The Flask backend receives the event and:
+
+1. Checks the cluster-wide detection on/off setting.
+2. Decodes the Base64 snapshot into JPEG data.
+3. Uploads the evidence image to MinIO.
+4. Inserts the event metadata into PostgreSQL.
+5. Starts the Telegram notification asynchronously.
+6. Provides the stored event through its REST API.
+
+### 3. Dashboard Access
+
+The React frontend does not connect directly to PostgreSQL.
+
+It requests event records from Flask:
+
+```text
+GET /api/events
+GET /api/events/{id}
+POST /api/events/{id}/status
+```
+
+Flask reads the metadata from PostgreSQL and returns the image URL. The browser loads the corresponding evidence image from MinIO through the `/evidence` ingress route.
+
+---
+
+## PostgreSQL Storage
+
+PostgreSQL stores the structured and searchable part of each event.
+
+### `events` table
+
+The code stores:
+
+```text
+id
+received_at
+sensor_id
+location
+threat_level
+detections (JSONB)
+confidence
+image_key
+image_url
+status
+```
+
+The `status` field supports the event workflow:
+
+```text
+new → acknowledged → resolved
+```
+
+This allows the dashboard to search, sort, filter, update, and delete event records efficiently.
+
+### `app_settings` table
+
+PostgreSQL also stores the shared detection setting.
+
+This is important because all nine Flask replicas must use the same detection state. If the setting were kept only in memory, each Pod could have a different value after a restart or dashboard update.
+
+---
+
+## MinIO Distributed Image Storage
+
+MinIO stores the evidence images as S3-compatible objects in the `evidence` bucket.
+
+It is deployed as an **8-replica StatefulSet**, with one MinIO Pod and one persistent volume on each worker node.
+
+### Example: How One Image Is Distributed
+
+Suppose Flask uploads:
+
+```text
+fire-detection.jpg
+```
+
+With the configured **EC:4** storage class, MinIO creates four data shards and four parity shards:
+
+```text
+                         fire-detection.jpg
+                                  |
+             ---------------------------------------------
+             |      |      |      |      |      |      |      |
+             D1     D2     D3     D4     P1     P2     P3     P4
+             |      |      |      |      |      |      |      |
+          Worker1 Worker2 Worker3 Worker4 Worker5 Worker6 Worker7 Worker8
+```
+
+- **Data shards** contain encoded portions of the original image.
+- **Parity shards** contain recovery information generated through erasure coding.
+- A parity shard does not correspond to only one specific data shard. MinIO combines the available shards to reconstruct missing data.
+
+### Expected Storage Availability
+
+| Workers offline | Read existing images | Write new images |
+|:---:|:---:|:---:|
+| 0–3 | Yes | Yes |
+| 4 | Yes | No |
+| 5 or more | No | No |
+
+With four workers offline, MinIO still has the minimum number of shards required to reconstruct an existing image, but it does not have the write quorum required to safely store a new image.
+
+When offline workers return, the existing data on their persistent storage becomes available again, and MinIO can heal missing or outdated shards. A temporary node outage affects **availability**, but does not automatically mean that stored data has been deleted.
+
+---
+
+## Kubernetes Deployment
+
+### Backend DaemonSet
+
+The Flask backend is deployed as a Kubernetes **DaemonSet**.
+
+A DaemonSet ensures that one backend Pod runs on every eligible cluster node:
+
+```text
+Pi 5 Master   → Backend Pod
+Worker 1      → Backend Pod
+Worker 2      → Backend Pod
+...
+Worker 8      → Backend Pod
+```
+
+The hierarchy is:
+
+```text
+DaemonSet → Pod → Container → Flask application
+```
+
+The DaemonSet creates and maintains the Pods. It does **not** load-balance network traffic.
+
+### Backend Service
+
+The Kubernetes **Service** selects the backend Pods using the `app: backend` label and provides a stable in-cluster endpoint.
+
+For browser API requests, the flow is:
+
+```text
+Browser → Traefik → Backend Service → Healthy Flask Pod
+```
+
+If a worker node goes offline:
+
+- The backend Pod on that node becomes unavailable.
+- The DaemonSet does not move an additional copy to another node.
+- The Service continues routing API requests to the remaining healthy Pods.
+- When the node returns, the DaemonSet ensures that its backend Pod is running again.
+
+### Health Checks
+
+Every backend Pod exposes:
+
+```text
+GET /health
+```
+
+Kubernetes uses this endpoint for readiness and liveness probes. A Pod that is not ready is removed from Service traffic, while an unhealthy container can be restarted automatically.
+
+### MinIO StatefulSet
+
+MinIO uses a StatefulSet instead of a DaemonSet because storage Pods require:
+
+- Stable Pod identities such as `minio-0` to `minio-7`
+- PersistentVolumeClaims
+- One storage Pod per worker
+- Predictable communication between MinIO members
+
+Pod anti-affinity prevents two MinIO replicas from being placed on the same worker node.
+
+---
+
+## Node Deployment
+
+### Master Node — Raspberry Pi 5
+
+The master runs:
+
+- k3s control plane
+- Traefik ingress
+- PostgreSQL in Docker Compose
+- One Flask backend Pod
+- React/nginx frontend Pod
+- Local container image registry
+
+### Worker Nodes — 8 × Raspberry Pi 3
+
+Each worker runs:
+
+- k3s agent
+- One Flask backend Pod
+- One MinIO storage Pod
+- One persistent MinIO volume
+- Node Exporter as a system service
+
+---
+
+## Monitoring Integration
+
+Monitoring is separate from Flask event processing.
 
 ```mermaid
-flowchart LR
-    sensor["Sensor Node"] --> backend["Flask Backend"]
-    style sensor fill:#eef1f6,stroke:#333
-    style backend fill:#eef1f6,stroke:#333
+graph LR
+    nodes["Master, Sensor, and Worker Nodes"] -->|"Hardware metrics"| exporter["Node Exporter"]
+    exporter -->|"HTTP scrape every 15 seconds"| prometheus["Prometheus"]
+    prometheus --> grafana["Grafana Dashboard"]
+    prometheus --> react["React Monitoring View"]
+    prometheus --> alertmanager["Alertmanager"]
+    alertmanager --> telegram["Telegram Bot"]
 ```
 
-```python
-@app.route("/events", methods=["POST"])
-def receive_event():
-    data = request.get_json()
-    save_image(data["snapshot_b64"])
-    event_store.store_event(data)
-    return {"status": "ok"}, 201
-```
+- **Node Exporter** reads CPU, memory, disk, temperature, and operating-system metrics.
+- **Prometheus** scrapes and stores the metrics every 15 seconds.
+- **Grafana** visualizes Prometheus data in a separate dashboard.
+- The **React monitoring pages also query the Prometheus HTTP API directly**.
+- **Alertmanager** sends alerts when configured Prometheus rules fire.
 
-### 3. Data Storage
+A separate cluster-topology service checks Kubernetes node state every 30 seconds and sends Telegram messages when a node changes between online and offline.
 
-PostgreSQL stores the structured event record: Event ID, Timestamp, Sensor ID, Threat Level, Confidence Score, Status, Image Reference.
+---
 
-**Why PostgreSQL?**
-- Fast searching/filtering of past events
-- Multiple backend replicas can read/write it at once
-- Reliable, structured, battle-tested
+## Failure Handling
 
-```sql
-CREATE TABLE events (
-    id           BIGSERIAL PRIMARY KEY,
-    received_at  TIMESTAMPTZ DEFAULT now(),
-    sensor_id    TEXT,
-    threat_level TEXT,
-    confidence   DOUBLE PRECISION,
-    image_key    TEXT,
-    status       TEXT DEFAULT 'new'
-);
-```
+| Failure | System behaviour |
+|---|---|
+| One backend worker fails | API requests continue through the remaining healthy backend Pods |
+| Backend container fails | Kubernetes can restart it after the liveness probe fails |
+| Worker returns | DaemonSet ensures the backend Pod runs again |
+| Up to 3 MinIO workers fail | Existing images and new image writes remain available |
+| Exactly 4 MinIO workers fail | Existing images remain readable, but new writes stop |
+| 5+ MinIO workers fail | Image reads and writes pause until enough workers return |
 
-**Also handled here:**
-- Each event moves through a simple status workflow: `new → acknowledged → resolved`
-- Old events beyond a retention limit are automatically pruned, so storage never grows unbounded
+> **Current limitation:** The sensor posts directly to the master node's `hostPort 8080`, and PostgreSQL, Traefik, the frontend, and the k3s control plane also run on the master. Therefore, the master node remains a single point of failure in the current architecture.
 
-### 4. MinIO — Evidence Image Storage
+---
 
-Images aren't just copied to one Pi — MinIO splits each image using **erasure coding (EC:4)**: 4 data blocks + 4 parity blocks, spread across the 8 worker nodes, one block per worker.
+## Why These Technologies?
 
-```mermaid
-flowchart LR
-    img["Image"] --> ec["Erasure Coding"]
-    ec --> d["4 Data Blocks"]
-    ec --> p["4 Parity Blocks"]
-    d --> w["8 Worker Nodes<br/>1 block each"]
-    p --> w
-    style img fill:#eef1f6,stroke:#333
-    style ec fill:#eef1f6,stroke:#333
-    style d fill:#eef1f6,stroke:#333
-    style p fill:#eef1f6,stroke:#333
-    style w fill:#eef1f6,stroke:#333
-```
+### Why Flask?
 
-This means up to **4 of the 8 workers can go offline and no data is lost** — any 4 blocks are enough to rebuild the original image.
+- Lightweight enough for Pi 3 worker nodes
+- Requires only a small Python dependency set
+- Provides simple REST endpoints
+- Application-critical shared state is stored in PostgreSQL and MinIO, so any healthy replica can serve the REST API
 
-```python
-minio_client.put_object(
-    bucket_name="evidence",
-    object_name=image_key,     # e.g. 2026/07/14/143022_pi4.jpg
-    data=image_bytes
-)
-```
+The AI model does not run inside Flask. Inference runs on the IMX500 sensor, while Flask receives and manages the resulting events. Each backend Pod also keeps non-critical local snapshots and JSON audit logs, but the shared dashboard API relies on PostgreSQL and MinIO.
 
-### 5. Kubernetes Deployment — How the Cluster Works
+### Why PostgreSQL?
 
-The whole system runs on **k3s** (lightweight Kubernetes) across 9 nodes: 1 master (Pi 5) + 8 workers (Pi 3).
+- Supports concurrent access from all backend replicas
+- Provides indexed queries for dashboard filtering and sorting
+- Supports JSONB for variable detection lists and bounding boxes
+- Stores the shared cluster-wide detection setting
 
-```mermaid
-flowchart LR
-    subgraph master["Master · Pi 5 — Control Plane"]
-        api["API Server"]
-        sched["Scheduler"]
-        ctrl["Controller"]
-    end
-    subgraph worker["Worker · Pi 3 (x8)"]
-        kubelet["kubelet"]
-        pod["Backend + MinIO pod"]
-    end
-    api -->|"1 schedule"| kubelet
-    kubelet -->|"2 run"| pod
-    kubelet -.->|"3 report status"| api
+### Why MinIO?
 
-    style master fill:#eef1f6,stroke:#333,stroke-width:1px
-    style worker fill:#eef1f6,stroke:#333,stroke-width:1px
-```
+- Provides an S3-compatible object-storage API
+- Stores evidence images separately from searchable database records
+- Supports distributed erasure-coded storage across the eight workers
+- Fits the limited resources of Raspberry Pi worker nodes
 
-**Master (control plane) — the "brain":**
-- **API Server** — every request (from `kubectl`, from workers) goes through here first
-- **Scheduler** — decides which node a pod should run on
-- **Controller Manager** — keeps the cluster in the state it's supposed to be in (see DaemonSet below)
+### Why k3s?
 
-**Worker nodes — the "hands":**
-- **kubelet** — the agent on each Pi 3 that takes orders from the API Server
-- It starts the actual pod (Backend or MinIO) and reports back "I'm healthy" every few seconds
+- Lightweight Kubernetes distribution suitable for ARM edge devices
+- Supports DaemonSets, StatefulSets, Services, health probes, and ingress
+- Automatically manages the desired workload state across cluster nodes
 
-**How a worker joins:** master generates a join token → each Pi 3 runs the k3s agent with that token → it registers itself with the API Server → it shows up in `kubectl get nodes` and can now receive pods.
+---
 
-**Why the backend runs on all 9 nodes:** it's deployed as a **DaemonSet** — a Kubernetes object that tells the Controller "always keep exactly one backend pod on every node." If a new node joins, or a pod crashes, the controller fixes it automatically — no manual redeploy.
+## Final Result
 
-```yaml
-kind: DaemonSet
-spec:
-  template:
-    spec:
-      containers:
-        - name: backend
-          image: sentinel-backend:latest
-```
+The completed Task 7 system provides:
 
-**If a worker goes offline:** Kubernetes marks it `NotReady` after a short grace period and keeps routing traffic to the healthy nodes. When it comes back, it rejoins automatically.
-
-### 6. Why Flask + Why MinIO (short version)
-
-- **Flask** — lightweight enough for a 1 GB Pi 3, Python-based, simple REST API, no heavy framework overhead
-- **MinIO** — S3-compatible object storage, built for images/files, and its erasure coding is what gives us node-failure tolerance for free
-
-## Final System Provides
-
-- AI-based threat detection
-- Distributed backend deployment (k3s DaemonSet)
-- Persistent event storage (PostgreSQL)
-- Fault-tolerant evidence image storage (MinIO, EC:4)
-- Web dashboard
-- Cluster monitoring (Prometheus + Grafana)
+- A Flask REST backend running across all nine k3s nodes
+- Shared event metadata in PostgreSQL
+- Distributed evidence-image storage in MinIO
+- REST APIs used by the React dashboard
+- Service routing to healthy backend Pods
+- Persistent storage and erasure-coded image recovery
+- Health checks and automatic container restart
+- Integration with monitoring and Telegram notifications
