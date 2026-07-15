@@ -553,20 +553,10 @@ The cluster continues operating when an individual worker node becomes unavailab
 
 ```mermaid
 flowchart LR
-    A["Worker Online<br/>Flask + MinIO"] --> B["Worker Disconnects"]
-
-    B --> C["Flask Pod Unavailable"]
-    B --> D["MinIO Storage Block Unavailable"]
-
-    C --> E["Service Routes Requests<br/>to Healthy Flask Pods"]
-    D --> F["MinIO Continues<br/>Using Available Quorum"]
-
-    E --> G["Backend Remains Available"]
-    F --> G
-
-    G --> H["Worker Reconnects"]
-    H --> I["DaemonSet Restores Flask Pod"]
-    H --> J["MinIO Reconnects and Heals Data"]
+    A["Worker Node Fails"] --> B["k3s Marks Node Unavailable"]
+    B --> C["Traffic and Storage Continue<br/>on Remaining Nodes"]
+    C --> D["Worker Node Reconnects"]
+    D --> E["Kubernetes Restores Workloads<br/>and MinIO Heals Storage"]
 ```
 
 ### Worker Failure Behaviour
