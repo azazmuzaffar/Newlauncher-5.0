@@ -1,439 +1,302 @@
-## Newlauncher / https://azazmuzaffar.github.io/Newlauncher-5.0/
+# Task 7 — Backend Deployment with Distributed Storage
 
-### Adding new Banner (Background image and text on top):
+## Overview
 
-### HTML
+In this task, we deployed a distributed backend system on a Raspberry Pi cluster using Flask, PostgreSQL, MinIO, Docker, and k3s Kubernetes.
 
-     <div class="hero-banner-bg">
-        <div class="bg-overlay"></div>
-        <div class="hero-banner-content">
-          <h1>
-            River Valley <br />
-            New Launches
-          </h1>
-          <p>
-            The best new launches in River Valley, including private condominiums, <br />
-            mixed developments & strata landed cluster houses.
-          </p>
-        </div>
-      </div>
-      
-### CSS
+The backend receives AI detection events from the sensor node, stores event information, saves evidence images, and provides APIs for the frontend dashboard.
 
-        .hero-banner-bg {
-          background-image: url(./assets/img/banner-bg1.png);
-          background-position: center center;
-          background-size: cover;
-          position: relative;
-          text-align: center;
-          height: 600px;
-        }
-        .hero-banner-bg .bg-overlay {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          background: rgba(0, 0, 0, 0.507);
-        }
-        .hero-banner-content {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: fit-content;
-        }
-        .hero-banner-content h1,
-        .hero-banner-content p {
-          color: #fff;
-        }
-        .hero-banner-content h1 {
-          font-size: 60px;
-          line-height: 60px;
-          margin-bottom: 20px;
-        }
-        .hero-banner-content h1 br {
-          display: none;
-        }
-        .hero-banner-content p {
-          font-size: 20px;
-          line-height: 25px;
-        }
-        @media only screen and (max-width: 767.98px) {
-          .hero-banner-content h1 {
-            font-size: 48px;
-            line-height: 48px;
-            margin-bottom: 18px;
-          }
-          .hero-banner-content p {
-            font-size: 18px;
-            line-height: 22px;
-          }
-        }
-        @media only screen and (max-width: 575.98px) {
-          .hero-banner-bg {
-            background-position: top center;
-            height: 500px;
-          }
-          .hero-banner-content {
-            width: 330px;
-          }
-          .hero-banner-content h1 {
-            font-size: 42px;
-            line-height: 42px;
-            margin-bottom: 20px;
-          }
-          .hero-banner-content h1 br {
-            display: block;
-          }
-          .hero-banner-content p {
-            font-size: 16px;
-            line-height: 20px;
-          }
-          .hero-banner-content p br {
-            display: none;
-          }
-        }
+## Architecture
 
+```mermaid
+flowchart TD
+    sensor["Sensor Node<br/>Pi 4 + AI Camera"] -->|"POST /events"| backend
 
-### Adding "Offer Bar" to thr Home and Detail Page
+    subgraph cluster["k3s Cluster — Master + 8 Workers"]
+        backend["Flask Backend<br/>DaemonSet x9"]
+        minio[("MinIO<br/>StatefulSet x8 · EC:4")]
+        frontend["React Dashboard<br/>Deployment"]
+        traefik["Traefik Ingress<br/>:80"]
+    end
 
-### HTML
+    postgres[("PostgreSQL<br/>on Master")]
 
-      <!-- Offer for Card Home Page "-card--" -->
-      <div class="-offer-bar-- -card--">
-          <div class="-bar--">
-            <p><span>Offer</span>No GST, Zero Parking Charges, Zero PLC Charging Charges, Zero PLC Charging Charges, Zero PLC Charges</p>
-          </div>
-      </div>
+    backend -->|"INSERT"| postgres
+    backend -->|"PUT image"| minio
+    backend -->|"sendPhoto"| telegram["Telegram Bot"]
 
-      <!-- Offer for Detail Page "-para--" -->
-      <div class="-offer-bar-- -para--">
-          <div class="-bar--">
-            <p><span>Offer</span>No GST, Zero Parking Charges, Zero PLC Charging Charges, Zero PLC Charging Charges, Zero PLC Charges</p>
-          </div>
-      </div>
+    browser["Browser"] --> traefik
+    traefik --> frontend
+    traefik -->|"/api"| backend
+    traefik -->|"/evidence"| minio
+```
 
-      <!-- Offer with Fit Content width "-fit-content--" -->
-      <div class="-offer-bar-- -para-- -fit-content--">
-          <div class="-bar--">
-            <p><span>Offer</span>No GST, Zero Parking Charges, Zero PLC Charging Charges, Zero PLC Charging Charges, Zero PLC Charges</p>
-          </div>
-      </div>
+The sensor posts detections to the Flask backend, which writes to PostgreSQL and MinIO and pushes a Telegram alert. The React dashboard reads back through the same REST API behind Traefik.
 
-### CSS
+## Technology Stack
 
-      .-offer-bar-- {
-        width: 100%;
-      }
-      .-offer-bar--.-card-- {
-        padding: 0px 20px;
-        margin-top: 16px;
-      }
-      .-offer-bar--.-para-- {
-        padding: 0px 18px;
-        margin-bottom: 16px;
-      }
-      .-offer-bar--.-fit-content-- .-bar-- {
-        max-width: fit-content;
-        margin: 0;
-      }
-      .-offer-bar-- .-bar-- {
-        background: #fff7e1;
-        padding: 5px 10px 5px 4px;
-        margin: 0 auto;
-        border-radius: 4px;
-      }
-      .-offer-bar-- .-bar-- p {
-        font-family: "Source Sans Pro";
-        width: 100%;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        font-style: normal;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 140%;
-        color: #384152;
-      }
-      .-offer-bar-- .-bar-- p span {
-        font-weight: 600;
-        font-size: 12px;
-        line-height: 120%;
-        text-transform: uppercase;
-        padding: 2px 8px;
-        text-align: center;
-        border-radius: 4px;
-        margin-right: 8px;
-        color: #202938;
-        background: #ffc72c;
-      }
-      @media only screen and (max-width: 575.98px) {
-        .-offer-bar--.-card-- {
-          padding: 0px 12px;
-        }
-        .-offer-bar--.-para-- {
-          padding: 0px 18px;
-        }
-      }
+| Component | Technology | Purpose |
+|---|---|---|
+| Backend | Flask (Python) | Provides REST API and handles detection events |
+| Frontend | React | Displays dashboard, events, and camera information |
+| Database | PostgreSQL | Stores event metadata |
+| Object Storage | MinIO | Stores evidence images |
+| Containerization | Docker | Packages application services |
+| Cluster Management | k3s Kubernetes | Deploys and manages services |
+| Monitoring | Prometheus + Grafana | Monitors node performance |
 
-Instructions for the changes done so far...
+## System Workflow
 
-+ ### Issue # 1: Light Gallery is not removing the "#property-view" hash-value by clicking close icon.
+### 1. Threat Detection
 
-### Solution:
+The AI camera continuously analyzes the video stream. When a threat is detected, detection info is generated, a snapshot is captured, and the event is sent to the backend.
 
-This code needs to be added at <b>resources/views/front/detail.blade.php</b> at <b>4117 line</b> (almost). <br>
-Note: For the floor plan each light gallery will be repeating this.
+```mermaid
+flowchart LR
+    cam["AI Camera"] --> model["AI Model"] --> event["Threat Event"]
+```
 
-      /* ************************************************************ */
-      /* Code to remove #property-view by clicking close icon as well */
-      lg.addEventListener("lgBeforeClose", (e, o) => {
-        showingGallery = false;
-        const url = new URL(window.location);
-        url.hash = "";
-        history.replaceState(null, document.title, url);
-      });
-      lgSiteplan.addEventListener("lgBeforeClose", (e, o) => {
-        showingGallery = false;
-        const url = new URL(window.location);
-        url.hash = "";
-        history.replaceState(null, document.title, url);
-      });
-      lgLocationmap.addEventListener("lgBeforeClose", (e, o) => {
-        showingGallery = false;
-        const url = new URL(window.location);
-        url.hash = "";
-        history.replaceState(null, document.title, url);
-      });
-      lgUnitmix.addEventListener("lgBeforeClose", (e, o) => {
-        showingGallery = false;
-        const url = new URL(window.location);
-        url.hash = "";
-        history.replaceState(null, document.title, url);
-      });
-      lgBalanceunit.addEventListener("lgBeforeClose", (e, o) => {
-        showingGallery = false;
-        const url = new URL(window.location);
-        url.hash = "";
-        history.replaceState(null, document.title, url);
-      });
-      /* ************************************************************ */
-      /* For floor plan each light gallery will be repeating this */
-      /* So add it in a loop just like you done with closegallery */
-      /* ************************************************************  */
-      lgFloorplan0.addEventListener("lgBeforeClose", (e, o) => {
-        showingGallery = false;
-        const url = new URL(window.location);
-        url.hash = "";
-        history.replaceState(null, document.title, url);
-      });
-      /* Code to remove #property-view by clicking close icon as well */
-      /* ************************************************************ */
+### 2. Backend Processing
 
-+ ### Issues # 2: Sort Icons needs to be added to the table Floor Plan & Sales Transection within the title <th></th>.
+The Flask backend receives the detection event and performs event validation, metadata processing, image storage handling, database storage, and alert notification.
 
-### Solution:
+```python
+@app.route("/events", methods=["POST"])
+def receive_event():
+    data = request.get_json()
+    save_image(data["snapshot_b64"])
+    event_store.store_event(data)
+    return {"status": "ok"}, 201
+```
 
-      <!-- ********* -->
-      <!-- Sort Icon -->
-      <svg
-        class="svg-icon"
-        style="width: 1.05em; height: 1.05em; margin-top: -2px; vertical-align: middle; fill: #c993d8; overflow: hidden"
-        viewBox="0 0 1024 1024"
-        version="1.1"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <!-- Path # 1 represent sort by Acending order so only then color should be white -->
-        <path
-          style="fill: white"
-          d="M524.545 111.846L795.47 454.069c5.485 6.928 4.315 16.99-2.613 22.476a16 16 0 0 1-9.932 3.455H208l291.455-368.154c5.485-6.928 15.548-8.098 22.476-2.614a16 16 0 0 1 2.614 2.614z"
-        />
-        <!-- Path # 2 represent sort by decending order so only then color should be white -->
-        <path
-          d="M524.545 914.154L816 546H241.074c-8.837 0-16 7.163-16 16a16 16 0 0 0 3.455 9.931l270.926 342.223c5.485 6.928 15.548 8.098 22.476 2.614a16 16 0 0 0 2.614-2.614z"
-        />
-      </svg>
-      <!-- Sort Icon -->
-      <!-- ********* -->
-      
-For Example:
+## Data Storage
 
-      <th class="title">
-          Unit Type
-          <!-- ********* -->
-          <!-- Sort Icon -->
-          <svg
-            class="svg-icon"
-            style="width: 1.05em; height: 1.05em; margin-top: -2px; vertical-align: middle; fill: #c993d8; overflow: hidden"
-            viewBox="0 0 1024 1024"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <!-- Path # 1 represent sort by Acending order so only then color should be white -->
-            <path
-              style="fill: white"
-              d="M524.545 111.846L795.47 454.069c5.485 6.928 4.315 16.99-2.613 22.476a16 16 0 0 1-9.932 3.455H208l291.455-368.154c5.485-6.928 15.548-8.098 22.476-2.614a16 16 0 0 1 2.614 2.614z"
-            />
-            <!-- Path # 2 represent sort by decending order so only then color should be white -->
-            <path
-              d="M524.545 914.154L816 546H241.074c-8.837 0-16 7.163-16 16a16 16 0 0 0 3.455 9.931l270.926 342.223c5.485 6.928 15.548 8.098 22.476 2.614a16 16 0 0 0 2.614-2.614z"
-            />
-          </svg>
-          <!-- Sort Icon -->
-          <!-- ********* -->
-      </th>
+The system uses two different storage solutions.
 
-+ ### Issues # 3: Filter close icon look's weird on Safari/IOS.
+### PostgreSQL
 
-### Solution:
+PostgreSQL stores structured event information: Event ID, Timestamp, Sensor ID, Threat Level, Confidence Score, Status, and Image Reference.
 
-Please change structure of the button, as follows:
+**Why PostgreSQL?**
+- Efficient searching and filtering of events
+- Supports multiple backend instances reading/writing at once
+- Reliable structured data storage
 
-#### Before change:
+```sql
+CREATE TABLE events (
+    id           BIGSERIAL PRIMARY KEY,
+    received_at  TIMESTAMPTZ DEFAULT now(),
+    sensor_id    TEXT,
+    threat_level TEXT,
+    confidence   DOUBLE PRECISION,
+    image_key    TEXT,
+    status       TEXT DEFAULT 'new'
+);
+```
 
-      <button class="btn-times fas fa-times-circle"></button>
+### MinIO
 
-#### After change:
+MinIO stores the evidence images generated during detection, organized by date:
 
-      <button class="btn-times"><i class="fas fa-times-circle"></i></button>
-      
-+ ### Issues # 4: Filter button is not showing fully on Firefox Android Mobiles.
+```
+evidence/
+ ├── 2026/07/14/143022_pi4-sensor.jpg
+ ├── 2026/07/14/143205_pi4-sensor.jpg
+ └── 2026/07/15/091143_pi4-sensor.jpg
+```
 
-### Solution:
+**Why MinIO?**
+- Designed for object storage
+- Suitable for large image files
+- Provides an S3-compatible storage API
 
-Two changes in CSS, as follows:
+```python
+minio_client.put_object(
+    bucket_name="evidence",
+    object_name=image_key,
+    data=image_bytes,
+    content_type="image/jpeg"
+)
+```
 
-### Before change: 
+## Kubernetes Deployment
 
-      .side-menu-wrapper {
-         height: 100vh;  
-      }
-      .all-filters-area,
-      .sort-fixd-wrap {
-         height: 100vh;  
-      }
+The backend is deployed using a Kubernetes **DaemonSet**, which ensures one backend instance runs on **every** cluster node — the master and all 8 workers.
 
-### After change: 
+```mermaid
+flowchart TB
+    subgraph Cluster["k3s Cluster — 1 backend pod per node"]
+        M["Master · Pi 5<br/>Flask Pod"]
+        W1["Worker 1 · Pi 3<br/>Flask Pod + MinIO"]
+        W2["Worker 2 · Pi 3<br/>Flask Pod + MinIO"]
+        W3["Worker 3 · Pi 3<br/>Flask Pod + MinIO"]
+        W4["Worker 4 · Pi 3<br/>Flask Pod + MinIO"]
+        W5["Worker 5 · Pi 3<br/>Flask Pod + MinIO"]
+        W6["Worker 6 · Pi 3<br/>Flask Pod + MinIO"]
+        W7["Worker 7 · Pi 3<br/>Flask Pod + MinIO"]
+        W8["Worker 8 · Pi 3<br/>Flask Pod + MinIO"]
+    end
+```
 
-      .side-menu-wrapper {
-         height: 100% !important;  
-      }
-      .all-filters-area,
-      .sort-fixd-wrap {
-         height: 100% !important;  
-      }     
-      
-+ ### Issues # 5: Caption needs to be added for all Floor Plan Lightgallery. 
+```yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: backend
+spec:
+  selector:
+    matchLabels: { app: backend }
+  template:
+    spec:
+      containers:
+        - name: backend
+          image: sentinel-backend:latest
+          ports:
+            - containerPort: 8080
+```
 
-### Solution:
+**Benefits:**
+- High availability
+- Automatic deployment
+- Automatic restart of failed services
+- Better resource distribution
 
-### Before change: Floor plan light gallery without the caption ->
+## How k3s Clustering Actually Works
 
-      <div id="floor-plan-1">
-        <a href="assets/img/sections/site-plan.png" class="btn btn-outline-table d-inline-flex align-items-center">
-          <span class="icon-left d-inline-flex">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M7.89109 2.90099L5.39604 1H1V13H5.63366M8.84158 1H13V7.05941M5.63366 13H13V7.05941M5.63366 13V7.05941M4.08911 7.05941H7.17822M10.2673 7.05941H13"
-                stroke="#743393"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </span>
-          1A-PH
-          <img src="assets/img/sections/site-plan.png" alt="" style="display: none" />
-        </a>
-      </div>
+```mermaid
+flowchart TB
+    kubectl["kubectl<br/>operator"]
 
-### After change: Floor plan light gallery with the caption ->
+    subgraph master["Master Node · Pi 5 — Control Plane"]
+        api["API Server<br/>:6443"]
+        sched["Scheduler"]
+        ctrl["Controller Manager<br/>DaemonSet controller"]
+        store[("SQLite<br/>cluster state")]
+    end
 
-      <div id="floor-plan-1">
-      <!-- ************ New Attribute -> data-sub-html=".caption-1" ************ -->
-        <a href="assets/img/sections/site-plan.png" class="btn btn-outline-table d-inline-flex align-items-center" data-sub-html=".caption-1">
-          <span class="icon-left d-inline-flex">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M7.89109 2.90099L5.39604 1H1V13H5.63366M8.84158 1H13V7.05941M5.63366 13H13V7.05941M5.63366 13V7.05941M4.08911 7.05941H7.17822M10.2673 7.05941H13"
-                stroke="#743393"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </span>
-          1A-PH
-          <img src="assets/img/sections/site-plan.png" alt="" style="display: none" />
-          <!-- ************ Caption -> Start ************ -->
-          <div class="caption-1" style="display: none">
-                <!-- The data is coming from the database -->
-                <p>1 Bedroom · $1.908M - $2.019M | 467 sqft · $2,900 - $3,000 PS</p>
-          </div>
-          <!-- ************ Caption -> End ************ -->
-        </a>
-      </div>
-      
-### Also needs to add the following two conditions to Floor plan Lightgallery settings:
+    subgraph worker["Worker Node · Pi 3 — repeated x8"]
+        kubelet["kubelet"]
+        containerd["containerd"]
+        pod["Backend / MinIO pod"]
+    end
 
-      lightGallery(lgFloorplan1, {
-        plugins: [lgZoom, lgThumbnail, lgAutoplay, lgVideo],
-        closeOnTap: false,
-        swipeToClose: false,
-        slideEndAnimation: false,
-        zoomFromOrigin: false,
-        /********************/
-        allowMediaOverlap: false,
-        defaultCaptionHeight: 50,
-        /********************/
-      });
+    kubectl -->|"1 - submit"| api
+    api --> sched
+    api --- store
+    api -->|"2 - schedule pod"| kubelet
+    kubelet --> containerd --> pod
+    kubelet -.->|"3 - heartbeat / status"| api
+    ctrl -.->|"ensures 1 pod / node"| kubelet
+```
 
-+ ### Issues # 6: Detail Page lightgallery caption is overlaping and blocking the video controls:
-See at slide 15 -> https://newlauncher.com.sg/detail/marina-one-residences
+**Control plane (Master, Pi 5):**
+- **API Server** — the single entry point every request goes through (`kubectl`, worker agents, everything)
+- **Scheduler** — decides which node a new pod should run on
+- **Controller Manager** — runs reconciliation loops, including the DaemonSet controller that keeps exactly one backend pod on every node
+- **Embedded datastore** — k3s uses SQLite for a single-master setup like ours (full Kubernetes normally uses etcd; k3s swaps it for something lighter to fit the Pi's resources)
 
-### Solution:
+**Worker node (each Pi 3):**
+- **kubelet** — the agent that talks to the API Server and starts/stops containers on that node
+- **containerd** — the container runtime that actually runs the pods
+- **kube-proxy** — routes network traffic to the right pod
 
-### N to add the following two conditions to Detail Page Banner Lightgallery settings:
+**How a worker joins the cluster:**
 
-      lightGallery(lg, {
-        plugins: [lgZoom, lgThumbnail, lgAutoplay, lgVideo],
-        closeOnTap: false,
-        swipeToClose: false,
-        slideEndAnimation: false,
-        zoomFromOrigin: false,
-        /********************/
-        allowMediaOverlap: false,
-        defaultCaptionHeight: 40,
-        /********************/
-      });
-      
-+ ### Issue # 7: For the Floor plans Lightgallery, browser back button is not able to hide the Lightgallery.
+```mermaid
+flowchart LR
+    a["1. k3s server starts on master,<br/>generates a join token"] --> b["2. k3s agent runs on each Pi 3<br/>with token + master IP"]
+    b --> c["3. Agent registers with<br/>the API Server over LAN"]
+    c --> d["4. Node appears in<br/>kubectl get nodes"]
+```
 
-### Solution:
+**Why the backend ends up on all 9 nodes automatically:** the DaemonSet controller continuously watches cluster membership. Whenever a node joins — or a pod on it dies — the controller tells the scheduler "this node needs exactly one backend pod," and it happens without anyone redeploying anything by hand.
 
-Changes have been at <b>resources/views/front/detail.blade.php</b> at <b>4200 or something line</b> (almost). <br>
-Note: The condtion <b>********* if(pluginInstance_fp!==null) *********</b> is not executed beacuse there is no <b>pluginInstance_fp</b>, <b>pluginInstance_fp</b> is starting from pluginInstance_fp_0
+**What happens if a worker drops off:** it isn't removed from the cluster. Kubernetes marks it `NotReady` after a grace period and reschedules its pods elsewhere if needed; if the node reconnects, it resumes normally.
 
-### Before Change:
+## Node Deployment
 
-            if(pluginInstance_fp!==null)
-              pluginInstance_fp.closeGallery();
-            @foreach ($project->unit_fps as $unit)
-              @php
-                $unit_index = $loop->index;
-              @endphp
-              @if (count($unit->floorplans)>0)     
-                pluginInstance_fp_{{ $unit_index }}.closeGallery();
-              @endif
-            @endforeach
+### Master Node (Raspberry Pi 5)
+Runs: k3s control plane, PostgreSQL database, React frontend, Flask backend instance
 
-### After Change:
+### Worker Nodes (8 × Raspberry Pi 3)
+Runs: Flask backend instance, MinIO storage service, Monitoring agent (Node Exporter)
 
-            @foreach ($project->unit_fps as $unit)
-              @php
-                $unit_index = $loop->index;
-              @endphp
-              @if (count($unit->floorplans)>0) 
-                if(pluginInstance_fp_{{ $unit_index }}!==null)
-                    pluginInstance_fp_{{ $unit_index }}.closeGallery();
-              @endif
-            @endforeach
+## Monitoring System
+
+The cluster is monitored using Node Exporter, Prometheus, and Grafana. **Node Exporter runs on every single node** — the master, all 8 workers, and the sensor Pi 4.
+
+```mermaid
+flowchart LR
+    nodes["All Pi Nodes<br/>master + 8 workers + sensor"] --> ne["Node Exporter"] --> prom["Prometheus"] --> graf["Grafana"]
+```
+
+Collected metrics: CPU usage, RAM usage, Temperature, Network status, Node availability.
+
+## Failure Handling — How Image Storage Survives Node Loss
+
+MinIO splits every image using **erasure coding (EC:4)** before storing it — 4 data blocks + 4 parity blocks, one block per worker node.
+
+```mermaid
+flowchart TD
+    img["Evidence Image<br/>~500 KB"] --> ec["MinIO Erasure Coding EC:4"]
+    ec --> d1["D1"]
+    ec --> d2["D2"]
+    ec --> d3["D3"]
+    ec --> d4["D4"]
+    ec --> p1["P1"]
+    ec --> p2["P2"]
+    ec --> p3["P3"]
+    ec --> p4["P4"]
+    d1 --> w1["Worker 1"]
+    d2 --> w2["Worker 2"]
+    d3 --> w3["Worker 3"]
+    d4 --> w4["Worker 4"]
+    p1 --> w5["Worker 5"]
+    p2 --> w6["Worker 6"]
+    p3 --> w7["Worker 7"]
+    p4 --> w8["Worker 8"]
+```
+
+| Workers offline | Reads | Writes | Data lost? |
+|:---:|:---:|:---:|:---:|
+| 0–3 | ✅ Working | ✅ Working | ❌ No |
+| 4 | ✅ Working (any 4 of 8 blocks rebuild the image) | ❌ Blocked (needs 5-of-8 quorum) | ❌ No |
+| 5+ | ❌ Blocked | ❌ Blocked | ❌ No — recovers automatically |
+
+- **0–3 workers offline** — fully normal, everything works as usual.
+- **4 workers offline — MinIO's hard limit.** Reads still succeed because any 4 of the 8 blocks reconstruct the original image. Writes stop, because MinIO requires agreement from at least 5 of the 8 nodes before it accepts new data.
+- **5+ workers offline** — both reads and writes stop, but **nothing is deleted or corrupted**. The missing blocks are still on those Pi's SD cards; as soon as enough nodes reconnect, MinIO automatically re-syncs and rebuilds them.
+
+On the backend side, if a worker node becomes unavailable, remaining Flask backend instances keep running (DaemonSet), and Kubernetes routes traffic only to healthy pods.
+
+## Technology Decisions
+
+### Why Flask?
+- Lightweight and suitable for Raspberry Pi devices
+- Python-based, integrates easily with AI applications
+- Provides REST APIs for communication between components
+
+### Why PostgreSQL?
+- Event data requires structured storage
+- Supports searching, filtering, and managing detection records
+- Multiple backend instances can access the same database
+
+### Why MinIO?
+- The project mainly stores image evidence
+- Object storage is more suitable for large files
+- Provides an S3-compatible interface
+
+### Why k3s?
+- A lightweight Kubernetes distribution
+- Designed for edge devices
+- Manages containers efficiently across Raspberry Pi nodes
+
+## Final System Provides
+
+- AI-based threat detection
+- Distributed backend deployment
+- Persistent event storage
+- Evidence image storage
+- Web dashboard
+- Cluster monitoring
+- Automated service management using Kubernetes
