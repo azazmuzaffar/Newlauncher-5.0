@@ -63,8 +63,9 @@ When a detected object passes the confidence threshold:
 
 ```mermaid
 flowchart LR
-    A[AI Camera] --> B[Threat Detection]
-    B -->|POST Event| C[Flask Backend]
+    A[IMX500 AI Camera] --> B[AI Detection]
+    B --> C[Event + Image]
+    C -->|POST /events| D[Flask Backend]
 ```
 
 
