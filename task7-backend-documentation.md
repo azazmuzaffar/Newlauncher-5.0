@@ -70,7 +70,7 @@ flowchart LR
 
 
 
-A shortened version of the sensor-side REST communication is shown below:
+A shortened version of the sensor-side REST communication is shown below. The event is sent to the Flask backend using an HTTP POST request:
 
 ```python
 requests.post(API_URL, json=event, timeout=3)
