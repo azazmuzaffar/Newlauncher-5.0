@@ -335,10 +335,9 @@ When the workers return, MinIO uses the stored blocks to restore and synchronize
 
 ---
 
-# Kubernetes Deployment and Node Placement
+# Kubernetes Deployment, Clustering, and Node Placement
 
-The application runs on a **k3s cluster** consisting of one Raspberry Pi 5 master and eight Raspberry Pi 3 workers. The Pi 4 sensor node remains outside the cluster and sends detection events to the Flask backend over HTTP.
-
+The application runs on a **k3s cluster** containing one Raspberry Pi 5 master node and eight Raspberry Pi 3 worker nodes. The Raspberry Pi 4 sensor node remains outside the cluster and sends detection events to the backend using HTTP.
 
 ```mermaid
 flowchart TB
@@ -347,36 +346,36 @@ flowchart TB
     subgraph K["k3s Cluster"]
         direction TB
 
-        subgraph KM["Kubernetes Management"]
+        subgraph KM["Kubernetes Cluster Management"]
             direction LR
             DS["DaemonSet<br/>Flask on Master + All Workers"]
-            SS["StatefulSet × 8<br/>MinIO on Workers"]
+            SS["StatefulSet × 8<br/>MinIO on Worker Nodes"]
             KS["Backend Service<br/>Routes to Healthy Flask Pods"]
         end
 
-        subgraph MASTER["Pi 5 Master"]
+        subgraph MASTER["Pi 5 Master Node"]
             direction TB
-            MP["Master Node<br/>Flask Pod + Container"]
-            MO["Control Plane<br/>PostgreSQL<br/>React + Traefik"]
+            MP["Flask Pod<br/>Flask Container"]
+            MS["k3s Control Plane<br/>PostgreSQL<br/>React + Traefik"]
         end
 
-        subgraph R1["Workers 1–4"]
+        subgraph R1["Worker Nodes 1–4"]
             direction LR
-            W1["Worker 1<br/>Flask Pod + Container<br/>MinIO<br/>Node Exporter"]
-            W2["Worker 2<br/>Flask Pod + Container<br/>MinIO<br/>Node Exporter"]
-            W3["Worker 3<br/>Flask Pod + Container<br/>MinIO<br/>Node Exporter"]
-            W4["Worker 4<br/>Flask Pod + Container<br/>MinIO<br/>Node Exporter"]
+            W1["Worker 1 · Pi 3<br/>Flask Pod + Container<br/>MinIO Pod<br/>Node Exporter"]
+            W2["Worker 2 · Pi 3<br/>Flask Pod + Container<br/>MinIO Pod<br/>Node Exporter"]
+            W3["Worker 3 · Pi 3<br/>Flask Pod + Container<br/>MinIO Pod<br/>Node Exporter"]
+            W4["Worker 4 · Pi 3<br/>Flask Pod + Container<br/>MinIO Pod<br/>Node Exporter"]
         end
 
-        subgraph R2["Workers 5–8"]
+        subgraph R2["Worker Nodes 5–8"]
             direction LR
-            W5["Worker 5<br/>Flask Pod + Container<br/>MinIO<br/>Node Exporter"]
-            W6["Worker 6<br/>Flask Pod + Container<br/>MinIO<br/>Node Exporter"]
-            W7["Worker 7<br/>Flask Pod + Container<br/>MinIO<br/>Node Exporter"]
-            W8["Worker 8<br/>Flask Pod + Container<br/>MinIO<br/>Node Exporter"]
+            W5["Worker 5 · Pi 3<br/>Flask Pod + Container<br/>MinIO Pod<br/>Node Exporter"]
+            W6["Worker 6 · Pi 3<br/>Flask Pod + Container<br/>MinIO Pod<br/>Node Exporter"]
+            W7["Worker 7 · Pi 3<br/>Flask Pod + Container<br/>MinIO Pod<br/>Node Exporter"]
+            W8["Worker 8 · Pi 3<br/>Flask Pod + Container<br/>MinIO Pod<br/>Node Exporter"]
         end
 
-        DS -.->|"Creates Flask Pods"| MP
+        DS -.->|"Creates Flask Pod"| MP
         DS -.->|"Creates Flask Pods"| R1
         DS -.->|"Creates Flask Pods"| R2
 
@@ -389,31 +388,33 @@ flowchart TB
     end
 ```
 
-The Flask backend is first packaged as a Docker image. k3s then runs the image as a container inside a Kubernetes Pod.
+### How It Works
+
+- **Docker image** packages the Flask application, Python runtime, and required libraries.
+- **Container** is the running instance of the Docker image inside a Kubernetes Pod.
+- **DaemonSet** creates one Flask backend Pod on every available k3s node.
+- **StatefulSet** creates eight MinIO storage Pods, with one Pod on each worker node.
+- **Service** provides one stable backend address and routes requests to healthy Flask Pods.
+- **Health probes** check the `/health` endpoint before a Pod receives traffic.
+- **Traefik** forwards browser requests such as `/api` to the backend Service.
+
+The backend hierarchy is:
 
 ```text
-Docker Image → Container → Pod → DaemonSet → k3s Cluster
+DaemonSet
+    ↓
+Flask Pod
+    ↓
+Flask Container
+    ↓
+Flask Application
 ```
 
-A Kubernetes **DaemonSet** ensures that one Flask backend Pod runs on every available cluster node.
+### Kubernetes Configuration
 
-A **Service** provides a stable backend endpoint and routes requests to healthy Flask Pods.
-
-A shortened version of the deployment configuration is shown below:
+The following shortened configuration shows how the backend Pods are created:
 
 ```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: backend
-spec:
-  selector:
-    app: backend
-  ports:
-    - port: 8080
-      targetPort: 8080
-
----
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -432,7 +433,6 @@ spec:
       containers:
         - name: backend
           image: 192.168.137.10:5000/sentinel-backend:latest
-
           ports:
             - containerPort: 8080
 
@@ -442,16 +442,51 @@ spec:
               port: 8080
 ```
 
-### How It Works
+The DaemonSet runs one Pod containing the Flask container on every available cluster node.
 
-- **Docker** packages Flask, Python, and the required libraries.
-- **DaemonSet** creates one backend Pod on every available k3s node.
-- **Service** routes API requests to healthy backend Pods.
-- **Traefik** routes browser requests such as `/api` to the backend Service.
-- **Health probes** check `/health` and prevent unhealthy Pods from receiving traffic.
+The backend Service selects these Pods using the `app: backend` label:
 
-If a worker node disconnects, its backend Pod becomes unavailable, but the Kubernetes Service continues routing requests to the remaining healthy Pods. When the node returns, the DaemonSet ensures that the backend Pod is running again.
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  selector:
+    app: backend
 
+  ports:
+    - port: 8080
+      targetPort: 8080
+```
+
+The request-routing flow is:
+
+```text
+Client or Traefik
+        ↓
+Backend Service :8080
+        ↓
+Healthy Flask Pod
+        ↓
+Flask Container :8080
+```
+
+### How Clustering Works
+
+The backend does not depend on only one Raspberry Pi. Flask runs on the master node and all eight worker nodes, creating multiple backend instances across the cluster.
+
+When an API request enters the cluster, the Kubernetes Service selects one healthy Flask Pod to process it. All backend instances use the same PostgreSQL database and MinIO storage, so any healthy instance can handle the request.
+
+If a worker node disconnects:
+
+- Its Flask and MinIO Pods become unavailable.
+- The Service stops routing backend requests to its Flask Pod.
+- The remaining healthy Flask Pods continue processing requests.
+- MinIO continues operating according to the available storage quorum.
+- When the worker returns, the DaemonSet ensures its Flask Pod is running again.
+
+The purpose of clustering is to distribute application processing and storage across multiple Raspberry Pi nodes. This improves availability, shares the workload, and prevents the failure of one worker node from stopping the complete backend.
 ---
 
 # Monitoring System
